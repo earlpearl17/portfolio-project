@@ -11,7 +11,9 @@ class Job(models.Model):
 
     def __str__(self):
         """Return a string representation of the model."""
-        if len(self.summary) > 50:
-            return self.summary[:50] + "..."
+        if len(self.summary) > 15:
+            #return self.summary[:15] + "..."
+            return self.title # + " " + str(self.pub_date)
         else:
-            return self.summary
+            #return self.summary
+            return self.title # + " " + str(self.pub_date)
