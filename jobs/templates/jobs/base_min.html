@@ -21,22 +21,7 @@
         aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ml-auto">
-          <!-- <a class="nav-item nav-link" href="https://ab.liamsirkett.com" target="_blank">Tutorials</a> -->
-          <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Tutorials
-            </a>
-
-            <!-- <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink" > -->
-              <!-- <a class="dropdown-item" style="color: #ffffff;" href="#">Action</a> -->
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
-              <a class="dropdown-item" href="{% url 'powershell' %}">Powershell</a>
-              <a class="dropdown-item" href="{% url 'scripting' %}">Shell Scripting</a>
-              <a class="dropdown-item" href="{% url 'network' %}">Networking</a>
-              <a class="dropdown-item" href="{% url 'misc' %}">Miscellaneous</a>
-            </div>
-          </div>
+        <div class="navbar-nav ml-auto">        
           <a class="nav-item nav-link" href="https://github.com/earlpearl17?tab=repositories" target="_blank">GitHub</a>
           <a class="nav-item nav-link" href="{% static 'resume.pdf' %}" target="_blank">Resume</a>
           <a class="nav-item nav-link" href="{% url 'allblogs' %}">Blog</a>

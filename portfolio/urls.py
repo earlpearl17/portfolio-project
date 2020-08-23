@@ -21,6 +21,11 @@ import jobs.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', jobs.views.home, name='home'),
+    #path('', jobs.views.home, name='home'),
+    path('', include('jobs.urls')),
     path('blog/', include('blog.urls')),
+    # path('powershell/', jobs.views.powershell, name='powershell'),
+    # path('scripting/', jobs.views.scripting, name='scripting'),
+    # path('network/', jobs.views.network, name='network'),
+    # path('misc/', jobs.views.misc, name='misc'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
