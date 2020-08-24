@@ -17,15 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-import jobs.views
+#import jobs.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', jobs.views.home, name='home'),
     path('', include('jobs.urls')),
     path('blog/', include('blog.urls')),
-    # path('powershell/', jobs.views.powershell, name='powershell'),
-    # path('scripting/', jobs.views.scripting, name='scripting'),
-    # path('network/', jobs.views.network, name='network'),
-    # path('misc/', jobs.views.misc, name='misc'),
+    path('tutorials/', include('tutorials.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

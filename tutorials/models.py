@@ -15,7 +15,7 @@ class Tutorial(models.Model):
     text = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
     url = models.URLField(max_length=200, blank=True)
-    #image = models.ImageField(upload_to='tutorials/',null=True)
+    image = models.ImageField(upload_to='tutorials/', null=True, blank=True)
     file = models.FileField(upload_to='tutorials/', null=True, blank=True)
     #summary = models.CharField(max_length=200)
     summary = models.TextField(blank=True, default='')
@@ -23,6 +23,7 @@ class Tutorial(models.Model):
     def __str__(self):
         """Return a string representation of the model."""
         if len(self.text) > 50:
-            return self.text[:50] + "..."
+            #return self.text[:50] + "..."
+            return f"{self.topic}, {self.text[:50]}" + "..."
         else:
-            return self.text
+            return f"{self.topic}, {self.text}"

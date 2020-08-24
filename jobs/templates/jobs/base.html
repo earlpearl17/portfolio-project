@@ -22,7 +22,7 @@
       <span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ml-auto">
-          <div class="dropdown show">
+          <div class="dropdown show dropleft">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Tutorials
             </a>
@@ -42,7 +42,9 @@
   </nav>
 	<main role="main" class="container">
     <div class="pb-2 mb-2 border-bottom">
+      
       {% block page_header %}{% endblock page_header %}
+      
     </div>
     <div>
       {% block content %}{% endblock content %}
@@ -51,7 +53,11 @@
 </body>
 <footer class="text-muted">
   <div class="container text-center">
+    <p class="float-right">
+          <a href="#">Back to top</a>
+    </p>
     <p>© Liam Sirkett {% now "Y" %}</p>
+    
   </div>
 </footer>
 

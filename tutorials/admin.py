@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from .models import Topic, Tutorial
+from tutorials.models import Topic, Tutorial
 
-admin.site.register(Topic)
-admin.site.register(Tutorial)
+@admin.register(Topic)
+#admin.site.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    list_display = ("text", "date_added")
+
+
+@admin.register(Tutorial)
+#admin.site.register(Tutorial)
+class TutorialAdmin(admin.ModelAdmin):
+    list_display = ("text", "topic", "date_added")
