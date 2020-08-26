@@ -13,7 +13,8 @@ def tutorials(request, topic_id):
         name = "_".join( name.split() )
     context = {'tutorials': tutorials, 'topics': topics}
     file = name + '.html'
-    path = 'tutorials/' + name + '/' + file
+    path = 'tutorials/' + file
+    #path = 'tutorials/' + name + '/' + file
     return render(request, path, context)
 
 def topic_tutorial(request, topic_id, tutorial_id):
@@ -23,13 +24,14 @@ def topic_tutorial(request, topic_id, tutorial_id):
     name = tutorial.topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
-    file = str(tutorial_id) + ".html"
-    path = 'tutorials/' + name + '/' + file
+    file = name + "_" + str(tutorial_id) + ".html"
+    path = 'tutorials/' + file
+    #path = 'tutorials/' + name + '/' + file
     context = {
         'tutorial': tutorial, 
         'topics': topics
     }
-    messages.warning(request, 'Made it to ps_tut view!')
+    #messages.warning(request, 'Made it to ps_tut view!')
     return render(request, path, context)
     
 

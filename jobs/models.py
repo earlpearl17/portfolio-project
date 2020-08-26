@@ -6,8 +6,8 @@ class Job(models.Model):
     #url = models.TextField(default='ENTER URL')
     #url = models.URLField(max_length=200, default='ENTER URL')
     url = models.URLField(max_length=200)
-    #image = models.ImageField(upload_to='images/jobs/')
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/jobs/')
+    #image = models.ImageField(upload_to='images/')
     summary = models.CharField(max_length=200)
 
     def __str__(self):

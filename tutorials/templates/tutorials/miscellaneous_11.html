@@ -8,7 +8,13 @@
 
 {% endblock page_header %}
 {% block content %}
-
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
   <div class="container">
     <h3>Basic cmdlet usage</h3>
   </div>
