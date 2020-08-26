@@ -27,10 +27,10 @@
               Tutorials
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
-              {% for topic in topics %}
-                <a class="dropdown-item" href="{% url 'tutorials' topic_id=topic.id %}">{{ topic.text }}</a>
-              {% endfor %}
-              
+              <a class="dropdown-item" href="{% url 'powershell' %}">Powershell</a>
+              <a class="dropdown-item" href="{% url 'scripting' %}">Shell Scripting</a>
+              <a class="dropdown-item" href="{% url 'network' %}">Networking</a>
+              <a class="dropdown-item" href="{% url 'misc' %}">Miscellaneous</a>
             </div>
           </div>
           <a class="nav-item nav-link" href="https://github.com/earlpearl17?tab=repositories" target="_blank">GitHub</a>

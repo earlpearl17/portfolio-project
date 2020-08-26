@@ -14,7 +14,7 @@
     <div class="container">
 
       <div class="row">
-        {% for tut in tutorials.all %}
+        {% for tut in tutorials %}
         <!-- <div class="col-md-4"> -->
         <div class="col-md-4 py-2">
           <!-- <div class="card mb-4 shadow-sm"> -->
@@ -23,7 +23,7 @@
             <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
 
             <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'ps_tut' tut.id %}">{{ tut.text }}</a></h5>
+              <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id %}">{{ tut.text }}</a></h5>
               <p class="card-text">{{ tut.summary }}</p>
               <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
             </div>
