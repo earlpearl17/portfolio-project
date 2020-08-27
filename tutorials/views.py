@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import Topic, Tutorial
@@ -8,6 +8,7 @@ def tutorials(request, topic_id):
     topics = Topic.objects.all()
     topic = Topic.objects.get(pk=topic_id)
     tutorials = Tutorial.objects.filter(topic__id=topic_id).order_by('date_added')
+    
     name = topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
@@ -17,10 +18,14 @@ def tutorials(request, topic_id):
     #path = 'tutorials/' + name + '/' + file
     return render(request, path, context)
 
-def topic_tutorial(request, topic_id, tutorial_id):
+def topic_tutorial(request, topic_id, tutorial_id, slug=None):
     """Show specific Tutorial by topic"""
     topics = Topic.objects.all()
     tutorial = Tutorial.objects.get(topic__id=topic_id, id=tutorial_id)
+    
+    if request.path != tutorial.get_absolute_url():
+        return redirect(tutorial, permanent=True)
+
     name = tutorial.topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
@@ -34,27 +39,27 @@ def topic_tutorial(request, topic_id, tutorial_id):
     #messages.warning(request, 'Made it to ps_tut view!')
     return render(request, path, context)
     
+# # for initial testing
+# def powershell(request):
+#     """Show all PowerShell Tutorials"""
+#     tutorials = Tutorial.objects.filter(topic__text='Powershell').order_by('date_added')
+#     context = {'tutorials': tutorials}
+#     return render(request, 'tutorials/powershell/powershell.html', context)
 
-def powershell(request):
-    """Show all PowerShell Tutorials"""
-    tutorials = Tutorial.objects.filter(topic__text='Powershell').order_by('date_added')
-    context = {'tutorials': tutorials}
-    return render(request, 'tutorials/powershell/powershell.html', context)
+# def scripting(request):
+#     """Show all Linux Shell Scripting Tutorials"""
+#     tutorials = Tutorial.objects.filter(topic__text='Shell Scripting').order_by('date_added')
+#     context = {'tutorials': tutorials}
+#     return render(request, 'tutorials/shell_scripting/shell_scripting.html', context)
 
-def scripting(request):
-    """Show all Linux Shell Scripting Tutorials"""
-    tutorials = Tutorial.objects.filter(topic__text='Shell Scripting').order_by('date_added')
-    context = {'tutorials': tutorials}
-    return render(request, 'tutorials/shell_scripting/shell_scripting.html', context)
+# def network(request):
+#     """Show all Networking Fundamentals Tutorials"""
+#     tutorials = Tutorial.objects.filter(topic__text='Networking').order_by('date_added')
+#     context = {'tutorials': tutorials}
+#     return render(request, 'tutorials/networking/networking.html', context)
 
-def network(request):
-    """Show all Networking Fundamentals Tutorials"""
-    tutorials = Tutorial.objects.filter(topic__text='Networking').order_by('date_added')
-    context = {'tutorials': tutorials}
-    return render(request, 'tutorials/networking/networking.html', context)
-
-def misc(request):
-    """Show all Miscellaneous Tutorials"""
-    tutorials = Tutorial.objects.filter(topic__text='Miscellaneous').order_by('date_added')
-    context = {'tutorials': tutorials}
-    return render(request, 'tutorials/miscellaneous/miscellaneous.html', context)
+# def misc(request):
+#     """Show all Miscellaneous Tutorials"""
+#     tutorials = Tutorial.objects.filter(topic__text='Miscellaneous').order_by('date_added')
+#     context = {'tutorials': tutorials}
+#     return render(request, 'tutorials/miscellaneous/miscellaneous.html', context)

@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 
 class Blog(models.Model):
     title = models.CharField(max_length=50)
@@ -16,4 +18,12 @@ class Blog(models.Model):
         return self.body[:100] + "..."
 
     def pub_date_pretty(self):
-        return self.pub_date.strftime('%b %e %Y')
+        #return self.pub_date.strftime('%b %e %Y')
+        return self.pub_date.strftime('%c')
+
+    def get_absolute_url(self):
+        # Slugify the combination of role and company_name as these may contain
+        # whitespace or other characters that are not permitted in urls.
+        slug = slugify(f"{self.title}-{self.pub_date_pretty()}")
+        #return reverse("job-posting", kwargs={"blog_id": self.id, "slug": slug})
+        return reverse("detail-keywords", kwargs={"blog_id": self.id, "slug": slug})

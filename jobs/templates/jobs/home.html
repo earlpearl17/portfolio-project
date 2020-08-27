@@ -30,12 +30,10 @@
         <div class="col-md-4 py-2">
           <!-- <div class="card mb-4 shadow-sm"> -->
           <div class="card h-100">
-            <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> -->
+           
             <img class="card-img-top" src="{{ job.image.url }}" />
 
             <div class="card-body">
-              <!-- <p class="card-text"><a href="{{ job.url }}">{{ job.title }}</a></p> -->
-              <!-- <p class="card-title"><a href="{{ job.url }}">{{ job.title }}</a></p> -->
               <h5 class="card-title"><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></h5>
               <p class="card-text">{{ job.summary }}</p>
               <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->

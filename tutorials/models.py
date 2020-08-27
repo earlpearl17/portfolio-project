@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 
 class Topic(models.Model):
     """A tutorial topic."""
@@ -29,3 +31,10 @@ class Tutorial(models.Model):
             return f"{self.topic}, {self.text[:50]}" + "..."
         else:
             return f"{self.topic}, {self.text}"
+
+    def get_absolute_url(self):
+        # Slugify the combination of role and company_name as these may contain
+        # whitespace or other characters that are not permitted in urls.
+        slug = slugify(f"{self.topic.text}-{self.text}")
+        return reverse("topic_tutorial_keywords", kwargs={"topic_id": self.topic.id, "tutorial_id": self.id, "slug": slug})
+        
