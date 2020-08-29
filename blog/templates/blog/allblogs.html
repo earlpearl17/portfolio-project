@@ -4,6 +4,12 @@
 {% endblock page_header %}
 
   {% block content %}
+  {% if path %}
+    {{ path }}
+  {% endif %}
+  {% if filename %}
+    {{ filename }}
+  {% endif %}
   <h2>Latest Posts</h2>
   <hr />
   <div class="container">

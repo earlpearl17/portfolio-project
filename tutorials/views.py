@@ -5,17 +5,20 @@ from .models import Topic, Tutorial
 
 def tutorials(request, topic_id):
     """Show all Tutorials by topic"""
-    topics = Topic.objects.all()
+    #topics = Topic.objects.all()
+    topics = Topic.objects.all().order_by('text')
     topic = Topic.objects.get(pk=topic_id)
     tutorials = Tutorial.objects.filter(topic__id=topic_id).order_by('date_added')
     
     name = topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
-    context = {'tutorials': tutorials, 'topics': topics}
+
     file = name + '.html'
     path = 'tutorials/' + file
     #path = 'tutorials/' + name + '/' + file
+    context = {'tutorials': tutorials, 'topics': topics, 'file': file}
+    #context = {'tutorials': tutorials, 'topics': topics}
     return render(request, path, context)
 
 def topic_tutorial(request, topic_id, tutorial_id, slug=None):
@@ -29,13 +32,14 @@ def topic_tutorial(request, topic_id, tutorial_id, slug=None):
     name = tutorial.topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
-    file = name + "_" + str(tutorial_id) + ".html"
+    tut_name = tutorial.text.lower()
+    if (' ' in tut_name):
+        tut_name = "_".join( tut_name.split() )
+    #file = name + "_" + str(tutorial_id) + ".html"
+    file = name + "-" + tut_name + ".html"
     path = 'tutorials/' + file
-    #path = 'tutorials/' + name + '/' + file
-    context = {
-        'tutorial': tutorial, 
-        'topics': topics
-    }
+    context = {'tutorial': tutorial,'topics': topics,'file':file}
+    #context = {'tutorial': tutorial,'topics': topics}
     #messages.warning(request, 'Made it to ps_tut view!')
     return render(request, path, context)
     

@@ -7,8 +7,11 @@ def allblogs(request):
     # return objects in descending order
     blogs = Blog.objects.order_by('-pub_date')
     #blogs = Blog.objects.all()
-    topics = Topic.objects.all()
-    
+    #topics = Topic.objects.all()
+    topics = Topic.objects.all().order_by('text')
+    #path = request.path
+    #filename = 'allblogs.html'
+    #context = {'blogs':blogs, 'topics':topics, 'path': path, 'filename': filename}
     context = {'blogs':blogs, 'topics':topics}
     return render(request, 'blog/allblogs.html', context)
 

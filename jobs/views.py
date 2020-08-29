@@ -5,7 +5,8 @@ from tutorials.models import Topic
 
 def home(request):
     jobs = Job.objects.all()
-    topics = Topic.objects.all()
+    #topics = Topic.objects.all()
+    topics = Topic.objects.all().order_by('text')
     context = {
         'jobs': jobs,
         'topics': topics,
