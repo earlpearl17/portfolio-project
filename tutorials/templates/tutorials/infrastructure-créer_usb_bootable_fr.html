@@ -1,0 +1,109 @@
+{% extends "jobs/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Infrastructure Tutorials</h1>
+      <p class="lead text-muted">FRENCH Create a Bootable USB</p>
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    <!-- <h3>Create a Bootable USB</h3> -->
+    <div style="width:55%; float:left;">
+      <p>For this tutorial, I am using a Windows 7 Professional Service Pack 1 host machine. I will be using the <a href="https://www.balena.io/etcher/">Etcher</a> utility to create a bootable USB for CentOS 7. The bootable USB can be used to install the CentOS 7 operating system on a physical PC or in a VirtualBox VM (virtual machine).</p>
+      
+      <p>After you've completed this tutorial, you can access one of my other tutorials where I demonstrate the installation of CentOS 7 using a bootable USB in a VirtualBox VM. It can be accessed <a href="#">here</a>.</p>
+    </div>
+    <!-- <div style="float:right;"> -->
+    <div style="float: left; padding-left: 20px;">
+      <img style="width: 350px; height: 280px" src="/media/images/tutorials/infrastructure/create_bootable_usb/0-Etcher-Site.png" />
+    </div>
+    <br />
+    <p>Steps to complete tutorial:</p>
+    <ol>
+      <li><a href="#download_etcher">Download Etcher</a></li>
+      <li><a href="#install_etcher">Install Etcher</a></li>
+      <li><a href="#create_usb">Create a bootable USB or DVD</a></li>
+    </ol>
+    <h5 id="download_etcher">Download Etcher</h4>
+      <p>Go to the Etcher site at <a href="https://www.balena.io/etcher/" target="_blank">https://www.balena.io/etcher/</a> and download the application.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/1-Etcher-Site-Download.png" />
+      <br />
+      <br />
+    <h5 id="install_etcher">Install Etcher</h4>
+      <p>Once downloaded, double-click on the executable to begin installation.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/2-Etcher-Downloaded.png" />
+      <br />
+      <br />
+      <p>Accept the security warning and click <strong>Run</strong>.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/3-Etcher-Accept-Security-Warning.png" />
+      <br />
+      <br />
+      <p>Accept the license agreement and click <strong>I Agree</strong>.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/4-Etcher-Accept-License-Agreement.png" />
+      <br />
+      <br />
+      <p>Etcher is installed and ready to be used.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/5-Etcher-Installed.png" />
+      <br />
+      <br />
+    <h5 id="create_usb">Create a bootable USB or DVD</h4>
+      <p>Let’s perform a test to confirm that it’s working properly. We’ll create a bootable USB from a CentOS 7 ISO.<br />
+      (Note that if you would rather a DVD, make the necessary changes when selecting a target).</p>
+      <p>First, on the application console, click the <strong>Flash from file</strong> button and navigate to the ISO you wish to create a bootable USB from, and click <strong>Open</strong></p>
+      <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/create_bootable_usb/6-Etcher-Flash-from-File.png" />
+      <img style="width: 400px; height: 300px;float:right;" src="/media/images/tutorials/infrastructure/create_bootable_usb/7-Etcher-Flash-from-File-Image.png" />
+      <br />
+      <br />
+      <p>First, on the application console, click the <strong>Flash from file</strong> button and navigate to the ISO you wish to create a bootable USB from.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/6-Etcher-Flash-from-File.png" />
+      <br />
+      <br />
+      <p>Once you've selected your ISO image, click <strong>Open</strong></p>
+      
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/7-Etcher-Flash-from-File-Image.png" />
+      
+      <br />
+      <br />
+      <p>Next, insert your empty USB into an open port (or blank DVD into your optical drive) and click the <strong>Select target</strong> button to choose the location you wish to save the flashed image.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/8-Etcher-Select-Target.png" />
+      <br />
+      <br />
+      <p>Ensure the correct destination target is selected (your empty USB or blank DVD), and click the Select (1) button.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/9-Etcher-Select-Target-Location.png" />
+      <br />
+      <br />
+      <p>Click the Flash! button to create the bootable USB stick.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/10-Etcher-Flash-Image.png" />
+      <br />
+      <br />
+      <p>Etcher is in the process of creating your bootable USB.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/11-Etcher-Flash-Image-In-Progress.png" />
+      <br />
+      <br />
+      <p>Once the operation has completed, you can use your bootable USB to install the CentOS 7 operating system on a physical PC or in a VirtualBox VM (virtual machine).</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/12-Etcher-Flash-Image-Complete.png" />
+      <br />
+      <br />
+      <p>Here is a listing of the contents of my newly created bootable USB for CentOS 7.</p>
+      <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/create_bootable_usb/13-BOOTABLE-USB-CONTENTS.png" />
+      <br />
+      <br />
+      <p>Please note that the procedure to create a bootable USB, or DVD, is very straight forward using Etcher.</p>
+      <p>Hopefully, you’ve enjoyed completing this tutorial and would like to use your newly created CentOS 7 bootable USB to install the operating system.</p>
+      <p>In one of my other tutorials, I demonstrate the creation of a VirtualBox VM (virtual machine) and the installation of CentOS 7 using a bootable USB. It can be accessed <a href="#">here</a>.</p> 
+      <p>I have a number of other <a href="#">VirtualBox tutorials</a> where I demonstrate the installation of CentOS 7, Ubuntu 18 and OpenSUSE 15.2.</p>
+      <p>My tutorial offerings also include becoming comfortable with the Linux and PowerShell command lines. They can be accessed <a href="#">here</a>.</p>   
+      <p>If you would like see more of my tutorial offerings, they can be accessed <a href="#">here</a>.</p>
+
+  </div>
+
+{% endblock content %}

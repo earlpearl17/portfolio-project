@@ -11,4 +11,4 @@ class TopicAdmin(admin.ModelAdmin):
 @admin.register(Tutorial)
 #admin.site.register(Tutorial)
 class TutorialAdmin(admin.ModelAdmin):
-    list_display = ("text", "topic", "date_added")
+    list_display = ("text", "topic", "lang", "date_added")

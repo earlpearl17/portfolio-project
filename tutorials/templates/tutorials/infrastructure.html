@@ -22,9 +22,9 @@
             <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
 
             <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id %}">{{ tut.text }}</a></h5>
+              <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
               <p class="card-text">{{ tut.summary }}</p>
-              <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+              
             </div>
 
           </div>

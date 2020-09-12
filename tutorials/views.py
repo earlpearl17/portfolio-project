@@ -21,28 +21,66 @@ def tutorials(request, topic_id):
     #context = {'tutorials': tutorials, 'topics': topics}
     return render(request, path, context)
 
-def topic_tutorial(request, topic_id, tutorial_id, slug=None):
+def topic_tutorial(request, topic_id, tutorial_id, lang, slug=None):
+#def topic_tutorial(request, topic_id, tutorial_id, slug=None):
     """Show specific Tutorial by topic"""
-    topics = Topic.objects.all()
+    # NOTE: nothings is returned 
+    #if (request.GET.get('lang')):
+    #lang = request.GET.get('lang')
+    
+    topics = Topic.objects.all().order_by('text')
     tutorial = Tutorial.objects.get(topic__id=topic_id, id=tutorial_id)
     
     if request.path != tutorial.get_absolute_url():
         return redirect(tutorial, permanent=True)
-
+    # renaming topic to avoid spaces
     name = tutorial.topic.text.lower()
     if (' ' in name):
         name = "_".join( name.split() )
+    
+    # renaming tutorial to avoid spaces
     tut_name = tutorial.text.lower()
     if (' ' in tut_name):
         tut_name = "_".join( tut_name.split() )
-    #file = name + "_" + str(tutorial_id) + ".html"
-    file = name + "-" + tut_name + ".html"
+    
+    # lang always empty
+    if (lang == 'fr'):
+        file = name + "-" + tut_name + "_fr.html"
+    else:    
+        file = name + "-" + tut_name + ".html"
+    
+    messages.warning(request, 'Made it to ps_tut view!')
+    messages.warning(request, 'Language: ' + str(lang))    
+
     path = 'tutorials/' + file
     context = {'tutorial': tutorial,'topics': topics,'file':file}
-    #context = {'tutorial': tutorial,'topics': topics}
-    #messages.warning(request, 'Made it to ps_tut view!')
     return render(request, path, context)
+
+# def topic_tutorial_fr(request, topic_id, tutorial_id, lang=lang):
+#     """Show specific Tutorial by topic"""
+#     topics = Topic.objects.all()
+#     tutorial = Tutorial.objects.get(topic__id=topic_id, id=tutorial_id)
     
+#     if request.path != tutorial.get_absolute_url():
+#         return redirect(tutorial, permanent=True)
+
+#     name = tutorial.topic.text.lower()
+#     if (' ' in name):
+#         name = "_".join( name.split() )
+#     tut_name = tutorial.text.lower()
+#     if (' ' in tut_name):
+#         tut_name = "_".join( tut_name.split() )
+#     #file = name + "_" + str(tutorial_id) + ".html"
+#     # if (lang == 'fr'):
+#     #     file = name + "-" + tut_name + "_fr.html"
+#     # else:    
+#     #     file = name + "-" + tut_name + ".html"
+#     file = name + "-" + tut_name + "_" + lang + ".html"
+#     path = 'tutorials/' + file
+#     context = {'tutorial': tutorial,'topics': topics,'file':file}
+#     #context = {'tutorial': tutorial,'topics': topics}
+#     #messages.warning(request, 'Made it to ps_tut view!')
+#     return render(request, path, context)
 # # for initial testing
 # def powershell(request):
 #     """Show all PowerShell Tutorials"""
