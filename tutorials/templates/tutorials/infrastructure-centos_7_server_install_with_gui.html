@@ -1,0 +1,514 @@
+{% extends "jobs/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install with GUI (MATE Desktop)</h1> -->
+      <h1 class="jumbotron-heading">CentOS 7 Server Install with GUI (MATE Desktop)</h1>
+      <p class="lead text-muted">Infrastructure Tutorials</p>
+      <!-- <h1 class="jumbotron-heading">Infrastructure Tutorials</h1>
+      <p class="lead text-muted">CentOS 7 Server Install with GUI (MATE Desktop)</p> -->
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+      <p>In this tutorial, I will demonstrate how to install the MATE Desktop on a CentOS 7 minimal install virtual machine. The <strong>MATE Desktop</strong> uses minimal system resources. This will ensure the virtual machine will only need 1024MB (1.0GB) of RAM and your host system will only need to delegate a minimum amount of resources when the VM is running.</p>
+      
+      <p>After the <strong>MATE Desktop</strong> install demo, I will show you how to install VirtualBox’s <strong>Guest Additions</strong> so that you can make use of a <strong>shared clipboard</strong> and <strong>drag’n’drop</strong> between host and guest. These are the two features I use regularly but for detailed information on guest additions, refer to this <a href="https://www.virtualbox.org/manual/ch04.html" target="_blank">link</a>.</p>
+      <p>Please note that I will be using a virtual machine that was created in my other tutorial, <strong>CentOS 7 Server Install</strong>, accessible <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>.</p> 
+      
+    </div>
+    
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 350px; height: 280px" src="/media/images/tutorials/infrastructure/mate_desktop/0-Mate-0-Icon.png" />
+    </div>
+    <div style="clear: both;">
+    </div>
+    <div>
+      <h4>Prerequisites</h4>
+        <ul>
+            <li>VirtualBox VM with a CentOS 7 minimal install (tutorial can be accessed <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>)</li>
+            <li>non-root user with <strong>sudo</strong> privileges</li>
+            <li>Active Internet Connection</li>
+        </ul>
+        <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>.</p>
+        <p>If you do not already have a virtual machine, with a minimal install of CentOS 7 (release 8), my other tutorial,<br /><strong>CentOS 7 Server Install</strong>, can be accessed 
+        <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>.</p>
+    </div>
+    <div style="width:40%; float:left;height:calc(100% - 20px);"> 
+      <h5>Steps to complete tutorial:</h5>
+      <ol>
+        <li><a href="#snapshot_1">Take Post CentOS 7 Install Snapshot</a></li>
+        <li><a href="#create_user">Create non-root user with sudo privileges</a></li>
+        <li><a href="#update_centos">Update CentOS 7</a></li>
+        <li><a href="#snapshot_2">Take Pre MATE Desktop Snapshot</a></li>
+        <li><a href="#install_mate">Install MATE Desktop</a></li>
+        <ol type="i">
+            <li><a href="#install_epel">Install EPEL package repository</a></li>
+            <li><a href="#install_x_win">Install X Window System packages</a></li>
+            <li><a href="#mate_pkgs">Install MATE Desktop packages</a></li>
+            <li><a href="#change_target">Change Default Target to Graphical</a></li>
+            <li><a href="#boot_gui">Boot to Graphical Target</a></li>
+        </ol>
+        <li><a href="#snapshot_3">Take Post MATE Desktop Snapshot</a></li>
+        <li><a href="#guest_adds">Install VirtualBox Guest Additions</a></li>
+        <li><a href="#snapshot_4">Take Post Guest Additions Snapshot</a></li>
+      </ol>
+    </div>
+    <div style="width:60%; float: left; padding-left: 50px; height:calc(100% - 20px);">
+      <br /><br />
+      <img style="float: left; width: 45%; height: 250px; padding: 10px;" src="/media/images/tutorials/infrastructure/virtualbox_install/0-VirtualBox-Image.png" /> 
+      <img style="float: left; width: 45%; height: 250px; padding: 10px;" src="/media/images/tutorials/infrastructure/downloads/00-Centos7-Icon.png" />
+    </div>
+    <div style="clear: both;">
+    </div>
+    <div>
+      <h5 id="snapshot_1">Take Post CentOS 7 Install Snapshot</h5>
+        
+        <p>The reason I want to take a snapshot, before we begin, is that we will be making a number of major changes to the virtual machine.</p>
+        <p> After successfully completing a major change, I find it
+        helpful to create (take) a snapshot to act as a fallback mechanism. If something goes wrong during a major change, we can revert back to a working snapshot (previous stable state).
+        </p>
+        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a href="#update_centos">Update CentOS 7</a>).</p>
+        <p>If you already have a CentOS 7 (release 8) minimal install VM. I suggest taking a snapshot before continuing with the tutorial,to ensure that you have a starting point to revert back to.</p>
+        <p>Please note that you can name the snapshot whatever you like, just remember which snapshot is associated with which state of the virtual machine.</p>
+        <p>In the VirtualBox Manager interface, we are currently in 
+            <strong>Details</strong> view. To switch to <strong>Snapshots</strong> view, click the list icon next to the virtual machine name, and select <strong>Snapshots</strong>.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/0-Mate-Pre-Snapshot-b.png" />
+        <br />
+        <br />
+        <p>The <strong>Snapshots</strong> view will show you a listing of the snapshots created for the virtual machine.<br />
+        From the VirtualBox Manager’s interface, again, ensure your VM is selected, then, to create a snapshot click <strong>Take</strong>
+        </p>
+        <img style="width: 700px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/1-Mate-Pre-Snapshot.png" />
+        <br />
+        <br />
+        <table>
+          <tr>
+            <td>
+              <p>Enter a name for the snapshot, as well as, a short description,<br /> then, click <strong>OK</strong></p>
+              <p>I've taken a snapshot <strong>POST-CentOS7-MINIMAL-INSTALL</strong> to <br />ensure that I have a starting point to revert back to, if needed.</p>
+              <p>Before installing the <strong>MATE Desktop</strong>, we will ensure that<br /> our CentOS 7 install is up to date.</p>
+              <p>To perform a CentOS 7 system update, we need a 
+                non-root user<br /> with <strong>sudo</strong> privileges.
+              </p>
+            </td>
+            <td style="padding-left: 50px;">
+              <img style="width: 300px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/2-Mate-Take-Snapshot.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <br />
+      <h5 id="create_user">Create non-root user with sudo privileges</h5>  
+        <p>If you already have a non-root user with <strong>sudo</strong> privileges, please skip to the next step (<a href="#update_centos">Update CentOS 7</a>)</p>
+        <p>To be able to update CentOS 7, install new packages, as well as, do most management tasks, the user performing<br /> the operations must have <strong>sudo</strong> privileges, or, the operations must be performed by the root user.</p>
+        <p>In a production environment, it is good practice <strong>NOT</strong> to login as the root user, and to <strong>NEVER
+        </strong> perform operations<br /> while logged in as the root user.</p>
+        <p>Since this is a lab environment, I will demonstrate the creation of a non-root user that has <strong>sudo</strong> privileges, while<br /> logged in as the root user.</p>
+        <p>On the VirtualBox Manager interface, you will notice that we successfully took a snapshot. This ensures that we can 
+        <br />always revert back to a working virtual machine with a minimal version of <strong>CentOS 7 (release 8)</strong> installed.</p>
+        <p>From the VirtualBox Manager interface, ensure your VM is selected and click <strong>Start</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/3-Mate-Post-Snapshot.png" />
+        <br />
+        <br />
+        <p>The <strong>CentOS 7 VM</strong> is starting and we are seeing the kernel being used during the boot process.</p>
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/mate_desktop/4-Mate-Starting-VM-NEW.png" />
+        <br />
+        <br />
+        <p>Once CentOS 7 has started, on the login screen, enter the root user’s credentials.<br />
+        Now that we are logged in as the root user, we will create a non-root user with <strong>sudo</strong> privileges.</p>
+        <p>On the command line, execute the following commands (one after the other & enter password, when prompted):</p>
+        <p style="font-family: consolas;">
+            useradd vern<br />
+            passwd vern<br />
+            usermod -aG wheel vern</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/4-Mate-Create-User-full-part-1.png" />
+        <br />
+        <br />   
+        <p>Now we will verify that our newly created non-root user has <strong>sudo</strong> privileges.<br />
+        On the command line, execute the following commands (one after the other & enter password, when prompted):</p>
+        <p style="font-family: consolas;">
+            su – vern<br />
+            whoami<br />
+            id<br />
+            sudo ls -al</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/4-Mate-Create-User-full-part-2.png" />    
+        <br />
+        <br />
+        <p>Now that we have a non-root user with <strong>sudo</strong> privileges (‘<strong>wheel</strong>’ group member), we are ready to update <strong>CentOS 7</strong>.</p>
+      <h5 id="update_centos">Update CentOS 7</h5>
+        <p>Now to update CentOS 7. From the command line, execute the following:</p>
+        <p style="font-family: consolas;">
+        sudo yum update
+        </p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/6-Mate-Yum-Update-1-NEWER.png" />
+        <br />
+        <br />
+        <p>When prompted, enter <strong>y</strong> to accept the packages to be downloaded, installed and upgraded.</p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/6-Mate-Yum-Update-In-Progress.png" />
+        <br />
+        <br />
+        <p>When prompted to use the local CentOS 7 Signing key to validate the downloaded packages, enter <strong>y</strong></p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/6-Mate-Yum-Update-In-Progress2.png" />
+        <br />
+        <br />
+        <p>Your CentOS 7 system is now up to date. Let’s reboot to ensure the newly installed kernel will be used<br /> as the core interface between the computer's hardware and its processes.
+        </p>
+        <p>Remember to use your non-root user’s password to acknowledge the following command:<br />
+        <span style="font-family: consolas;"> sudo shutdown -r now</span></p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/7-Mate-Yum-Update-Completed-Reboot.png" />
+        <br />
+        <br />
+        <p>You should notice that the newly installed kernel is now being used</p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/9-Mate-Post-Yum-Update-Reboot-In-Progress-b.png" />
+        <br />
+        <br />
+        <p><em>Please note that, for the rest of the tutorial, I will be using a different non-root user account (<strong>liam</strong>),<br /> that also has <strong>sudo</strong> privileges.</em></p>
+        <p>Now that our CentOS 7 install is up-to-date, let’s shutdown the VM and create another snapshot.</p>
+        <p>Remember to use your non-root user’s password to acknowledge the following command:<br />
+        <span style="font-family: consolas;">sudo shutdown -h now</span></p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/10-Mate-Post-Yum-Update-Reboot-Shutdown-Pre-Snapshot.png" />
+        <br />
+        <br />
+      <h5 id="snapshot_2">Take Pre MATE Desktop Snapshot</h5>
+        <p>Again, from the VirtualBox Manager interface, ensure your VM is selected and you are in <strong>Snapshots</strong> view.<br />
+        To create the snapshot, click <strong>Take</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/11-Mate-Pre-Snapshot.png" />
+        <br />
+        <br />
+        <table>
+          <tr>
+            <td>
+              <p>Enter a name for the snapshot, as well as, a short description,<br /> then, click <strong>OK</strong></p>
+              <p>I've taken a snapshot <strong>PRE-MATE-DESKTOP-INSTALL</strong> to ensure<br /> that we have an updated CentOS 7 minimal install we can revert<br /> back to.</p>
+              <p>Now that we have our snapshot in place, we are ready to install<br /> the <strong>MATE Desktop</strong>.</p>
+            </td>
+            <td style="padding-left: 50px;">
+              <img style="width: 300px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/12-Mate-Take-Snapshot.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+      <h5 id="install_mate">Install MATE Desktop</h5>
+        <p>Now that our system is up to date, we can begin the installation of the <strong>MATE Desktop</strong>.</p>
+        <p>From the VirtualBox Manager interface, ensure your VM is selected and click <strong>Start</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/13-Mate-Post-Snapshot.png" />
+        <br />
+        <br />
+      <h5 id="install_epel">Install EPEL package repository</h5>
+        <p>First, we must install the <strong>EPEL</strong> (Extra Packages for Enterprise Linux) package repository. This repository contains the packages required by the MATE Desktop.</p>
+        <p>Note in the next command I have included the <strong>-y</strong> command option. This will ensure that we are not prompted to accept the execution of the command.</p>
+        <p>From the command line, execute the following command:<br />
+        <span style="font-family: consolas;">
+        sudo yum install -y epel-release</span>
+        </p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/14-Mate-Install-EPEL.png" />
+        <br />
+        <br />
+        <p>You will notice that the epel-release package was successfully installed.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/15-Mate-Install-EPEL-done.png" />
+        <br />
+        <br />
+        <p>Let’s confirm that the <strong>EPEL</strong> package repository is available to us to complete the installation of the MATE Desktop.</p>
+        <p>From the command line, execute the following:<br />
+            <span style="font-family: consolas;">yum repolist</span>
+        </p>
+        <p>You should now see the EPEL package repository listed.
+        </p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/16-Mate-Yum-Repolist.png" />
+        <br />
+        <br />
+      <h5 id="install_x_win">Install X Window System packages</h5>
+        <p>Now we will need to install the <strong>X Window System</strong> which will act as our base for the MATE Desktop.</p>
+        <p>From the command line, execute the following:<br />
+        <span style="font-family: consolas;"> sudo yum groupinstall "X Window System"</span>
+        </p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/19-Mate-Yum-Groupinstall-X-Window-System.png" />
+        <br />
+        <br />
+        <p>After entering your user’s password to acknowledge the command being run with sudo privileges,<br /> enter <strong>y</strong> to accept the packages to be downloaded and installed.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/19-Mate-Yum-Groupinstall-X-Window-System-In-Progress.png" />
+        <br />
+        <br />
+        <p>When prompted to use the local CentOS 7 Signing key to validate the downloaded packages, enter <strong>y</strong>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/19-Mate-Yum-Groupinstall-X-Window-System-In-Progress2.png" />
+        <br />
+              
+      <h5 id="mate_pkgs">Install MATE Desktop packages</h5>
+        <p>Below, you will notice that the <strong>X Window System</strong> packages were successfully installed.</p>
+        <p> Now we can install the <strong>MATE Desktop</strong> packages.</p>
+        <p>From the command line, execute the following:<br />
+            <span style="font-family: consolas;">
+                sudo groupinstall "MATE Desktop"</span>
+        </p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/20-Mate-Yum-Groupinstall-MATE-Desktop.png" />
+        <br />
+        <br />
+        <p>Again, enter <strong>y</strong> to accept the packages to be downloaded and installed.</p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/20-Mate-Yum-Groupinstall-MATE-Desktop-In-Progress.png" />
+        <br />
+        <br />
+        <p>Below, you will notice that the <strong>MATE Desktop</strong> packages were successfully installed.</p>
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/mate_desktop/20-Mate-Yum-Groupinstall-MATE-Desktop-Complete.png" />
+        <br />
+        <br />
+      <h5 id="change_target">Change Default Target to Graphical</h5>
+        
+        <p>We will now need to change from runlevel 3 (text console mode) to runlevel 5 (graphical mode).<br />
+        Since runlevels were used in the older SysVInit environments and CentOS 7 uses systemd, we will need to change from the 
+        <strong>multi-user.target</strong> (text console mode) to the 
+        <strong>graphical.target</strong> (graphical mode) to ensure that, when we boot our system, <br />we use the newly installed <strong>MATE Desktop</strong>.</p>
+        <p>From the command line, execute the following:<br />
+            <span style="font-family: consolas;">
+            sudo systemctl set-default graphical.target<br />
+            sudo shutdown -r now<br />
+        </p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/21-Mate-Set-Target-Reboot.png" />
+        <br />
+        <br />
+
+      <h5 id="boot_gui">Boot to Graphical Target</h5>
+        <p>You will now be booted to the <strong>MATE Desktop</strong>. Enter your login credentials and click <strong>Log In</strong>.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/22-Mate-Desktop-Installed.png" />
+        <br />
+        <br />
+        <p>You are now logged in to the <strong>MATE Desktop</strong> environment.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/22-Mate-Desktop-Logged-In.png" />
+        <br />
+        <br />
+        <p>From the <strong>Applications</strong> menu, you will notice useful applications such as <strong>Firefox</strong> and <strong>FileZilla</strong>. I also opened a terminal<br /> and executed the <span style="font-family: consolas; font-weight: bold;">free</span> command to show that the minimum amount of RAM is needed to power the <strong>MATE Desktop</strong> environment. Compare this output with the RAM required for a CentOS 7 minimal install (image below this one).</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/23-Mate-Desktop-RAM-Used.png" />
+        <br />
+        <br />
+        <p>RAM required for a CentOS 7 minimal install.</p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/mate_desktop/23-Mate-Desktop-RAM-Used-on-server.png" />
+        <br />
+        <br />
+        <p>There are also a number of <strong>System Tools</strong> to manage your system. </p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/24-Mate-Desktop-System-Tools.png" />
+        <br />
+        <br />
+        <p>Now that we have successfully installed the <strong>MATE Desktop</strong>. Let’s shut down the VM and take a snapshot 
+        <br />before installing VirtualBox’s <strong>Guest Additions.</strong></p>
+        <p>From the <strong>System</strong> menu, click <strong>Shut Down</strong>.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/25-Mate-Desktop-Shutdown-1.png" />
+        <br />
+        <br />    
+        <p>Then, click <strong>Shut Down</strong> to shut down your system.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/25-Mate-Desktop-Shutdown-2.png" />
+        <br />
+        <br />      
+
+      <h5 id="snapshot_3">Take Post MATE Desktop Snapshot</h5>
+        <p>From the VirtualBox Manager interface, ensure your VM is selected and you are in <strong>Snapshots</strong> view.<br />
+        To create the snapshot, click <strong>Take</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/25-Mate-Pre-Snapshot.png" />
+        <br />
+        <br />
+        <table>
+          <tr>
+            <td>
+              <p>Enter a name for the snapshot, as well as, a short description,<br /> then, click <strong>OK</strong></p>
+              <p>I've taken a snapshot <strong>POST-MATE-DESKTOP-INSTALL</strong> to<br /> ensure  
+              we have a working CentOS 7 server, with a GUI, that<br /> we can revert back to, if needed.</p>          
+              <p>Now that we have our snapshot in place, we are ready to<br /> install VirtualBox’s <strong>Guest Additions.</strong></p>
+            </td>
+            <td style="padding-left: 50px;">
+              <img style="width: 300px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/26-Mate-Take-Snapshot.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <br />
+        
+      <h5 id="guest_adds">Install VirtualBox Guest Additions</h5>
+        <p>From the VirtualBox Manager interface, ensure your VM is selected and click <strong>Start</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/27-Mate-Start-VM.png" />
+        <br />
+        <br />
+        <p>Before we can install VirtualBox’s Guest Additions, we will need to ensure our current kernel has the<br />corresponding kernel-headers. First, we will verify whether, or not, the kernel-headers exist.<br />
+        To open a terminal, from your MATE Desktop, click <strong> Applications -> System Tools -> MATE Terminal</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/27b-Mate-Open-Terminal.png" />
+        <br />
+        <br />
+        <p>We will need to display our active kernel to determine which kernel-headers we need. To do this, from the<br /> command line, execute the following commands (one after the other):
+        <br />
+        <span style="font-family: consolas;">
+            uname -r<br />
+            ls -l /etc/src/kernels<br /></span>
+        </p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/mate_desktop/27c-Mate-Kernel-Info.png" />
+        <br />
+        <br />
+        <p>We see that no matching kernel-headers exist so we will need to install the <strong>kernel-devel</strong> package which <strong>provides kernel-headers</strong>. We will also need to install a few packages (<strong>gcc, make, perl</strong>) that the VirtualBox <strong>Guest Additions require to rebuild kernel modules</strong>.<br /> Again, from the command line, execute the following:<br />
+        <span style="font-family: consolas;">
+            sudo yum install -y gcc make perl kernel-devel</span>
+            <br />
+        </p>
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/mate_desktop/27d-Mate-Install-Requirements.png" />
+        <br />
+        <br />
+        <p>The packages were successfully installed and we now see the matching kernel-headers.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/27e-Mate-Installed-Reqs-and-kernel-headers.png" />
+        <br />
+        <br />
+        <p>We are now ready to install VirtualBox’s Guest Additions.
+        </p>
+        <p>Please note, in order to access the virtual machine’s <strong>main menu</strong>, you will need to exit the <strong>guest</strong> (virtual machine)<br /> interface and return to the <strong>host</strong> machine interface, by hitting your <strong>Host key</strong>.</p> 
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/28-Mate-Exit-Guest-1.png" />
+        <br />
+        <br />
+        <p>Check the bottom right-hand corner of the virtual machine's interface to determine what your <strong>Host key</strong> is. <br />For my Windows 7 host machine, my <strong>Host key
+        </strong> is the <strong>right Ctrl key</strong> (see image below). </p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/mate_desktop/28-Mate-Exit-Guest-2.png" />
+        <br />
+        <br />
+        <p>Now you know how to exit the guest interface to access your virtual machine’s main menu.</p>
+        <p>From the virtual machine’s main menu, select <strong>Devices</strong>, then click <strong>Insert Guest Additions CD image</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/28-Mate-Insert-Guest-Additions.png" />
+        <br />
+        <br /> 
+        <p>When prompted, ensure <strong>Open Autorun Prompt</strong> is selected and click <strong>OK</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/29-Mate-Autorun-Prompt-Guest-Additions.png" />
+        <br />
+        <br />
+        <p>On the following screen, click <strong>Run</strong>.</p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/30-Mate-Run-Guest-Additions-1.png" />
+        <br />
+        <br />     
+        <p>Note, to proceed, you will need to provide the root user’s password. Enter root’s password and click 
+        <strong>Authenticate</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/31-Mate-Run-as-root-Guest-Additions-2.png" />
+        <br />
+        <br />
+        <p>The VirtualBox <strong>Guest Additions</strong> installation will complete successfully. To continue, on your keyboard, hit <strong>Enter</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/32-Mate-Guest-Additions-Installed.png" />
+        <br />
+        <br />
+        <p>Before restarting the virtual machine to test the newly installed VirtualBox Guest Additions, return to the<br /> VirtualBox Manager interface, and click <strong>Settings</strong> for the running VM</p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/34-Mate-Change-VM-Settings.png" />
+        <br />
+        <br />
+        <p>On the left, ensure <strong>General</strong> is selected. Under General, select the <strong>Advanced</strong> tab and change both the<br /> <strong>Shared Clipboard</strong> and 
+        <strong>Drag’n’Drop</strong> settings from Disabled to Bidirectional. To continue, click <strong>Ok</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/34-Mate-Activate-Shared-Clipboard.png" />
+        <br />
+        <br />
+        <p>Now, return to the running VM and restart it by clicking 
+        <strong>System -> Shut Down</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-1.png" />
+        <br />
+        <br />
+        <p>When prompted, click <strong>Restart</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-2.png" />
+        <br />
+        <br />
+        <p>After the VM has restarted, login and, in the top right corner click to switch to fullscreen.</p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-3-Full-Screen-1.png" />
+        <br />
+        <br />
+        <p>Now the VM can take up your whole screen. Next, we will test the <strong>Shared Clipboard</strong> and <strong>Drag’n’Drop</strong> settings.</p>
+        <img style="width: 850px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-3-Full-Screen-2.png" />
+        <br />
+        <br />
+        <p>My <strong>Shared Clipboard</strong> test will be to copy text from the <strong>host</strong> and pasting it into the 
+        <strong>guest</strong>. This involves copying the text
+        <span style="font-family: consolas; font-weight: bold;"> ls -l</span> from a text editor on my <strong>host</strong> machine and pasting it into a MATE Terminal in my <strong>guest VM</strong>.</p>
+        <p><strong>Step 1</strong>: Copy text from host machine</p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-4-Copy-Paste-0-NEW.png" />
+        <br />
+        <br />
+        <p><strong>Step 2</strong>: Paste text into MATE Terminal in guest VM</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-4-Copy-Paste-1.png" />
+        <br />
+        <br />    
+        <p><strong>Step 3</strong>: Finalize paste operation and execute command</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-4-Copy-Paste-2.png" />
+        <br />
+        <br />    
+        <p>My <strong>Drag’n’Drop</strong> test involves creating a text file on my <strong>host</strong> machine and dragging it onto my <strong>guest VM</strong>’s desktop. 
+        <br />Then, opening the file in the virtual machine.</p>
+        <p><strong>Step 1</strong>: Create text file on host machine</p>
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-5-Drag-and-Drop-1-NEW.png" />
+        <br />
+        <br /> 
+        <p><strong>Step 2</strong>: Drag text file from host machine onto guest VM’s desktop</p>
+        <img style="width: 450px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-5-Drag-and-Drop-2a.png" />
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-5-Drag-and-Drop-2b.png" />
+        <br />
+        <br /> 
+        <p><strong>Step 3</strong>: Open text file in guest VM</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-5-Drag-and-Drop-3.png" />
+        <br />
+        <br /> 
+        <p>We will now shutdown the virtual machine. From the <strong>System</strong> menu, click <strong>Shut Down</strong>.</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/36-Mate-Desktop-Shutdown-1.png" />
+        <br />
+        <br />
+        <p>Then, you can wait for the timer to expire or click <strong>Shut Down</strong> to shut down your system.</p>
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/36-Mate-Desktop-Shutdown-2.png" />
+        <br />
+        <br />
+        <p>After shutting down our system, it would be a good idea to take a snapshot.</p>
+        <p>That way, if we ever need a CentOS 7 server with a GUI virtual machine that already has<br /> VirtualBox's Guest Additions installed, we can clone this snapshot in seconds.</p>
+
+      <h5 id="snapshot_4">Take Post Guest Additions Snapshot</h5>
+        <p>From the VirtualBox Manager interface, ensure your VM is selected and you are in <strong>Snapshots</strong> view.
+        <br />To create the snapshot, click <strong>Take</strong></p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/37-Mate-Pre-Snapshot.png" />
+        <br />
+        <br />
+        <table>
+          <tr>
+            <td>
+              <p>Enter a name for the snapshot, as well as, a short description,<br /> then, click <strong>OK</strong></p>
+              <p>I've taken a snapshot <strong>POST-GUEST-ADDITIONS-INSTALL</strong> to<br /> ensure that we have a CentOS 7 server with a GUI VM that has
+              <br /> VirtualBox's Guest Additions installed, which can be cloned for<br /> future use.</p>
+            </td>
+            <td style="padding-left: 50px;">
+              <img style="width: 300px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/38-Mate-Post-Snapshot.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <br />
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/39-Mate-Post-Snapshot-Done.png" />
+        <br />
+        <br />
+
+    </div>
+    <div>
+        <p>We have successfully installed the <strong>MATE Desktop</strong>, as well as, VirtualBox’s <strong>Guest Additions</strong> on a <strong>CentOS 7 VM</strong>.</p>
+        <p>Along the way we created a number of snapshots to ensure we have fallback mechanisms in place. </p>
+        <p>Along the way we created a number of snapshots to act as fallback mechanisms. At any time, if a virtual machine becomes unresponsive, we can always revert back to a working snapshot. We can also clone a snapshot, as long as, the snapshot was taken when the virtual machine was powered off.</p>
+        <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
+        <p style="color:red; font-weight: bold;">LINUX COMMANDS</p>
+        <p>I have a number of other <a href="{% url 'tutorials' topic_id=topic.id %}">VirtualBox tutorials</a>
+          <ul>
+            <li><a href="{% url 'topic_tutorial' topic.id 40 'en' %}">VirtualBox Installation</a></li>
+            <li><a href="{% url 'topic_tutorial' topic.id 41 'en' %}">CentOS 7 Server Install</a></li>
+            <li><a href="{% url 'topic_tutorial' topic.id 42 'en' %}">CentOS 7 Server Install using bootable USB</a></li>
+            <li>CentOS 7 Server Install with GUI (MATE Desktop)</li>
+            <li><a href="{% url 'topic_tutorial' topic.id 44 'en' %}">Putty Passwordless SSH Connection to CentOS 7 VM</a></li>
+          </ul>
+        </p>
+
+        <h1>What is the topic?</h1>
+        {% if topic %}
+          <h1>Topic id is: {{ topic.id }}</h1>
+        {% endif %}
+      </div>
+
+  </div>
+
+{% endblock content %}

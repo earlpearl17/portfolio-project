@@ -3,6 +3,7 @@ from django.db import models
 class Job(models.Model):
     #title = models.CharField(max_length=50, default='ENTER TITLE')
     title = models.CharField(max_length=50)
+    type = models.CharField(max_length=200, blank=True)
     #url = models.TextField(default='ENTER URL')
     #url = models.URLField(max_length=200, default='ENTER URL')
     url = models.URLField(max_length=200)

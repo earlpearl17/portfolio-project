@@ -11,24 +11,42 @@
 {% block content %}
   <div class="album py-5 bg-light">
     <div class="container">
-
+        <h3>VirtualBox</h3>
       <div class="row">
         {% for tut in tutorials %}
         <!-- <div class="col-md-4"> -->
-        <div class="col-md-4 py-2">
-          <!-- <div class="card mb-4 shadow-sm"> -->
-          <div class="card h-100">
-            
-            <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
+          
+          {% if tut.type == 'VirtualBox' %}
+          <div class="col-md-4 py-2">
+            <!-- <div class="card mb-4 shadow-sm"> -->
+            <div class="card h-100">
+              <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
 
-            <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
-              <p class="card-text">{{ tut.summary }}</p>
-              
+              <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                <p class="card-text">{{ tut.summary }}</p>
+                
+              </div>
+
             </div>
-
           </div>
-        </div>
+          {% else %}
+          <h3>Miscellaneous</h3>
+          <div class="col-md-4 py-2">
+            <!-- <div class="card mb-4 shadow-sm"> -->
+            <div class="card h-100">
+              
+              <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
+
+              <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                <p class="card-text">{{ tut.summary }}</p>
+                
+              </div>
+
+            </div>
+          </div>
+          {% endif %}
         {% empty %}
           <h5>No tutorials have been added yet.</h5>
         {% endfor %}

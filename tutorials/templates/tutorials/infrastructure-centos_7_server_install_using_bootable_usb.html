@@ -1,0 +1,525 @@
+{% extends "jobs/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <h1 class="jumbotron-heading">CentOS 7 Server Install using Bootable USB</h1>
+      <p class="lead text-muted">Infrastructure Tutorials</p>
+      <!-- <h1 class="jumbotron-heading">Infrastructure Tutorials</h1>
+      <p class="lead text-muted">CentOS 7 Server Install using Bootable USB</p> -->
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <p>In this tutorial, I will be demonstrating the creation of VirtualBox 6.1.2 virtual machine used to perform a server install using a bootable USB containing a CentOS 7 (release 8) minimal ISO image. Please note that my host machine is Windows 7 Pro SP1.</p>
+        <!-- <p>Refer to the prerequisites listed below to complete this tutorial.</p> -->
+        <h4>Prerequisites</h4>
+          <ul>
+            <li>VirtualBox 6.1.2 & VirtualBox 6.1.2 Extension Pack</li>
+            <li>Bootable USB with CentOS 7 (release 8) minimal ISO image</li>
+            <li>Active Internet Connection</li>
+          </ul>  
+        <p>For instructions on how to install VirtualBox 6.1.2 or create a CentOS 7 bootable USB, please refer to my other tutorials 
+          <strong>VirtualBox Install</strong>, <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>, and <strong>Create Bootable USB</strong>, <a href="{% url 'topic_tutorial' topic.id 20 'en' %}" target="_blank">here</a>.
+        </p>  
+    </div>
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+        <img style="width: 280px; height: 280px;" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/00-Centos7-Icon.png" />
+        
+    </div>
+    <div style="clear: both;">
+    </div>
+    <div style="width:55%; float:left;height:calc(100% - 20px);">  
+      <h5>Steps to complete tutorial:</h5>
+      <ol>
+        <li><a href="#install_vbox">Install VirtualBox 6.1.2</a></li>
+        <li><a href="#create_usb">Create Bootable USB</a></li>
+        <li><a href="#create_vmdk">Create virtual machine disk (VMDK) using bootable USB</a></li>
+        <li><a href="#create_vm">Create virtual machine</a></li>
+        <ol type="i">
+          <li><a href="#name_and_os">Name and OS</a></li>
+          <li><a href="#memory_size">Memory Size</a></li>
+          <li><a href="#attach_disk">Attach virtual machine disk (VMDK) to VM</a></li>
+          <li><a href="#create_hdd">Create Hard Disk for CentOS 7 installation</a></li>
+        </ol>
+        <li><a href="#install_centos7">Install CentOS 7</a></li>
+        <li><a href="#take_snapshot_1">Take Snapshot</a></li>
+      </ol>
+    </div>
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 320px; height: 240px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/0-VirtualBox-Image.png" />
+      <br />
+      <br />
+    </div>
+    
+    <div style="clear: both;">
+      <h5 id="install_vbox">Install VirtualBox 6.1.2</h5>
+        <p>If you already have VirtualBox 6.1.2 installed, go to the next step. Otherwise, please see one of my other tutorials, <br />
+        <strong>VirtualBox Install</strong>, accessible <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
+        
+      <h5 id="create_usb">Create Bootable USB</h5>
+        <p>If you don’t already have a CentOS 7 bootable USB, complete my other tutorial where I demonstrate the creation of a <strong>CentOS 7 bootable USB</strong>, accessible <a href="">here</a>.<br /> 
+        Then, return here to complete this tutorial, using your newly created <strong>CentOS 7 bootable USB</strong>.</p>
+        
+      <h5 id="create_vmdk">Create virtual machine disk (VMDK) using bootable USB</h5>
+        <p>We will be using VirtualBox's <strong>VBoxManage</strong> command to create an image that represents our CentOS 7 bootable USB.<br />
+        First, using the Windows Disk Management utility, 
+        <strong>diskmgmt.msc</strong>, we will identify the disk number of our bootable USB.<br /> To open the utility, click the Windows icon on your toolbar (bottom left),  type <strong>diskmgmt.msc</strong> into the search box and hit the <strong>Enter</strong> key on your keyboard.</p>
+        <img style="width: 450px; height: 150px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/0-Open-Disk-Management-Interface.png" />
+        <br />
+        <br />
+        <p>Look for your USB drive in the Disk Management window and note its disk number. In my case, it's Disk 1.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/1-Disk-Management-Interface-NEW.png" />
+        <br />
+        <br />
+        <p>First, ensure VirtualBox is <strong>closed</strong>.
+          <br /><br />
+        Next, open a Command Prompt as Administrator by pressing the Windows icon on your toolbar (bottom left), typing 
+        <strong>cmd</strong> in the search box, then, right-click the Command Prompt shortcut (<strong>cmd.exe</strong>) that appears in the result, and select<br /> 
+        <strong>Run as administrator</strong>.</p>
+        <img style="width: 500px; height: 100px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/2-Open-Command-Prompt-As-Admin-Search-2.png" />
+        <br /><br />
+        <img style="width: 450px; height: 100px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/2-Open-Command-Prompt-As-Admin-Search-1.png" />
+        <br />
+        <br />
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/3-Command-Prompt.png" />
+        <br />
+        <br />
+        <p>We will now need to navigate to VirtualBox's installation directory.<br /> 
+        Please note, if you installed VirtualBox to a custom directory, change the command below to reflect your VirtualBox installation location.<br />
+        Type the following command into the Command Prompt window and press <strong>Enter</strong>:<br />
+        <span style="font-family: consolas;">cd %programfiles%/Oracle/VirtualBox</span>
+        </p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/3-Navigate-to-VBox-Install-Dir.png" />
+        <br />
+        <br />
+        <p>Next, type the following command into the Command Prompt window, replacing <strong>#</strong> with the number<br /> of the disk you found in the Windows Disk Management utility.</p>
+        <p><span style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">#</strong></span></p>
+        <p>In my case, since my USB is disk <strong>1</strong> in the Windows Disk Management utility, I will type:</p>
+        <p><span style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">1</strong></span></p>
+        
+        <p>Ensure you have the correct disk <strong>#</strong> for your bootable USB and that the entire command is entered on one line, then,<br /> to execute, press <strong>Enter</strong></p> 
+        <p>This command creates a virtual machine disk (<strong>VMDK</strong>) file that points to the physical drive you select. When you load the VMDK file as a drive in VirtualBox, VirtualBox will actually access the physical device (your <strong>bootable USB</strong>).</p>
+        <img style="width: 800px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/4-Create-VMDK-File-NEW.png" />
+        <br /><br />
+        <p>Please note where the newly created <strong>.vmdk</strong> file is stored on your system. I chose to store it in the root of<br /> my <strong>C:\</strong> drive, but you can store it wherever you like. Just remember where it is stored for later in this tutorial.
+        <br />
+        
+      <h5 id="create_vm">Create virtual machine</h5>
+        <p>Now we are ready to create our virtual machine using our newly created image file, <strong>C:\centos7usb.vmdk</strong>, that<br /> points to our <strong>CentOS 7 bootable USB</strong>.</p>
+        <p>Before we begin, ensure your CentOS 7 bootable USB is inserted in one of your computer’s USB ports.</p>
+        <p>On the VirtualBox Manager interface, click the <strong>New</strong> button to start the creation of a new virtual machine.</p>
+        <p><em>Please note that if you have just installed VirtualBox 6.1.2, you will only see <strong>Tools</strong> on the left-hand side of the VirtualBox Manager interface. I have already created a number of VMs (virtual machines) and grouped them for organizational purposes.</em></p>
+         
+        <img style="width: 700px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/5-VBox-Manager-Create-VM-1-option-NEW.png" />
+        <br />
+        <br />
+      <h5 id="name_and_os">Name and OS</h5>
+        <p>The <strong>Create Virtual Machine</strong> screen appears.
+          <ul> 
+            <li>Give your VM a name (I named my VM: <strong>centos7-VM</strong>)</li>
+            <li>Choose where you want the machine created on your host system</li>
+            <li style="list-style: none">
+            <em>Please note, you can change the destination folder (<strong>Machine Folder:</strong>), if the default does not work for you.<br /> This will be where the virtual machine files are stored on your host system.</em></li>
+            <li>Ensure <strong>Type</strong> is set to Linux and <strong>Version</strong> is set to Red Hat (64 bit), click <strong>Next</strong></li>
+          </ul>
+        </p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/6-Create-VM-Name-and-OS.png" />
+        <br />
+        <br />
+        
+      <h5 id="memory_size">Memory Size</h5>
+        <p>The next screen asks for the amount of memory (<strong>RAM</strong>) you wish to allocate to this machine.<br />
+        Since we are performing a minimal server install, 1024MB (1GB) of RAM is sufficient. Click <strong>Next</strong></p>
+
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/7-Create-VM-Memory-Size.png" />
+        <br />
+        <br />
+              
+      <h5 id="attach_disk">Attach virtual machine disk (VMDK) to VM</h5>
+        <p>We will now need attach our newly created image file to the virtual machine.</p>
+        <p>Ensure <strong>Use an existing virtual hard disk file</strong> is selected and click the browse icon to the right<br /> to locate your <strong>.vmdk</strong> file.</p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/8-Use-Existing-Virtual-Hard-Disk-File-1-NEW.png" />
+        <br />
+        <br />
+        <p>This will open VirtualBox’s <strong>Hard Disk Selector</strong>. First, click <strong>Add</strong></p>
+        <img style="width: 350px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/8-Use-Existing-Virtual-Hard-Disk-File-Add.png" />
+        <br />
+        <br />
+        <p>Browse to where you created the image file that points to your CentOS 7 bootable USB<br /> (in my case, <strong>C:\centos7usb.vmdk</strong>), select it and click <strong>Open</strong></p>
+        <img style="width: 550px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/8-Use-Existing-Virtual-Hard-Disk-File-Add-Selected.png" />
+        <br />
+        <br />
+        <p>Once you have added the image file, locate it using the scroll bar and click <strong>choose</strong></p>
+        <img style="width: 400px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/8-Use-Existing-Virtual-Hard-Disk-File-Add-Selected2.png" />
+        <br />
+        <br />
+        <p>Now that we have selected our image file it will be used when we start the virtual machine.<br />
+        To continue, click <strong>Create</strong></p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/8-Use-Existing-Virtual-Hard-Disk-File-Add-Selected-Done.png" />
+        <br />
+        <br />
+        <p>As you can see below, our centos7-VM virtual machine was successfully created.</p>
+        <p>Now we will need to add a virtual hard disk to act as our CentOS 7 installation location. To create a new virtual hard disk, from the VirtualBox Manager, ensure your VM is selected and click <strong>Settings</strong></p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/9-VM-Created-NEW.png" />
+        <br />
+        <br />
+      <h5 id="create_hdd">Create Hard Disk for CentOS 7 installation</h5>
+        <p>In the <strong>Settings</strong> window, ensure the 
+          <strong>Storage</strong> tab is selected. Then, click the <strong>Adds hard disk</strong> button on 
+          <strong>Controller: SATA</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/10-Create-HDD.png" />
+        <br />
+        <br />
+        <p>From the <strong>Hard Disk Selector</strong> screen, click <strong>Create</strong></p>
+        <img style="width: 400px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/10-Create-HDD-2.png" />
+        <br />
+        <br />    
+        <p>Now we must create a virtual hard disk where the operating system (CentOS 7) will be installed.<br />
+        Note the recommended size (8 GB) of a virtual hard disk for CentOS 7. Click <strong>Create</strong></p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-1.png" />
+        <br />
+        <br />
+
+        <p>Now, you will have to choose the type of virtual hard disk. Select <strong>VDI</strong> and click <strong>Next</strong>
+          
+          <table style="margin-left: 50px;">
+            <tr>
+              <td align="right"><strong>VDI</strong>: </td>
+              <td>Oracle VirtualBox container format for guest hard disks</td>
+            </tr>
+            <tr>
+              <td align="right"><strong>VHD</strong>: </td>
+              <td>Microsoft container format</td>
+            </tr>
+            <tr>
+              <td align="right"><strong>VMDK</strong>: </td>
+              <td>VMWare container format</td>
+            </tr>
+          </table>
+        </p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-2.png" />
+        <br />
+        <br />
+        <p>We can now choose whether the virtual hard disk takes up the size we allocate as needed (Dynamically allocated) or immediately (Fixed). To save space on my host system, I will be choosing <strong>Dynamically allocated</strong> and clicking <strong>Next</strong></p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-3.png" />
+        <br />
+        <br />
+        <p>Here we can set the virtual hard disk size. Again, since we’re performing a minimal install, 8.00GB is enough.<br /> <strong>Note</strong> it’s name and storage location. We will need the disk name for the next step. Click <strong>Create</strong></p>
+        <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-4.png" />
+        <br />
+        <br /> 
+        <p>Back on the <strong>Hard Disk Selector</strong> screen, enter the newly created disk name in the search box and click <strong>Choose</strong></p>
+        <img style="width: 350px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-5.png" />
+        <br />
+        <br /> 
+        <p>After adding a virtual hard disk as our <strong>CentOS 7</strong> install location, we are now ready to begin the installation.</p>
+        <p>Please note that, under <strong>Controller: SATA</strong>, the .vmdk file (<strong>centos7usb.vmdk</strong>) pointing to the bootable USB <strong>MUST</strong> be first in the list, followed by the virtual hard disk 
+          (<strong>centos7-VM.vdi</strong>) being used as the CentOS 7 install location.</p>
+        <p>To continue, click <strong>OK</strong>.</p>
+        <img style="width: 500px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/11-Create-VM-HDD-Done.png" />
+        <br />
+        <br />
+
+      <h5 id="install_centos7">Install CentOS 7</h5>
+        <p>On the VirtualBox Manager Interface, ensure your new VM is selected and click <strong>Start</strong></p>
+        <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/12-Start-VM-NEW.png" />
+        <br />
+        <br />
+        <p><strong><u>Friendly Reminder</u></strong>:<br />
+        During installation, if at any time you need to exit the 
+          <strong>guest</strong> (virtual machine) interface and return to the <strong>host</strong> machine interface, hit your <strong>Host key</strong> (for Windows 7, it’s the <strong>right Ctrl key</strong>). Check the bottom right-hand corner of the virtual machine's interface (see image below)</p>
+        <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/13-Install-CentOS-0.png" />
+        <br />
+        <br />
+        <p>Next, navigate up to <strong>Install Cent0S 7</strong> and, on your physical keyboard, hit the <strong>Enter</strong> key to begin the installation.</p>
+        <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/13-Install-CentOS-1.png" />
+        <br />
+        <br />
+        <p>Select your desired language and click <strong>Continue</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/14-Install-CentOS-Select-Language.png" />
+        <br />
+        <br />
+        <p>On the Installation Summary page, we need to configure a few settings before we can begin the installation.</p>
+        <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-1-part.png" />
+        <br />
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-2-part.png" />
+        <br />
+        <br />
+       <strong>Localization</strong>:
+        <ul>
+          <li>timezone, keyboard and language</li>
+        </ul>
+       <strong>Software</strong>:
+        <ul>
+          <li>Installation source and software selection</li>
+        </ul>
+       <strong>System</strong>: 
+          <ul>
+            <li><span style="color: red;font-weight: bold;">Installation destination (includes partitioning)</span></li>
+            <li><span style="color: red;font-weight: bold;">Network & Host name</span></li>
+            <li>KDump & Security Policy</li>
+          </ul>
+    
+        <p>Please note that before we begin making the required pre-installation configuration changes, I will be referring to the items listed on the <strong>Installation Summary</strong> page (see items above OR image below). Also, if the correct item value is already set, you do not need to change it.</p>
+        <p>According to my <strong>Installation Summary</strong> page, only two items need to be configured. Under the <strong>System</strong> section, they are <span style="color: red;font-weight: bold;">Installation Destination</span> and <span style="color: red;font-weight: bold;">Network & Host Name</span>.</p>
+        <p>If your <strong>Installation Summary</strong> page is the <strong>same</strong> as mine, please skip to the <a href="#system_config">System</a> section.</p>
+        <p>If your <strong>Installation Summary</strong> page is <strong>different</strong> than mine, links to each section are available here: <br />
+        <a href="#localization_config">Localization</a>, <a href="#software_config">Software</a> and 
+        <a href="#system_config">System</a>
+        </p>
+        
+        <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-1-part.png" />
+        <br />
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-2-part.png" />
+        <br />
+        <br />
+        <p>To be thorough, we will go through each configuration screen for every item that is listed on the<br /><strong>Installation Summary</strong> page. That way you will become familiar with a CentOS 7 installation.</p>
+      <h5 id="localization_config">Localization</h5>
+        <p>To set your timezone, from the <strong>Installation Summary</strong> page, click <strong>Date & Time</strong>.
+        </p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-Localization-2-datetime.png" />
+        <br />
+        <br />
+        <p>Make your change, if needed, and click <strong>Done</strong>.</p>
+        <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/16-Set-timezone.png" />
+        <br />
+        <br />
+        <p>To set your keyboard, from the <strong>Installation Summary</strong> page, click <strong>Keyboard</strong>.</p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-Localization-3-keyboard.png" />
+        <br />
+        <br />
+        <p>Make your change, if needed, and click <strong>Done</strong>.</p>
+        <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/17-Set-keyboard.png" />
+        <br />
+        <br />
+        <p>To set your language, or to add language support, from the 
+          <strong>Installation Summary</strong> page, click <strong>Language Support</strong></p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-Localization-4-languages.png" />
+        <br />
+        <br />
+        <p>If needed, set your language and add support for other languages and click <strong>Done</strong>.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/18-Set-language.png" />
+        <br />
+        <br />
+      <h5 id="software_config">Software</h5>
+
+        <p>Next, from the <strong>Installation Summary</strong> page, under <strong>Software</strong>, click <strong>Installation Source</strong>.
+        </p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-Software-2-install_source.png" />
+        <br />
+        <br />
+        <p>If needed, make your changes and click <strong>Done</strong>.
+        <br />
+          <em>In my case, the <strong>Installation Source</strong> was auto-detected as local media. This means the 
+            <strong>centos7usb.vmdk</strong> image file, attached to my virtual machine and linked to my 
+            <strong>CentOS 7 bootable USB</strong> is being recognized as the installation source</em>.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/19-Set-instalation-source.png" />
+        <br />
+        <br />
+        <p>Since we are using a CentOS 7 minimal ISO image, the <strong>Software Selection</strong> is set to <strong>Minimal Install</strong>.<br />
+        But, again, to be thorough, from the <strong>Installation Summary</strong> page, under <strong>Software</strong>, click <strong>Software Selection</strong></p>
+        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-Software-3-software_selection.png" />
+        <br />
+        <br />
+        <p>Only the packages for a CentOS 7 Minimal Install are included in the minimal ISO image we are using.<br />
+        To continue, click <strong>Done</strong>.</p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/20-Software-selection-minimal-part.png" />
+        <br />
+        <br />
+      <h5 id="system_config">System</h5>
+
+        <p>Please note that the following CentOS 7 pre-installation configuration is <strong>required</strong>.<br />
+        From the <strong>Installation Summary</strong> page, under <strong>System</strong>, click <strong>Installation Destination</strong>.</p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-System-2-install_dest.png" />
+        <br />
+        <br />
+        <p>Ensure the virtual hard disk we added while creating the virtual machine has been detected and that<br /> <strong>Automatically configure partitioning</strong> is selected. When finished, click <strong>Done</strong>.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/21-Set-installation-destination-default.png" />
+        <br />
+        <br />
+        <p><em>For this tutorial, we will not be manually creating our partitions. This will be done automatically for us.<br />
+        The <strong>/boot</strong>,  <strong>/</strong> (root) and <strong>swap</strong> partitions will be created. The / (root) and swap partitions will reside in separate <br /><strong>LVM</strong> logical volumes using the <strong>xfs</strong> file system, while, the /boot partition will also use the <strong>xfs</strong> file system <br />but will be on a standard partition.</em><br /><br />
+          Please note that the following CentOS 7 pre-installation configuration is <strong>required</strong>.<br />
+        From the <strong>Installation Summary</strong> page, under <strong>System</strong>, click <strong>Network & Host Name</strong>  
+        </p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-System-3-Network.png" />
+        <br />
+        <br />
+        <p>We will have to configure our IP address information and hostname. First, ensure the network adapter is selected and enable it by changing the toggle switch, on the right, from OFF to <strong>ON</strong>. This will ensure that our VM receives an IP address, subnet mask and default gateway from VirtualBox’s DHCP service (usually 10.0.2.15 /24).<br /> 
+        Second, enter the host name. To keep it simple, I entered <strong>centos7-VM</strong> and clicked <strong>Apply</strong>. Finally,  click <strong>Done</strong>.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/22-Set-network-hostname-minimal.png" />
+        <br />
+        <br />
+        <p>For this tutorial, we will leave <strong>KDump</strong> enabled.
+          To be thorough, let’s open the configuration screen. <br />
+          From the <strong>Installation Summary</strong> page, under <strong>System</strong>, click <strong>KDump</strong><br /><br />
+        <em><strong>KDump</strong> captures information during a kernel crash and the information can be used to determine the cause.
+        </em><br />
+        </p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-System-4-KDump.png" />
+        <br />
+        <br />
+        <p>When you are done, click <strong>Done</strong></p>
+        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/22-Set-KDump.png" />
+        <br />
+        <br />
+        <p>We will not be setting a <strong>Security Policy</strong>. Again, to be thorough, let’s open the configuration screen.<br />
+         From the <strong>Installation Summary</strong> page, under <strong>System</strong>, click <strong>Security Policy</strong></p>
+        <p><em>When no security policy is set, the <strong>sshd</strong> and
+         <strong>firewalld</strong> services are active, and running. Remote access using <strong>ssh</strong> is allowed through the firewall.</em><br />
+         </p> 
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/15-Installation-Summary-System-5-Security_Policy.png" />
+        <br />
+        <br /> 
+        <p>When you are done, click <strong>Done</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/22-Set-Security_Policy.png" />
+        <br />
+        <br />
+        <p>We are now ready to begin the installation of CentOS 7. Click 
+        <strong>Begin Installation</strong></p>
+        <img style="width: 800px; height: 500px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/23-Begin-installation.png" />
+        <br />
+        <br />
+        <p>The installation has begun. We will need to set the root user’s password, as well as, create a non-root user.</p>  
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/24-Begin-installion-begun.png" />
+        <br />
+        <br />
+        <p>First, to set the root user’s password, click <strong>Root Password</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/24-Begin-installion-begun-root.png" />
+        <br />
+        <br />
+        <p>Enter the root user’s password and click <strong>Done</strong>. Notice the warning message at the bottom of the screen.<br /> This is because I used a weak password. To bypass this warning, all we have to do is click <strong>Done</strong>, twice.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/25-Set-root-password-minimal.png" />
+        <br />
+        <br />
+        <p>Now, to create a non-root user, click <strong>User Creation</strong>.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/24-Begin-installion-begun-user.png" />
+        <br />
+        <br />
+        <p>Enter the non-root user’s details. Next, check the box to <strong>Make this user an administrator</strong> and click <strong>Done</strong>.<br /> Again, notice the warning message at the bottom of the screen. This is because I used a weak password.<br /> To bypass this warning, all we have to do is click <strong>Done</strong>, twice.
+        </p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/26-Create-user-minimal.png" />
+        <br />
+        <br />
+        <p>Since we are installing a minimal version of CentOS 7, the installation process will not take very long (15-20min)</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/27-Begin-installion-in-process.png" />
+        <br />
+        <br />
+        <p>Once the installation has completed, we will first have to remove the image file linked to our bootable USB to ensure that we boot to our installed system and not begin the installation again.</p>
+        <p>From the running VM’s window, exit the <strong>guest</strong> (virtual machine) interface and return to the 
+          <strong>host</strong> machine's interface, by hitting your Host key (for Windows 7, it’s my <strong>right Ctrl key</strong>).</p>
+        <p>Now from the <strong>Machine</strong> menu item, click <strong>ACPI Shutdown</strong> to stop the VM.
+        </p>      
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/28-End-install-pre-reboot.png" />
+        <br />
+        <br />
+        <p>Once the virtual machine has stopped, ensure your VM is selected and click <strong>Settings</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/28-End-install-pre-reboot-1-settings-NEW.png" />
+        <br />
+        <br />
+        <p>Select the <strong>Storage</strong> tab, and remove the image linked to your bootable USB by clicking the icon that<br /> <strong>Removes selected storage attachment</strong>.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/28-End-install-pre-reboot-2-remove-vmdk-image.png" />
+        <br />
+        <br />
+        <p>The image linked to your bootable USB has been successfully removed. To continue, click <strong>OK</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/28-End-install-pre-reboot-3-ready-to-start.png" />
+        <br />
+        <br />
+        <p>Now that we only have the virtual hard disk that contains the CentOS 7 installation, we can start the VM.
+        <br />From the VirtualBox Manager interface, ensure your new VM is selected and click <strong>Start</strong></p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/28-End-install-pre-reboot-4-start-VM-NEW.png" />
+        <br />
+        <br />
+        <p>CentOS 7 is starting and we are seeing the kernel being used during the boot process.</p>
+        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/29-Post-reboot-minimal-1.png" />
+        <br />
+        <br />
+        <p>Our CentOS 7 VM has started successfully and we see the login screen.</p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/29-Post-reboot-minimal-2-part.png" />
+        <br />
+        <br />
+        <p>At the login screen, enter the username, and password, of the non-root user you created during the installation.</p>
+        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/29-Post-reboot-minimal-3-part.png" />
+        <br />
+        <br />
+        <p>We have logged in successfully. Now, we will shutdown the virtual machine.<br /> 
+        To do this, the non-root user (in my case, <strong>liam</strong>) must have <strong>sudo</strong> (“<strong>superuser do</strong>”) privileges. Since we set this non-root user<br /> to be an administrator, this non-root user has <strong>sudo</strong> privileges and can execute the following command:<br />
+        <span style="font-family: consolas;font-weight: bold;">sudo shutdown -h now</span></p>
+        <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/29-Post-reboot-minimal-shutdown.png" />
+        <br />
+        <br />
+        <p>We are prompted for the non-root user’s password to confirm that we want to execute this command.<br /> What we are doing is executing a command with the privileges of the <strong>root</strong> user.</p>
+        <p>Again, this is the reason we set our non-root user to be an administrator, so that the user has <strong>sudo</strong> privileges<br /> and can execute commands normally only executable by the <strong>root</strong> user.</p>
+        <p>To reiterate, the command, <strong>sudo</strong> (“<strong>superuser do</strong>”), is allowing your logged in user, who is a non-root user,<br /> to execute the command, <strong>shutdown</strong>, which can only be executed with the privileges of the <strong>root</strong> user.</p>
+        <p>Finally, after executing the command, the virtual machine will shutdown and we can return to VirtualBox Manager.</p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/30-Post-minimal-shutdown-NEW.png" />
+        <br /><br />
+        <p>We have successfully installed a minimal version of <strong>CentOS 7 (release 8)</strong> in a <strong>VirtualBox 6.1.2</strong> virtual machine,<br /> using a bootable USB.</p>
+        
+      <h5 id="take_snapshot_1">Take Snapshot</h5>
+        <p>To be on the safe side. After I have successfully completed a task, such as installing or updating a virtual machine, I like taking a snapshot to preserve the VM’s state. That way I ensure, in the future, if the VM stops responding, or behaving as it should, I can always revert back to that snapshot. For further information on 
+          <strong>VirtualBox Snapshots</strong>, refer to the docs, <a href="https://www.virtualbox.org/manual/ch01.html#snapshots" target="_blank">here</a>.</p>
+        <p>In the VirtualBox Manager interface, we are currently in <strong>Details</strong> view. To switch to <strong>Snapshots</strong> view, click the list icon next to the virtual machine name, and select <strong>Snapshots</strong>.
+        </p>
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/minimal/31-Switch-To-Snapshots-View.png" />
+        <br />
+        <br />
+        <p>To take a snapshot, on the VirtualBox Manager Interface, ensure your VM is selected and click <strong>Take</strong>
+        </p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/minimal/32-Take-Snapshot-1.png" />
+        <br />
+        <br />  
+        <table>
+          <tr>
+            <td>
+              <p>Enter a name for the snapshot, as well as, a short description,<br /> then, click <strong>OK</strong></p>
+              <p>I've taken a snapshot <strong>POST-CentOS7-MINIMAL-INSTALL</strong><br /> to ensure that I have a starting point to revert back to,<br /> if needed.</p>
+            </td>
+            <td style="padding-left: 50px;">
+              <img style="width: 300px; height: 350px" src="/media/images/tutorials/infrastructure/minimal/32-Take-Snapshot-1-Done.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <p>We have successfully taken a snapshot and ensure that we can always revert back to a working virtual machine with a minimal version of <strong>CentOS 7 (release 8)</strong> installed.</p>
+        <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/minimal/32-Take-Snapshot-1-Taken.png" />
+        <br /><br />
+    </div>
+    <div>
+            
+      <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
+      <p>After completing this tutorial, if you decide that you would like, or need, a desktop environment, you should consider<br />  the <strong>MATE Desktop</strong>. It uses minimal system resources.</p>
+      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a href="{% url 'topic_tutorial' topic.id 43 'en' %}" target="_blank">here</a>.</p>
+      <p>My main Tutorials page can be accessed <a href="#">here</a>, (Linux, PowerShell, Shell Scripting, Vagrant, Docker)</p>
+      <p>I also have a number of other <a href="{% url 'tutorials' topic_id=topic.id %}">VirtualBox tutorials</a>
+        <ul>
+          <li><a href="{% url 'topic_tutorial' topic.id 20 'en' %}">Create a Bootable USB</a></li>
+          <li><a href="{% url 'topic_tutorial' topic.id 40 'en' %}">VirtualBox Installation</a></li>
+          <li><a href="{% url 'topic_tutorial' topic.id 41 'en' %}">CentOS 7 Server Install</a></li>
+          <li>CentOS 7 Server Install using bootable USB</li>
+          <li><a href="{% url 'topic_tutorial' topic.id 43 'en' %}">CentOS 7 Server Install with GUI (MATE Desktop)</a></li>
+          <li><a href="{% url 'topic_tutorial' topic.id 44 'en' %}">Putty Passwordless SSH Connection to CentOS 7 VM</a></li>
+        </ul>
+      </p>  
+
+      <h1>What is the topic?</h1>
+      {% if topic %}
+        <h1>Topic id is: {{ topic.id }}</h1>
+      {% endif %}
+      
+      
+    </div>  
+
+  </div>
+
+{% endblock content %}

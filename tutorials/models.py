@@ -15,6 +15,7 @@ class Tutorial(models.Model):
     """Specific tutorial based on topic."""
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
+    type = models.CharField(max_length=200, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     url = models.URLField(max_length=200, blank=True)
     image = models.ImageField(upload_to='images/tutorials/', null=True, blank=True)

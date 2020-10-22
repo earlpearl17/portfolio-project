@@ -26,7 +26,7 @@ handler500 = views.handler500
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', jobs.views.home, name='home'),
-    path('', include('jobs.urls')),
+    #path('', include('jobs.urls')),
     path('blog/', include('blog.urls')),
     path('tutorials/', include('tutorials.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,6 +18,7 @@ def tutorials(request, topic_id):
     path = 'tutorials/' + file
     #path = 'tutorials/' + name + '/' + file
     context = {'tutorials': tutorials, 'topics': topics, 'file': file}
+    #context = {'tutorials': tutorials, 'topics': topics, 'topic': topic, 'file': file}
     #context = {'tutorials': tutorials, 'topics': topics}
     return render(request, path, context)
 
@@ -29,6 +30,7 @@ def topic_tutorial(request, topic_id, tutorial_id, lang, slug=None):
     #lang = request.GET.get('lang')
     
     topics = Topic.objects.all().order_by('text')
+    topic = Topic.objects.get(id=topic_id)
     tutorial = Tutorial.objects.get(topic__id=topic_id, id=tutorial_id)
     
     if request.path != tutorial.get_absolute_url():
@@ -49,11 +51,12 @@ def topic_tutorial(request, topic_id, tutorial_id, lang, slug=None):
     else:    
         file = name + "-" + tut_name + ".html"
     
-    messages.warning(request, 'Made it to ps_tut view!')
-    messages.warning(request, 'Language: ' + str(lang))    
+    # messages.warning(request, 'Made it to ps_tut view!')
+    # messages.warning(request, 'Language: ' + str(lang))    
 
     path = 'tutorials/' + file
-    context = {'tutorial': tutorial,'topics': topics,'file':file}
+    #context = {'tutorial': tutorial,'topics': topics,'file':file}
+    context = {'tutorial': tutorial,'topics': topics,'topic':topic,'file':file}
     return render(request, path, context)
 
 # def topic_tutorial_fr(request, topic_id, tutorial_id, lang=lang):
