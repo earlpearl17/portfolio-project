@@ -1,0 +1,113 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container" style="height: 50px;">
+      <h1 class="jumbotron-heading">Linux</h1>
+      <p class="lead text-muted">Learn how to manage the system.</p>
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#commands" style="font-size: 18px;">Commands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#admin" style="font-size: 18px;">Administration</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#script" style="font-size: 18px;">Scripting</a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="commands" class="container tab-pane active"><br>
+            <!-- <h3>VirtualBox</h3> -->
+            <div class="row">
+              {% for tut in commands %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No Linux command tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="admin" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in administration %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No Linux administration tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="script" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in scripting %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No Linux shell scripting tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+        </div> <!-- end tab-content -->
+      </div> <!-- end container -->
+
+      <script>
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+          });
+        });
+      </script>
+     
+  </div> <!-- end album -->
+
+{% endblock content %}

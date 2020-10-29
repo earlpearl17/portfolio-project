@@ -1,10 +1,11 @@
-{% extends "jobs/base.html" %}
+{% extends "tutorials/base.html" %}
 {% block page_header %}
 
     <div class="container">
       <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install with GUI (MATE Desktop)</h1> -->
       <h1 class="jumbotron-heading">CentOS 7 Server Install with GUI (MATE Desktop)</h1>
       <p class="lead text-muted">Infrastructure Tutorials</p>
+      <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
       <!-- <h1 class="jumbotron-heading">Infrastructure Tutorials</h1>
       <p class="lead text-muted">CentOS 7 Server Install with GUI (MATE Desktop)</p> -->
     </div>
@@ -23,26 +24,28 @@
     <div style="width:55%; float:left;height:calc(100% - 20px);">
       <p>In this tutorial, I will demonstrate how to install the MATE Desktop on a CentOS 7 minimal install virtual machine. The <strong>MATE Desktop</strong> uses minimal system resources. This will ensure the virtual machine will only need 1024MB (1.0GB) of RAM and your host system will only need to delegate a minimum amount of resources when the VM is running.</p>
       
-      <p>After the <strong>MATE Desktop</strong> install demo, I will show you how to install VirtualBox’s <strong>Guest Additions</strong> so that you can make use of a <strong>shared clipboard</strong> and <strong>drag’n’drop</strong> between host and guest. These are the two features I use regularly but for detailed information on guest additions, refer to this <a href="https://www.virtualbox.org/manual/ch04.html" target="_blank">link</a>.</p>
-      <p>Please note that I will be using a virtual machine that was created in my other tutorial, <strong>CentOS 7 Server Install</strong>, accessible <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>.</p> 
+      <p>After the <strong>MATE Desktop</strong> install demo, I will show you how to install VirtualBox’s <strong>Guest Additions</strong> so that you can make use of a <strong>shared clipboard</strong> and <strong>drag’n’drop</strong> between host and guest. These are the two features I use regularly but for detailed information on guest additions, refer to this <a style="text-decoration: underline;" href="https://www.virtualbox.org/manual/ch04.html" target="_blank">link</a>.</p>
+      <p>Please note that I will be using a virtual machine that was created in my other tutorial, <strong>CentOS 7 Server Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p> 
       
     </div>
     
     <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
-      <img style="width: 350px; height: 280px" src="/media/images/tutorials/infrastructure/mate_desktop/0-Mate-0-Icon.png" />
+      <img style="width: 350px; height: 280px" src="/media/images/tutorials/infrastructure/mate_desktop/0-mate-de-icon-crop.jpg" />  
+      <!-- <img style="width: 350px; height: 280px" src="/media/images/tutorials/infrastructure/mate_desktop/0-Mate-0-Icon.png" /> -->
     </div>
     <div style="clear: both;">
     </div>
     <div>
       <h4>Prerequisites</h4>
         <ul>
-            <li>VirtualBox VM with a CentOS 7 minimal install (tutorial can be accessed <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>)</li>
+            <!-- <li>VirtualBox VM with a CentOS 7 minimal install (tutorial can be accessed <a href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>)</li> -->
+            <li>VirtualBox VM with a CentOS 7 minimal install</li>
             <li>non-root user with <strong>sudo</strong> privileges</li>
             <li>Active Internet Connection</li>
         </ul>
-        <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>.</p>
-        <p>If you do not already have a virtual machine, with a minimal install of CentOS 7 (release 8), my other tutorial,<br /><strong>CentOS 7 Server Install</strong>, can be accessed 
-        <a href="{% url 'topic_tutorial' topic.id 41 'en' %}" target="_blank">here</a>.</p>
+        <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>.</p>
+        <p>If you do not already have a virtual machine, with a minimal install of CentOS 7, my other tutorial,<br /><strong>CentOS 7 Server Install</strong>, can be accessed 
+        <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p>
     </div>
     <div style="width:40%; float:left;height:calc(100% - 20px);"> 
       <h5>Steps to complete tutorial:</h5>
@@ -78,8 +81,8 @@
         <p> After successfully completing a major change, I find it
         helpful to create (take) a snapshot to act as a fallback mechanism. If something goes wrong during a major change, we can revert back to a working snapshot (previous stable state).
         </p>
-        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a href="#update_centos">Update CentOS 7</a>).</p>
-        <p>If you already have a CentOS 7 (release 8) minimal install VM. I suggest taking a snapshot before continuing with the tutorial,to ensure that you have a starting point to revert back to.</p>
+        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a style="text-decoration: underline;" href="#update_centos">Update CentOS 7</a>).</p>
+        <p>If you already have a CentOS 7 minimal install VM. I suggest taking a snapshot before continuing with the tutorial,to ensure that you have a starting point to revert back to.</p>
         <p>Please note that you can name the snapshot whatever you like, just remember which snapshot is associated with which state of the virtual machine.</p>
         <p>In the VirtualBox Manager interface, we are currently in 
             <strong>Details</strong> view. To switch to <strong>Snapshots</strong> view, click the list icon next to the virtual machine name, and select <strong>Snapshots</strong>.</p>
@@ -110,13 +113,13 @@
         <br />
         <br />
       <h5 id="create_user">Create non-root user with sudo privileges</h5>  
-        <p>If you already have a non-root user with <strong>sudo</strong> privileges, please skip to the next step (<a href="#update_centos">Update CentOS 7</a>)</p>
+        <p>If you already have a non-root user with <strong>sudo</strong> privileges, please skip to the next step (<a style="text-decoration: underline;" href="#update_centos">Update CentOS 7</a>)</p>
         <p>To be able to update CentOS 7, install new packages, as well as, do most management tasks, the user performing<br /> the operations must have <strong>sudo</strong> privileges, or, the operations must be performed by the root user.</p>
         <p>In a production environment, it is good practice <strong>NOT</strong> to login as the root user, and to <strong>NEVER
         </strong> perform operations<br /> while logged in as the root user.</p>
         <p>Since this is a lab environment, I will demonstrate the creation of a non-root user that has <strong>sudo</strong> privileges, while<br /> logged in as the root user.</p>
         <p>On the VirtualBox Manager interface, you will notice that we successfully took a snapshot. This ensures that we can 
-        <br />always revert back to a working virtual machine with a minimal version of <strong>CentOS 7 (release 8)</strong> installed.</p>
+        <br />always revert back to a working virtual machine with a minimal version of <strong>CentOS 7</strong> installed.</p>
         <p>From the VirtualBox Manager interface, ensure your VM is selected and click <strong>Start</strong></p>
         <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/3-Mate-Post-Snapshot.png" />
         <br />
@@ -273,7 +276,7 @@
             sudo systemctl set-default graphical.target<br />
             sudo shutdown -r now<br />
         </p>
-        <img style="width: 700px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/21-Mate-Set-Target-Reboot.png" />
+        <img style="width: 600px; height: 150px" src="/media/images/tutorials/infrastructure/mate_desktop/21-Mate-Set-Target-Reboot.png" />
         <br />
         <br />
 
@@ -350,7 +353,7 @@
         <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/mate_desktop/27c-Mate-Kernel-Info.png" />
         <br />
         <br />
-        <p>We see that no matching kernel-headers exist so we will need to install the <strong>kernel-devel</strong> package which <strong>provides kernel-headers</strong>. We will also need to install a few packages (<strong>gcc, make, perl</strong>) that the VirtualBox <strong>Guest Additions require to rebuild kernel modules</strong>.<br /> Again, from the command line, execute the following:<br />
+        <p>We see that no matching kernel-headers exist so we will need to install the <strong>kernel-devel</strong> package which provides <strong>kernel-headers</strong>. We will also need to install a few packages (<strong>gcc, make, perl</strong>) that the VirtualBox <strong>Guest Additions require to rebuild kernel modules</strong>.<br /> Again, from the command line, execute the following:<br />
         <span style="font-family: consolas;">
             sudo yum install -y gcc make perl kernel-devel</span>
             <br />
@@ -489,24 +492,11 @@
     </div>
     <div>
         <p>We have successfully installed the <strong>MATE Desktop</strong>, as well as, VirtualBox’s <strong>Guest Additions</strong> on a <strong>CentOS 7 VM</strong>.</p>
-        <p>Along the way we created a number of snapshots to ensure we have fallback mechanisms in place. </p>
+        <!-- <p>Along the way we created a number of snapshots to ensure we have fallback mechanisms in place. </p> -->
         <p>Along the way we created a number of snapshots to act as fallback mechanisms. At any time, if a virtual machine becomes unresponsive, we can always revert back to a working snapshot. We can also clone a snapshot, as long as, the snapshot was taken when the virtual machine was powered off.</p>
         <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
-        <p style="color:red; font-weight: bold;">LINUX COMMANDS</p>
-        <p>I have a number of other <a href="{% url 'tutorials' topic_id=topic.id %}">VirtualBox tutorials</a>
-          <ul>
-            <li><a href="{% url 'topic_tutorial' topic.id 40 'en' %}">VirtualBox Installation</a></li>
-            <li><a href="{% url 'topic_tutorial' topic.id 41 'en' %}">CentOS 7 Server Install</a></li>
-            <li><a href="{% url 'topic_tutorial' topic.id 42 'en' %}">CentOS 7 Server Install using bootable USB</a></li>
-            <li>CentOS 7 Server Install with GUI (MATE Desktop)</li>
-            <li><a href="{% url 'topic_tutorial' topic.id 44 'en' %}">Putty Passwordless SSH Connection to CentOS 7 VM</a></li>
-          </ul>
-        </p>
-
-        <h1>What is the topic?</h1>
-        {% if topic %}
-          <h1>Topic id is: {{ topic.id }}</h1>
-        {% endif %}
+        <p>You can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+        <p>Or, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       </div>
 
   </div>

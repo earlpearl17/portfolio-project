@@ -1,8 +1,8 @@
-{% extends "jobs/base.html" %}
+{% extends "tutorials/base.html" %}
 {% block page_header %}
 
-    <div class="container">
-      <h1 class="jumbotron-heading">Networking Fundamentals </h1>
+    <div class="container" style="height: 50px;">
+      <h1 class="jumbotron-heading">Networking</h1>
       <p class="lead text-muted">Understand the essentials of networks.</p>
     </div>
 
@@ -10,28 +10,130 @@
 {% block content %}
   <div class="album py-5 bg-light">
     <div class="container">
+      <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#basics" style="font-size: 18px;">Fundamentals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ipaddr" style="font-size: 18px;">IP Addressing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ipsubnet" style="font-size: 18px;">Subnetting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#automate" style="font-size: 18px;">Automation</a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="basics" class="container tab-pane active"><br>
+            <!-- <h3>VirtualBox</h3> -->
+            <div class="row">
+              {% for tut in basics %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
 
-      <div class="row">
-        {% for tut in tutorials %}
-        <!-- <div class="col-md-4"> -->
-        <div class="col-md-4 py-2">
-          <!-- <div class="card mb-4 shadow-sm"> -->
-          <div class="card h-100">
-            
-            <img class="card-img-top" style="width: 300px; height: 200px" src="{{ tut.image.url }}" />
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
 
-            <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
-              <p class="card-text">{{ tut.summary }}</p>
-              <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+                </div>
+              </div>
+              {% empty %}
+                <h5>No network fundamentals tutorials have been added yet.</h5>
+              {% endfor %}
             </div>
-
           </div>
-        </div>
-        {% empty %}
-          <h5>No tutorials have been added yet.</h5>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
+          <div id="ipaddr" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in ipaddr %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No IP addressing tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="ipsubnet" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in ipsubnet %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No IP subnetting tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="automate" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in automate %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No network automation tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+        </div> <!-- end tab-content -->
+      </div> <!-- end container -->
+
+      <script>
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+          });
+        });
+      </script>
+     
+  </div> <!-- end album -->
 {% endblock content %}

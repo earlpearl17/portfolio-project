@@ -13,7 +13,7 @@
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 border">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 border sticky-top">
 
     <a class="navbar-brand" href="{% url 'home' %}">Liam Sirkett</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -22,17 +22,8 @@
       <span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ml-auto">
-          <div class="dropdown show dropleft">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Tutorials
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
-              {% for topic in topics %}
-                <a class="dropdown-item" href="{% url 'tutorials' topic_id=topic.id %}">{{ topic.text }}</a>
-              {% endfor %}
-              
-            </div>
-          </div>
+          <a class="nav-item nav-link" href="{% url 'alltopics' %}">Tutorials</a>
+          <a class="nav-item nav-link" href="{% url 'dev' %}">Development</a>
           <a class="nav-item nav-link" href="https://github.com/earlpearl17?tab=repositories" target="_blank">GitHub</a>
           <a class="nav-item nav-link" href="{% static 'resume.pdf' %}" target="_blank">Resume</a>
           <a class="nav-item nav-link" href="{% url 'allblogs' %}">Blog</a>

@@ -1,0 +1,35 @@
+{% extends "tutorials/base.html" %}
+
+{% block page_header %}
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Learn something new today</h1>
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for topic in topics %}
+       
+        <div class="col-md-4 py-2">
+       
+          <div class="card h-100">
+            <img class="card-img-top" style="width: 250px; height: 250px;" src="{{ topic.image.url }}" />
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url 'tutorials' topic_id=topic.id %}">{{ topic.text }}</a></h5>
+              <p class="card-text">{{ topic.summary }}</p>
+            </div>
+
+          </div>
+        </div>
+        {% empty %}
+          <h5>No tutorials have been added yet.</h5>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

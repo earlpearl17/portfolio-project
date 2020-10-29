@@ -1,9 +1,15 @@
-{% extends "jobs/base.html" %}
+{% extends "tutorials/base.html" %}
 {% block page_header %}
 
     <div class="container">
-      <h1 class="jumbotron-heading">CentOS 7 Server Install</h1>
-      <p class="lead text-muted">Infrastructure Tutorials</p>
+      <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <h1 class="jumbotron-heading">CentOS 7 Server Install</h1>
+        <p class="lead text-muted">Infrastructure Tutorials</p>
+      </div>
+      <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
+        <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
+      </div>
+      </div>
     </div>
 
 {% endblock page_header %}
@@ -19,7 +25,7 @@
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
       <p>In this tutorial, I will be demonstrating a CentOS 7 (release 8) install using VirtualBox 6.1.2 on a Windows 7 Pro SP1 host machine. Please note that I will be using a CentOS 7 (release 8) minimal ISO image to perform a server install of CentOS 7. This means no GUI will be available post install.</p>
-      <p>I have another tutorial demonstrating the installation of the MATE desktop environment, accessible <a href="{% url 'topic_tutorial' topic.id 43 'en' %}" target="_blank">here</a>.</p>
+      <p>I have another tutorial demonstrating the installation of the MATE desktop environment, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 6 'en' %}" target="_blank">here</a>.</p>
       <p>Refer to the prerequisites listed below to access the download locations of the resources needed to complete this tutorial.
       </p>
     </div>
@@ -34,11 +40,10 @@
         
         <ul>
           <li>VirtualBox 6.1.2 & VirtualBox 6.1.2 Extension Pack</li>
-          <li>CentOS 7 (release 8) minimal ISO image can be downloaded <a href="http://centos.mirror.iweb.ca/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso">here</a></li>
-          <!-- <li>Virtualbox 6.1.2 (download links in my <strong>VirtualBox Install</strong> tutorial, accessible <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>)</li> -->
+          <li>CentOS 7 (release 8) minimal ISO image can be downloaded <a style="text-decoration: underline;" href="http://centos.mirror.iweb.ca/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso">here</a></li>
           <li>Active Internet Connection</li>
         </ul>
-      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>.</p>
+      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>.</p>
     </div>
     <div style="width:55%; float:left;height:calc(100% - 20px);"> 
       <h5>Steps to complete tutorial:</h5>
@@ -65,10 +70,10 @@
     <div style="clear: both;">
       <h5 id="install_vbox">Install VirtualBox 6.1.2</h5>
         <p>If you already have VirtualBox 6.1.2 installed, go to the next step. Otherwise, please see one of my other tutorials, <br />
-        <strong>VirtualBox Install</strong>, accessible <a href="{% url 'topic_tutorial' topic.id 40 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
+        <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
         
       <h5 id="download_centos7">Download CentOS 7</h5>
-        <p>Go to the CentOS site at <a href="https://wiki.centos.org/Download">https://wiki.centos.org/Download</a>, and click the 
+        <p>Go to the CentOS site at <a style="text-decoration: underline;" href="https://wiki.centos.org/Download">https://wiki.centos.org/Download</a>, and click the 
         <strong>mirrors</strong> link for CentOS 7 (release 8) to display a list of mirrors closest to your region.</p>
         <img style="width: 700px; height: 450px" src="/media/images/tutorials/infrastructure/downloads/00-Centos-Download.png" />
         <br />
@@ -108,7 +113,7 @@
             <li>Choose where you want the machine created on your host system</li>
             <li style="list-style: none">
             <em>Please note, you can change the destination folder (<strong>Machine Folder:</strong>), if the default does not work for you.<br /> This will be where the virtual machine files are stored on your host system.</em></li>
-            <li>Ensure <strong>Type</strong> is set to Linux and <strong>Version</strong> is set to Red Hat (64 bit), click <strong>Next</strong></li>
+            <li>Ensure Type is set to <strong>Linux</strong> and Version is set to <strong>Red Hat (64 bit)</strong>, click <strong>Next</strong></li>
           </ul>
         </p>
         <img style="width: 500px; height: 300px" src="/media/images/tutorials/infrastructure/minimal/1-Create-VM-Name-and-OS.png" />
@@ -244,10 +249,10 @@
     
         <p>Please note that before we begin making the required pre-installation configuration changes, I will be referring to the items listed on the <strong>Installation Summary</strong> page (see items above OR image below). Also, if the correct item value is already set, you do not need to change it.</p>
         <p>According to my <strong>Installation Summary</strong> page, only two items need to be configured. Under the <strong>System</strong> section, they are <span style="color: red;font-weight: bold;">Installation Destination</span> and <span style="color: red;font-weight: bold;">Network & Host Name</span>.</p>
-        <p>If your <strong>Installation Summary</strong> page is the <strong>same</strong> as mine, please skip to the <a href="#system_config">System</a> section.</p>
+        <p>If your <strong>Installation Summary</strong> page is the <strong>same</strong> as mine, please skip to the <a style="text-decoration: underline;" href="#system_config">System</a> section.</p>
         <p>If your <strong>Installation Summary</strong> page is <strong>different</strong> than mine, links to each section are available here: <br />
-        <a href="#localization_config">Localization</a>, <a href="#software_config">Software</a> and 
-        <a href="#system_config">System</a>
+        <a style="text-decoration: underline;" href="#localization_config">Localization</a>, <a style="text-decoration: underline;" href="#software_config">Software</a> and 
+        <a style="text-decoration: underline;" href="#system_config">System</a>
         </p>
         
         <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/minimal/11-Installation-Summary-1-part.png" />
@@ -423,7 +428,7 @@
                   
       <h5 id="take_snapshot_1">Take Snapshot</h5>
         <p>To be on the safe side. After I have successfully completed a task, such as installing or updating a virtual machine, I like taking a snapshot to preserve the VM’s state. That way I ensure, in the future, if the VM stops responding, or behaving as it should, I can always revert back to that snapshot. For further information on 
-          <strong>VirtualBox Snapshots</strong>, refer to the docs, <a href="https://www.virtualbox.org/manual/ch01.html#snapshots" target="_blank">here</a>.</p>
+          <strong>VirtualBox Snapshots</strong>, refer to the docs, <a style="text-decoration: underline;" href="https://www.virtualbox.org/manual/ch01.html#snapshots" target="_blank">here</a>.</p>
         <p>In the VirtualBox Manager interface, we are currently in <strong>Details</strong> view. To switch to <strong>Snapshots</strong> view, click the list icon next to the virtual machine name, and select <strong>Snapshots</strong>.
         </p>
         <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/minimal/31-Switch-To-Snapshots-View.png" />
@@ -453,23 +458,9 @@
      
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
       <p>After completing this tutorial, if you decide that you would like, or need, a desktop environment, you should consider<br />  the <strong>MATE Desktop</strong>. It uses minimal system resources.</p>
-      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a href="{% url 'topic_tutorial' topic.id 43 'en' %}" target="_blank">here</a>.</p>
-      <p>My main Tutorials page can be accessed <a href="#">here</a> (Linux, PowerShell, Shell Scripting, Vagrant, Docker).</p>
-      <p>I also have a number of other <a href="{% url 'tutorials' topic_id=topic.id %}">VirtualBox tutorials</a>
-        <ul>
-          <li><a href="{% url 'topic_tutorial' topic.id 20 'en' %}">Create a Bootable USB</a></li>
-          <li><a href="{% url 'topic_tutorial' topic.id 40 'en' %}">VirtualBox Installation</a></li>
-          <li>CentOS 7 Server Install</li>
-          <li><a href="{% url 'topic_tutorial' topic.id 42 'en' %}">CentOS 7 Server Install using bootable USB</a></li>
-          <li><a href="{% url 'topic_tutorial' topic.id 43 'en' %}">CentOS 7 Server Install with GUI (MATE Desktop)</a></li>
-          <li><a href="{% url 'topic_tutorial' topic.id 44 'en' %}">Putty Passwordless SSH Connection to CentOS 7 VM</a></li>
-        </ul>
-      </p>  
-
-      <h1>What is the topic?</h1>
-      {% if topic %}
-        <h1>Topic id is: {{ topic.id }}</h1>
-      {% endif %}
+      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a href="{% url 'topic_tutorial' topic.id 6 'en' %}">here</a>.</p>
+      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       
       
     </div>

@@ -1,0 +1,23 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Basic Commands</h1>
+      <p class="lead text-muted">PowerShell Tutorials</p>
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    <p>Coming soon!</p>
+    
+  </div>
+
+{% endblock content %}

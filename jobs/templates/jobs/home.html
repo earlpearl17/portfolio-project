@@ -3,7 +3,7 @@
 
   <!-- <div class="jumbotron">
   <h1 class="display-3">Track your learning.</h1> -->
-    <div class="container">
+    <div class="container" style="height: 140px;">
       {% if messages %}
         {% for message in messages %}
           <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
@@ -11,8 +11,9 @@
        
       {% endif %}
      
-      <h1 class="jumbotron-heading">Hi I'm Liam</h1>
-      <p class="lead text-muted">Hey, my name is Liam Sirkett and I love to make Django websites. It's the thrill of handling the requests that the people want!</p>
+      <h1 class="jumbotron-heading">Development Projects</h1>
+      <p>These are just a few of my development projects that I've deployed to my DigitalOcean droplet.</p>
+      <p>All of my code can be accessed on <a href="https://github.com/earlpearl17?tab=repositories" target="_blank">GitHub</a>.</p>
       <p>
         <a href="mailto:liams.systems@gmail.com" class="btn btn-primary my-2">Email Me</a><br />
       </p>
@@ -21,30 +22,106 @@
   {% endblock page_header %}
 
   {% block content %}
+  
   <div class="album py-5 bg-light">
-    <div class="container">
+    <div class="container"> 
+      <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#django" style="font-size: 18px;">Django</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#flask" style="font-size: 18px;">Flask</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#python" style="font-size: 18px;">Python</a>
+          </li>
+        </ul>     
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="django" class="container tab-pane active"><br>
+            <!-- Bootstrap4 Album Cards -->
+            <div class="row">
+            {% for job in django %}
+            <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                 
+                  <img class="card-img-top"  style="width: 250px; height: 250px;" src="{{ job.image.url }}" />
 
-      <div class="row">
-        {% for job in jobs.all %}
-        <!-- <div class="col-md-4"> -->
-        <div class="col-md-4 py-2">
-          <!-- <div class="card mb-4 shadow-sm"> -->
-          <div class="card h-100">
-           
-            <img class="card-img-top" src="{{ job.image.url }}" />
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></h5>
+                    <p class="card-text">{{ job.summary }}</p>
+                    <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+                  </div>
 
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></h5>
-              <p class="card-text">{{ job.summary }}</p>
-              <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+                </div>
+              </div>
+            {% empty %}
+                <h5>No Django projects have been deployed yet.</h5>
+            {% endfor %}
             </div>
-
           </div>
-        </div>
-        {% endfor %}
+          <div id="flask" class="container tab-pane"><br>
+            <!-- Bootstrap4 Album Cards -->
+            <div class="row">
+            {% for job in flask %}
+            <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                 
+                  <img class="card-img-top"  style="width: 250px; height: 250px;" src="{{ job.image.url }}" />
 
-      </div>
-    </div>
-  </div>
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></h5>
+                    <p class="card-text">{{ job.summary }}</p>
+                    <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+                  </div>
+
+                </div>
+              </div>
+            {% empty %}
+                <h5>No Flask projects have been deployed yet.</h5>
+            {% endfor %}
+            </div>
+          </div>
+          <div id="python" class="container tab-pane"><br>
+            <!-- Bootstrap4 Album Cards -->
+            <div class="row">
+            {% for job in python %}
+            <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                 
+                  <img class="card-img-top"  style="width: 250px; height: 250px;" src="{{ job.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></h5>
+                    <p class="card-text">{{ job.summary }}</p>
+                    <!--<p class="card-text">{{ job.summary|truncatewords:10 }}</p>-->
+                  </div>
+
+                </div>
+              </div>
+            {% empty %}
+                <h5>No Python projects have been deployed yet.</h5>
+            {% endfor %}
+            </div>
+          </div>
+        </div>  
+      </div> <!-- end tab content -->
+    </div> <!-- end container -->
+    <script>
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+          });
+        });
+      </script>
+  </div> <!-- end album -->
 
 {% endblock content %}
