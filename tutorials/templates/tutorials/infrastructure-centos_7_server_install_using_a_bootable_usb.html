@@ -42,8 +42,8 @@
       <h5>Steps to complete tutorial:</h5>
       <ol>
         <li><a href="#install_vbox">Install VirtualBox 6.1.2</a></li>
-        <li><a href="#create_usb">Create Bootable USB</a></li>
-        <li><a href="#create_vmdk">Create virtual machine disk (VMDK) using bootable USB</a></li>
+        <li><a href="#create_usb">Create a Bootable USB</a></li>
+        <li><a href="#create_vmdk">Create virtual machine disk (VMDK) using a bootable USB</a></li>
         <li><a href="#create_vm">Create virtual machine</a></li>
         <ol type="i">
           <li><a href="#name_and_os">Name and OS</a></li>
@@ -66,11 +66,11 @@
         <p>If you already have VirtualBox 6.1.2 installed, go to the next step. Otherwise, please see one of my other tutorials, <br />
         <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
         
-      <h5 id="create_usb">Create Bootable USB</h5>
+      <h5 id="create_usb">Create a Bootable USB</h5>
         <p>If you don’t already have a CentOS 7 bootable USB, complete my other tutorial where I demonstrate the creation of a <strong>CentOS 7 bootable USB</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 1 'en' %}" target="_blank">here</a>.<br /> 
         Then, return here to complete this tutorial, using your newly created <strong>CentOS 7 bootable USB</strong>.</p>
         
-      <h5 id="create_vmdk">Create virtual machine disk (VMDK) using bootable USB</h5>
+      <h5 id="create_vmdk">Create virtual machine disk (VMDK) using a bootable USB</h5>
         <p>We will be using VirtualBox's <strong>VBoxManage</strong> command to create an image that represents our CentOS 7 bootable USB.<br />
         First, using the Windows Disk Management utility, 
         <strong>diskmgmt.msc</strong>, we will identify the disk number of our bootable USB.<br /> To open the utility, click the Windows icon on your toolbar (bottom left),  type <strong>diskmgmt.msc</strong> into the search box and hit the <strong>Enter</strong> key on your keyboard.</p>
@@ -115,7 +115,7 @@
         <br />
         
       <h5 id="create_vm">Create virtual machine</h5>
-        <p>Now we are ready to create our virtual machine using our newly created image file, <strong>C:\centos7usb.vmdk</strong>, that<br /> points to our <strong>CentOS 7 bootable USB</strong>.</p>
+        <p>Now we are ready to create our virtual machine using our newly created image file, <strong>C:\centos7usb.vmdk</strong>, that<br /> points to your <strong>CentOS 7 bootable USB</strong>.</p>
         <p>Before we begin, ensure your CentOS 7 bootable USB is inserted in one of your computer’s USB ports.</p>
         <p>Next, start <strong>VirtualBox</strong> and on the VirtualBox Manager interface, click the <strong>New</strong> button to start the creation of a new virtual machine.</p>
         <p><em>Please note that if you have just installed VirtualBox 6.1.2, you will only see <strong>Tools</strong> on the left-hand side of the VirtualBox Manager interface. I have already created a number of VMs (virtual machines) and grouped them for organizational purposes.</em></p>
