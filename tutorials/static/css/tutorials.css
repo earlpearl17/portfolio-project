@@ -5,7 +5,19 @@
 #bootstrap-override {
     padding-top: 70px;
 }
-
+table, th, td {
+  border: 1px solid black;
+  /*border-collapse: collapse;*/
+}
+.code {
+    background-color: #e2d3e3;
+    font-family: consolas;
+    font-weight: bold;
+}
+.console {
+    font-family: consolas;
+    font-weight: bold;   
+}
 /*2 NAVBARS in tutorials/base.html - WORKED WITH FIXED-TOP*/
 /*body {
     padding-top: 140px;

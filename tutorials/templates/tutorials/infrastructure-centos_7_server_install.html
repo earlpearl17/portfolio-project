@@ -10,7 +10,7 @@
       <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
         <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
       </div>
-      </div>
+      
     </div>
 
 {% endblock page_header %}
@@ -459,7 +459,7 @@
      
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
       <p>After completing this tutorial, if you decide that you would like, or need, a desktop environment, you should consider<br />  the <strong>MATE Desktop</strong>. It uses minimal system resources.</p>
-      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a href="{% url 'topic_tutorial' topic.id 6 'en' %}">here</a>.</p>
+      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 6 'en' %}">here</a>.</p>
       <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       
