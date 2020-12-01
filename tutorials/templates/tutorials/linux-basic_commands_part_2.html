@@ -1,0 +1,588 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install</h1> -->
+        <h2>Basic Commands - Part 2</h2>
+        <p class="lead text-muted">Linux Tutorials</p>
+      </div>
+      <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
+        <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
+      </div>
+      
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+      <p>Working on the Linux command line can be intimidating, at first. However, like anything, with a little practice, you will become proficient. To get started with the command line, you will need to learn a few basic commands.</p>
+      <p>To learn, and practice, those commands, you will need access to a running Linux distribution, or 'distro' for short. There are a number of Linux 'distros'. The distro I prefer working with is CentOS. 
+      <a style="text-decoration: underline;" href="https://www.centos.org/" target="_blank"><strong>CentOS</strong></a> is designed as an open source (free) version of <a style="text-decoration: underline;" href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux" target="_blank"><strong>RHEL</strong></a> (Red Hat Enterprise Linux), which is considered the world’s leading enterprise Linux platform. The two (RHEL & CentOS) are considered functionally compatible. Being able to manage a CentOS server will be proof positive that you can manage an RHEL server. That is the reason I use CentOS.</p>
+      
+    </div>
+    
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 370px; height: 320px" src="/media/images/tutorials/linux\basic_commands_part_1/0-centos7min-term.png" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+      <p>If you do not already have access to a Linux system, I have a tutorial where I demonstrate the installation of CentOS 7 in a VirtualBox virtual machine, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' 1 4 'en' %}" target="_blank"><strong>here</strong></a>. Complete that tutorial and return here with your running CentOS virtual machine to begin this tutorial. </p>
+      <p>In this tutorial, I will go through some of the most common Linux commands that are used on a daily basis by all Linux users.</p>
+    </div>
+    <div style="width:55%; float:left;height:calc(100% - 20px);"> 
+      <h5>Steps to complete tutorial:</h5>
+      <ul>
+        <li><a href="#get_help">Getting Command Help</a></li>
+        <li><a href="#nav_filesys">Navigating the File System</a></li>
+        <li><a href="#paths">Absolute vs. Relative Paths</a></li>
+        <li><a href="#tab_comp">Tab Completion</a></li>
+        <li><a href="#files_dirs">Working with Files and Directories</a></li>
+        <ul type="i">
+          <li><a href="#cr_dirs">create directories</a></li>
+          <li><a href="#cr_files">create files</a></li>
+          <li><a href="#cp_files">copy files and directories</a></li>
+          <li><a href="#mv_files">move and rename files and directories</a></li>
+          <li><a href="#rm_files">delete files and directories</a></li>
+        </ul>
+      </ul>
+
+    </div>
+    <div style="width:45%; float: left; height:calc(100% - 20px);">
+      <img style="width: 400px; height: 260px" src="/media/images/tutorials/linux\basic_commands_part_1/0-Read-only-Linux.jpg" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+      <p>Below is a listing of the commands we will cover in this tutorial, along with brief descriptions.</p>
+      <table style="width:75%; border: 1px solid;">
+            <tr style="font-weight: bold;background-color: #add8e6;">
+              <th style="width:30%;text-align: center;">Command</th>
+              <th style="text-align: center;">Description</th>
+            </tr>
+            <tr>
+              <td align="center"><strong>man</strong> </td>
+              <td>display manual pages for command</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>--help</strong> </td>
+              <td>some commands have this option that displays command usage and descriptions of the available command options</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>pwd</strong> </td>
+              <td>present (current) working directory</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>ls</strong> </td>
+              <td>list the directory contents<br />
+              </td>
+            </tr>
+            <tr>
+              <td align="center"><strong>cd</strong> </td>
+              <td>change working directory</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>clear</strong> </td>
+              <td>clear the terminal screen</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top"><strong>touch</strong> </td>
+              <td>create one, or more, empty files<br />
+                  update access and modification times of existing file, or files.</td>
+            </tr>   
+            <tr>
+              <td align="center"><strong>clear</strong> </td>
+              <td>clear the terminal screen</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>mkdir</strong> </td>
+              <td>create a directory</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>rmdir</strong> </td>
+              <td>delete an empty directory</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>cp</strong> </td>
+              <td>copy files and directories</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>mv</strong> </td>
+              <td>rename or move files and directories</td>
+            </tr>
+            <tr>
+              <td align="center"><strong>rm</strong> </td>
+              <td>delete files or directories</td>
+            </tr>
+            
+      </table>
+      <br />
+      <p>Now that you have a running Linux system, are logged in and have access to the command line, we can begin.</p>
+    </div>
+    <div>
+      <h5 id="get_help">Getting Command Help</h5>
+        <p>Before we begin issuing commands, it is good to know that Linux has a few ways to get help for commands.</p>
+         You can use <span class="code">'man <em>command_name</em>'</span> to get a full listing of helpful information for a specific command. For example, if we wanted to get information on the <strong>pwd</strong> command, we would execute:<br /><span class="code">$ man pwd</span></p>
+         <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux\basic_commands_part_1/14-man-pwd.png" />
+         <p>Press '<strong>q</strong>' to exit the man page.</p>
+         <p>Or, many commands have a <strong>--help</strong> option which usually provides you with the command usage format, as well as, descriptions of command options. To see if a command has the option, execute <span class="code"><em>command_name</em> --help</span>.
+        For example, to see help information on the <strong>whoami</strong> command, execute:<br /><span class="code">$ whoami --help</span></p>
+        <img style="width: 700px; height: 300px" src="/media/images/tutorials/linux\basic_commands_part_1/15-whoami-help.png" />
+        <br />
+        <br />
+      <h5 id="nav_filesys">Navigating the File System</h5>
+        <p>Linux has a filesystem hierarchy, with the root of the filesystem being the top most directory, identified by a forward slash '<strong>/</strong>'. Each directory under the '<strong>/</strong>' root directory is separated by another forward slash. For example:<br />
+         <span class="code">/etc/systemd/system</span></p>
+        <p>The root '<strong>/</strong>' of the filesystem contains the <strong>etc</strong> directory, and all of its contents. The <strong>etc</strong> directory contains the <strong>systemd</strong> directory, and all of its contents. And, the <strong>systemd</strong> directory contains the <strong>system</strong> directory, and all of its contents.</p>
+        <p>It will take some time to become comfortable with these concepts, but once you do, navigating a filesystem will become second nature to you.</p>
+        <p>To see where you are in the filesystem, you execute the <strong>pwd</strong> command:<br /> <span class="code">$ pwd</span></p>
+        <p>The <strong>pwd</strong> command displays your current working directory.</p>
+        <p>In my case, since I just logged in as the regular user (also known as a <strong>non-root</strong> user)  <strong>fred</strong>, I am in the following directory: <span class="code">/home/fred</span></p>
+        <p>This means I am in the home directory for user <strong>fred</strong>. Please note that the <strong>root</strong> user, with a home directory of <strong>/root</strong>, has all the privileges required to do anything, and everything, on the system. But, privileges are for a later tutorial.</p>
+        <p>As I mentioned in the previous section, <a href="#get_help">Getting Command Help</a>, many commands have a <strong>--help</strong> option. This will provide us with general command usage information, along with descriptions of command options.</p>
+        <p>To display help for the <strong>ls</strong> command , enter the following:<br /><span class="code">$ ls --help</span></p>
+        <p>You will notice a lot of information was returned in the results, and, unfortunately, there is no way of scrolling back to the beginning of the output.</p>
+        <p>We will fix that by executing the following:<br />
+        <span class="code">$ ls --help | less</span><br />
+        You will notice that I added a pipe '<strong>|</strong>', which is used to redirect the results of <span class="code">ls --help</span> to the <strong>less</strong> command, which allows for navigation of the results using a keyboard’s up/down keys.</p>
+        <img style="width: 700px; height: 600px" src="/media/images/tutorials/linux\basic_commands_part_1/22-ls-help-less.png" />
+        <br />
+        <br />
+        <p>Notice that you can use your keyboard’s spacebar, and up/down keys, to navigate the results. Press '<strong>q</strong>' to exit the help page.</p>
+        <p>Next, we will execute the clear command to clear our terminal:<br />
+        <span class="code">$ clear</span></p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux\basic_commands_part_1/23-clear.png" />
+        <br />
+        <br />  
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux\basic_commands_part_1/24-ready.png" />
+        <br />
+        <br /> 
+        <p>We will now list the contents of our present working directory, by executing the following:<br />
+        <span class="code">$ ls</span></p>
+        <p>If you have just finished my other tutorial, <a style="text-decoration: underline;" href="https://www.liamsirkett.com/tutorials/1/4/en/infrastructure-centos-7-server-install/" target="_blank">CentOS 7 Server Install</a>, executing the <strong>ls</strong> command, with no options, will return no results.</p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux\basic_commands_part_1/25-ls-1.png" />
+        <br />
+        <br /> 
+        <p>The <strong>ls</strong> command lists all available files, and directories, that are not hidden. In Linux, hidden files can be used to store user preferences and are identified by a leading dot, such as <strong>.bash_profile</strong></p>
+        <p>If we want the hidden files included in the directory listing, we would execute:<br />
+        <span class="code">$ ls -a</span></p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux\basic_commands_part_1/25-ls-2-a.png" />
+        <br />
+        <br /> 
+        <p>Now the hidden files are included, but we can improve the results by using the <strong>-l</strong> option. Using the <strong>ls</strong> command’s <strong>-l</strong> option will return more information in a long listing format.</p> 
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/25-ls-3-al.png" />
+        <br />
+        <br /> 
+        <p>You will also notice, included in the results, two entries: '<strong>.</strong>' and '<strong>..</strong>'</p>
+        <p>The single dot '<strong>.</strong>' refers to the current directory, while the double dots '<strong>..</strong>' refer to the parent directory.</p>
+        <p>In my case, my home directory, <span class="code">/home/fred</span> is the current directory '<strong>.</strong>', and <strong>/home</strong> is the parent directory '<strong>..</strong>'.</p>
+        <p>Let’s verify that. Here we will be using the <strong>cd</strong> command, which is used to change our working directory.</p>
+        <p>Execute the following commands, preceded by a dollar sign ($) (one after the other):<br />
+        <span class="code">$ pwd</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="code">// display current working directory<br />
+        /home/fred<br />
+         $ cd .</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <span class="code">// change to current directory (NOTE: no change occurs)<br />
+         $ pwd</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <span class="code">// display current working directory<br />
+         /home/fred</span>
+        </p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/26-cd-part-1.png" />
+        <br />
+        <br /> 
+        <p>Notice that our current working directory did not change.</p>
+        <p>Let’s continue by executing the following:<br />
+        <span class="code">
+        $ cd ..</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="code">// change to parent directory<br />
+        $ pwd</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="code">// display current working directory<br />
+        /home</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/26-cd-part-2.png" />
+        <br />
+        <br />
+        <p>Here, notice that we changed to the parent directory (<strong>/home</strong>).</p>
+        <p>Let’s finish our verification by executing the following:<br /><span class="code">
+        $ cd</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="code">// if no command argument, by default, change to user’s home directory<br />
+        $ pwd</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="code">// display current working directory<br />
+        /home/fred
+        </span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/26-cd-part-3.png" />
+        <br />
+        <br />
+        <p>We confirmed that executing the <strong>cd</strong> command <em>sans</em> argument, will change to the user’s home directory.</p>
+
+      <h5 id="paths">Absolute vs. Relative Paths</h5>
+        <p>Before continuing, we should discuss the difference between <strong>absolute</strong> and <strong>relative</strong> paths.</p>
+        <p>An example of an absolute path would be: <span class="code">/usr/bin OR /usr/sbin</span></p>
+        <p>An example of a relative path would be: <span class="code">../sbin</span></p>
+        <p>All of the commands covered in this tutorial, reside in the /usr/bin directory. This directory contains executables (ls, cd, pwd, mkdir, etc...) accessible by all users on the system. Whereas, the /usr/sbin directory contains the executables used to manage the system and usually require elevated privileges to execute.</p>
+        <p>Using an absolute path, I would change directory (<strong>cd</strong>) to /usr/bin, by executing:<br />
+        <span class="code">$ cd /usr/bin</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">// change directory using absolute path<br />
+        $ pwd<br />
+        /usr/bin</span></p>
+        <p>Using a relative path, I would change directory (<strong>cd</strong>) to /usr/sbin, by executing:<br />
+        <span class="code">
+        $ cd ../sbin</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">// change directory using relative path<br />
+        $ pwd<br />
+        /usr/sbin</span></p>
+        <p>Changing to a different directory using an absolute path forces you to type out the entire path to the destination directory, in this case, <span class="code">/usr/bin</span>. However, using a relative path, <span class="code">../sbin</span>, you would first specify the double dot <span class="code">..</span> to move back to the parent directory <span class="code">/usr</span>, before entering a forward slash <strong>/</strong>, followed by an available destination directory, in this case <strong>sbin</strong>. The command will succeed because both directories, <span class="code">bin & sbin</span>, have the same parent directory, <span class="code">/usr</span>.</p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/linux/basic_commands_part_1/2-abs-vs-rel-1.png" />
+        <br /><br />
+        
+        <p>Let’s practice to become more comfortable with navigating the filesystem using both absolute and relative paths.</p>
+        <p>We will start by identifying two other absolute paths on the system<br />
+        <span class="code">/etc/yum.repos.d/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">// location of configuration files for yum repositories</span>
+        <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">// yum command used to install packages (programs)<br /><br />
+        /etc/systemd/system/multi-user.target.wants</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">
+        // systemd service listing for multi-user target</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">// multi-user == text mode (no GUI)</span></p>
+        <p>Now you can follow along by executing each command (preceded by a '<strong>$</strong>') starting on the left-hand side.</p>
+        <table style="border: 1px;">
+          <tr>
+            <td width="40%" style="padding-left: 10px;">
+<pre>
+  <span class="code">
+$ cd /etc/systemd/system/multi-user.target.wants
+$ pwd
+/etc/systemd/system/multi-user.target.wants
+$ cd ..
+$ pwd
+/etc/systemd/system
+$ cd ../..
+$ pwd
+/etc 
+$ cd yum.repos.d
+/etc/yum.repos.d
+$ cd ../systemd/system
+$ pwd
+/etc/systemd/system
+$ cd /etc/yum.repos.d
+$ pwd
+/etc/yum.repos.d</span>
+</pre>
+      
+            </td>
+            <td width="40%" style="padding-left: 10px;">
+<pre>
+  <span class="code">
+$ cd ../../usr/sbin
+$ pwd
+/usr/sbin
+$ cd ../bin
+$ pwd
+/usr/bin
+$ cd /etc/systemd
+$ pwd
+/etc/systemd
+$ cd system
+$ pwd
+/etc/systemd/system
+$ cd ../../yum.repos.d
+$ pwd
+/etc/yum.repos.d
+$ cd 
+$ pwd
+/home/fred</span>
+</pre>
+          </td>
+        </table>
+        <br />
+        <p>Knowing how to quickly navigate the filesystem will become easier in time, as long as you practice regularly.</p>
+
+      <h5 id="tab_comp">Tab Completion</h5>
+        <p>Before we continue onto the next section, I would like to share with you a couple tricks I use to speed things up on the command line: the keyboard’s up/down keys and tab completion. Use your keyboard’s up/down keys to retrieve the most recently used commands (<strong>history</strong> command will be covered in my next tutorial). Use tab completion when you you want to access a resource (be that a command, filename or directory) and want to reduce the number of keystrokes performed to access it.</p>
+        <p>For example, let’s say you want to see how one of the system’s network interfaces is configured. First, you would have to change to the following directory, which contains the network interface configuration scripts, one for each interface (also contains commands to manage the interfaces):<br /><span class="code"> 
+        /etc/sysconfig/network-scripts/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">
+        // contains network config commands & scripts</span></p>
+        <p>Using tab completion, at the command line, you would start by typing:<br /><span class="code">
+        $ cd /etc/sysc&lt;TAB&gt;&lt;TAB&gt;<br />
+        sysconfig/   sysctl.conf  sysctl.d/</span></p> 
+        <p>You will notice that there are three files in the <strong>etc</strong> directory that begin with '<strong>sysc</strong>', so hitting the &lt;TAB&gt; key once, will return nothing, but hitting the &lt;TAB&gt; key a second time, will display, in this case, the three files that begin with ‘sysc’. Next step will be to enter the minimum text required to make the search unique. In this case, we only have to enter a single character, 'o', and hit the &lt;TAB&gt; key once:<br />
+        <p><span class="code">$ cd /etc/sysco&lt;TAB&gt;</span><br /><br />
+        which will complete the directory name I want, and allow me to continue:<br />
+        <span class="code">
+        $ cd /etc/sysconfig/network&lt;TAB&gt;&lt;TAB&gt;</span>
+        <br /><br />
+        Again, once I reached <strong>/network</strong>, I hit &lt;TAB&gt; once, with no returns, so I hit &lt;TAB&gt; a second time, which resulted in:<br />
+        <span class="code">
+        $ cd /etc/sysconfig/network&lt;TAB&gt;&lt;TAB&gt;<br />
+        network          network-scripts/</span><br /><br />
+        I see that all I need to add is the '-' (dash) to make the search unique, followed by the &lt;TAB&gt; key:<br /><span class="code">
+        $ cd /etc/sysconfig/network-&lt;TAB&gt;</span><br /><br />
+        which results in the destination directory I want</br >
+        <span class="code">
+        $ cd /etc/sysconfig/network-scripts/<br />
+        $ pwd<br />
+        /etc/sysconfig/network-scripts</span></p>
+        <p>Once in the directory, I can perform a directory listing (<strong>ls</strong>) to locate the file I want. In this case, I know the file starts with '<strong>ifcfg-</strong>', but I cannot remember the entire filename. So, I will use tab completion again.
+        </p>  
+        <p>Again, I enter '<strong>ifcfg-</strong>', hit &lt;TAB&gt; once, with no returns, so I hit &lt;TAB&gt; a second time, which resulted in:<br /><span class="code">
+        $ ls -l ifcfg-<br />
+        ifcfg-enp0s3  ifcfg-lo</span></p>
+        <p>From the results, I see a filename which includes the network interface name (<strong>enp0s3</strong>). To make my search unique, I have to enter '<strong>e</strong>', followed by the &lt;TAB&gt; key:<br />
+        <span class="code">
+        $ ls -l ifcfg-e&lt;TAB&gt;<br />
+        $ ls -l ifcfg-enp0s3<br />
+        -rw-r--r--. 1 root root 312 Oct 11 05:52 ifcfg-enp0s3</span></p>
+        <img style="width: 700px; height: 70px" src="/media/images/tutorials/linux/basic_commands_part_1/3-nav-tab-comp-3.png" />
+        <br /><br />
+        <p>It will take you a while to learn where everything is on a Linux system, but tab completion is a great way to reduce the number of keystrokes required to access the resources you need.</p>
+      <h5 id="files_dirs">Working with Files and Directories</h5>
+        <p>In this section, you will learn how to work with files and directories. More specifically, I will demonstrate the commands used to:</p>
+        <ul>
+          <li><a href="#cr_dirs">create directories</a></li>
+          <li><a href="#cr_files">create files</a></li>
+          <li><a href="#cp_files">copy files and directories</a></li>
+          <li><a href="#mv_files">move and renaming files and directories</a></li>
+          <li><a href="#rm_files">delete files and directories</a></li>
+        </ul>
+      <h5 id="cr_dirs">Create Directories</h5>
+        <p>We will start by creating new directories using the <strong>mkdir</strong> command.</p>
+        <p>Ensure you are in your home directory (remember <strong>cd</strong> will get you there). Then, from the command line, execute the following:<br />
+        <span class="code">
+        $ mkdir parent_dir1<br />
+        $ ls -l</span>
+        </p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux/basic_commands_part_1/27-mkdir-part-1.png" />
+        <br /><br />
+        <p>We have successfully created our first directory.</p>
+        <p>Now, let’s create multiple directories at once by executing:<br /><span class="code">
+        $ mkdir parent_dir2 parent_dir3<br />
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/linux/basic_commands_part_1/27-mkdir-part-2-part.png" />
+        <br /><br />
+        <p>You will notice that we can provide multiple arguments to the <strong>mkdir</strong> command at once, to create different directories, instead of having to execute two separate <strong>mkdir</strong> commands.</p>
+        <p>We can now create child directories for one of our newly created directories by executing the following:<br ><span class="code">
+        $ mkdir parent_dir1/child_dir1 parent_dir1/child_dir2<br />
+        $ ls -l parent_dir1</span></p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/linux/basic_commands_part_1/27-mkdir-part-3-part.png" />
+        <br /><br />
+        <p>The directory, parent_dir1, is considered the parent of both child_dir1 & child_dir2.</p>
+        <p>What If we need to create a multi-level directory structure, such as <span class="code">parent_dir4/child_dir1/mini_dir1</span>, without having to execute three separate <strong>mkdir</strong> commands. Is that possible? Let’s first check to see if any help is available to us by executing:<br /><span class="code">
+        $ mkdir --help</span></p>
+        <img style="width: 700px; height: 350px" src="/media/images/tutorials/linux/basic_commands_part_1/28-mkdir-help.png" />
+        <br /><br />
+        <p>Looks like we can use the <strong>-p</strong> option of the <strong>mkdir</strong> command. Execute the following command:<br /><span class="code">
+        $ mkdir -p parent_dir4/child_dir1/mini_dir1</span></p>
+        <p>To confirm that we’ve created the new directory structure, we will use the -R option, of the <strong>ls</strong> command, which lists subdirectories recursively. Again, I used the <strong>ls</strong> command's <strong>--help</strong> option to see if that option was available.</p>
+        <img style="width: 700px; height: 80px" src="/media/images/tutorials/linux/basic_commands_part_1/28-ls-R-option.png" />
+        <br /><br />
+        <p>For now, please disregard my use of the <strong>grep</strong> command (<strong>grep</strong> is used to search for patterns). It will be covered in a future tutorial.</p>
+        <p>Again, to confirm that we’ve created the new directory structure, execute the following:<br /><span class="code">
+        $ ls -lR parent_dir4</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/27-mkdir-part-4.png" />
+        <br /><br />
+        <p>We see that the multi-level directory structure has been successfully created using only one command.</p>
+        <p> Now that you have a basic understanding of directories, and how to create them, we will move onto the file creation section.</p>
+      <h5 id="cr_files">Create Files</h5>
+        <p>To begin, we will be creating a number of empty files using the <strong>touch</strong> command.</p>
+        <p>Ensure you are in your home directory (remember <strong>cd</strong> will get you there). Then, from the command line, execute the following:<br /><span class="code">
+        $ touch test_file1<br />
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/29-touch-1.png" />
+        <br /><br />
+        <p>You will notice that we successfully created a file. The <strong>touch</strong> command is also used to change file access and modification timestamps. If a user creates an empty file, using <strong>touch</strong>, the file’s access, and modification, timestamps can be changed when the user has content to add to the file.</p>
+        <p>Let’s confirm this by issuing the following command:<br /><span class="code">
+        $ touch test_file1<br />
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 300px" src="/media/images/tutorials/linux/basic_commands_part_1/29-touch-2.png" />
+        <br /><br />
+        <p>You will notice that <strong>test_file1’s</strong> timestamp has been updated.</p>
+        <p>We can also create multiple files at once using <strong>touch</strong>. Execute the following:<br /><span class="code">
+        $ touch test_file2 test_file3 test_file4<br />
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux/basic_commands_part_1/29-touch-3.png" />
+        <br /><br />
+        <p>Now, let’s populate our directories with some files by executing the following:<br /><span class="code">
+        $ touch parent_dir1/child_dir1/test_file1<br />
+        $ touch parent_dir1/child_dir1/test_file2<br />
+        $ ls -lR parent_dir1</span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/29-touch-4.png" />
+        <br /><br />
+        <p>Now that we have our directories populated with files, we can move to the next section.</p>
+        
+      <h5 id="cp_files">Copy Files and Directories</h5>
+        <p>We will begin this section by listing the contents of our home directory, recursively, to see what we have to work with. Ensure you are in your home directory and execute the following:<br />
+        <span class="code">
+        $ ls -R | less</span></p>
+        <img style="width: 700px; height: 350px" src="/media/images/tutorials/linux/basic_commands_part_1/30-ls-home.png" />
+        <br /><br />
+        <p>We have a few directories to work with. First, we will make a copy of a file, to the same directory, by renaming it. Execute the following:<br /><span class="code">
+        $ cp test_file1 test_file5<br />
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-1.png" />
+        <br /><br />
+        <p>The copy operation was a success. Next, we will copy a file from our home directory to one of our empty directories. Execute the following:<br /><span class="code">
+        $ cp test_file2 parent_dir2<br />
+        $ ls -l parent_dir2</span></p>
+        <img style="width: 700px; height: 80px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-2.png" />
+        <br /><br />
+        <p>Now, let’s copy the contents of one directory into another. Note that I will be using the asterisk '<strong>*</strong>' wildcard character which, in this case, represents the entire directory contents. Execute the following:<br /><span class="code">
+        $ cp parent_dir1/child_dir1/* parent_dir1/child_dir2<br />
+        $ ls -lR parent_dir1</span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-3.png" />
+        <br /><br />
+        <p>Now, both directories contain <strong>test_file1 & test_file2</strong>.</p>
+        <p>To finish off this section, we will copy a directory, including its contents, into another directory. To do this we must use the <strong>-R</strong> option of the <strong>cp</strong> command.</p>
+        <img style="width: 700px; height: 70px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-6-help.png" />
+        <br /><br />
+        <p>Before performing the copy operation, let’s list the contents of both directories, for verification purposes afterwards, by executing the following:<br /><span class="code">
+        $ ls -l parent_dir2<br />
+        $ ls -lR parent_dir1</span></p>
+        <img style="width: 700px; height: 350px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-4.png" />
+        <br /><br />
+        <p>Now that we have a reference point, we can execute the following:<br /><span class="code">
+        $ cp -R parent_dir2 parent_dir1/<br />
+        $ ls -lR parent_dir1</span></p>
+        <img style="width: 700px; height: 300px" src="/media/images/tutorials/linux/basic_commands_part_1/31-cp-5.png" />
+        <br /><br />
+        <p>We have successfully copied a directory, including its contents, into another directory. Now that you are becoming more comfortable working with files and directories, you should be ready for the next section.</p>
+
+      <h5 id="mv_files">Move and Rename Files and Directories</h5>
+        <p>To begin this section, ensure that you are in your home directory (<strong>cd</strong> if needed), and execute a directory listing:<br /><span class="code">
+        $ ls -l</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-1.png" />
+        <br /><br />
+        <p>Our first operation will be to rename a file using the <strong>mv</strong> command by executing the following:<br />
+        <span class="code">
+        $ mv test_file1 test_file6<br />
+        $ ls -l test_file*</span></p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-2.png" />
+        <br /><br />
+        <p>We successfully renamed a file. Note my use of the asterisk '<strong>*</strong>' wildcard character in my directory listing. In this instance, the '<strong>*</strong>' wildcard represents zero or more characters. Any file that begins with <strong>test_file</strong> will be returned in the results.</p>
+        <p>To determine the <strong>mv</strong> command options available , I executed:<br /><span class="code">
+        $ mv --help | less</span></p>
+        <p>Please note that my screenshot, once again, includes the <strong>grep</strong> command, which will be covered in another tutorial. Also note that the <strong>mv</strong> command has more options, but these are the ones I wanted to focus on.</p>
+        <img style="width: 700px; height: 80px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-0-help.png" />
+        <br /><br />
+        <p>Again, let’s see what we have to work with by executing the following:<br />
+        <span class="code">
+        $ ls -l parent_dir1/child_dir2<br />
+        $ ls -l parent_dir2</span>
+        </p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-3-ls.png" />
+        <br /><br />
+        <p>Note the different timestamps for <strong>test_file2</strong>.</p>
+        <p>Now, to move the contents of one directory to another using the <strong>-i (interactive)</strong> option (which will prompt us to confirm the operation before execution), execute the following:<br />
+        <span class="code">
+        $ mv -i parent_dir1/child_dir2/* parent_dir2</span><br />
+        When prompted to overwrite <strong>test_file2</strong>, enter <strong>n</strong> (NO).</p>
+        <img style="width: 700px; height: 70px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-4.png" />
+        <br /><br />
+        <p>The operation completed successfully. Now, we will perform our verification.<br /><span class="code">
+        $ ls -l parent_dir1/child_dir2<br />
+        $ ls -l parent_dir2</span></p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-5.png" />
+        <br /><br />
+        <p>Note that only one file was moved, <strong>test_file1</strong>, and that <strong>test_file2</strong> was <strong>NOT</strong> overwritten.</p>
+        <p>We will now use the <strong>-n (no clobber)</strong> option to ensure files are not overwritten, but without prompting the user.</p>
+        <p>Again, use the image above as a reference when performing verification, and execute the following:<br />
+        <span class="code">
+        $ mv -n parent_dir1/child_dir2/* parent_dir2<br />
+        $ ls -l parent_dir1/child_dir2<br />
+        $ ls -l parent_dir2</span></p>
+        <img style="width: 700px; height: 150px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-7.png" />
+        <br /><br />
+        <p>Note that no file was moved. Timestamp for <strong>test_file2</strong> did <strong>NOT</strong> change.</p>
+        <p>We will now use the <strong>-f (force)</strong> option which will overwrite a file if it already exists.</p>
+        <p>Again, use the image above as a reference when performing verification, and execute the following:<br />
+        <span class="code">
+        $ mv -f parent_dir1/child_dir2/test_file2 parent_dir2<br />
+        $ ls -l parent_dir1/child_dir2<br />
+        $ ls -l parent_dir2</span></p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/linux/basic_commands_part_1/32-mv-8.png" />
+        <br /><br />
+        <p>Note that the file was moved. Timestamp for <strong>test_file2</strong> did change.
+        </p>
+        <p>Our final <strong>mv</strong> operation will be to move two directories to a different destination directory. Please note that the destination already has a directory with the same name as one of the source directories, and will <strong>NOT</strong> be overwritten. Therefore, only one directory will be moved. We will first get a reference to perform our post-operation verification, by executing:<br />
+        <span class="code">
+        $ ls -lR parent_dir1<br />
+        $ ls -lR parent_dir4</span></p>
+        <table>
+          <tr>
+            <td><img style="width: 450px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/33-mv-8-ls-1.png" />
+            </td>
+            <td><img style="width: 450px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/33-mv-8-ls-2.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <p>You will notice that both directories contain a <strong>child_dir1</strong> directory. To perform the directory move operation, ensure you are in your home directory (<strong>cd</strong> if need be) and execute the following:<br />
+        <span class="code">
+        $ cd parent_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to move into the ‘parent_dir1’ directory<br />
+        $ mv child_dir1 child_dir2 ../parent_dir4&nbsp;&nbsp;&nbsp;&nbsp;  // move directories (note use of relative path)</span></p>
+        <img style="width: 700px; height: 130px" src="/media/images/tutorials/linux/basic_commands_part_1/33-mv-9-1.png" />
+        <br /><br />
+        <p>Note the warning and verify our results by executing the following:<br /><span class="code">
+        $ cd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to return to my home directory<br />
+        $ ls -lR parent_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// recursively list directory contents for verification<br />
+        $ ls -lR parent_dir4</span></p>
+        <table>
+          <tr>
+            <td><img style="width: 450px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/33-mv-9-2-ls-1.png" />
+            </td>
+            <td><img style="width: 450px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/33-mv-9-2-ls-2.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <p>In this instance, the <strong>child_dir1</strong> of <strong>parent_dir4</strong> was <strong>NOT</strong> overwritten, but <strong>child_dir2</strong> was moved to the destination directory, <strong>parent_dir4</strong>.
+        
+      <h5 id="rm_files">Delete Files and Directories</h5>
+        <p>In this section we will be using the <strong>rm</strong> and <strong>rmdir</strong> commands.  The <strong>rmdir</strong> command can be used to delete empty directories, while the <strong>rm</strong> command can be used to delete files, as well as, non-empty directories.</p>
+        <p>We will begin by using the <strong>rmdir</strong> command to try removing a non-empty directory. First, ensure you are in your home directory (<strong>cd</strong>) and execute the following:<br />
+        <span class="code">
+        $ ls -lR parent_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// recursively list directory contents for verification<br />
+        $ rmdir parent_dir1/child_dir1&nbsp;&nbsp;&nbsp;// attempt to delete non-empty directory</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/34-rmdir-1.png" />
+        <br /><br />
+        <p>Just wanted to show you what happens when we try removing a non-empty directory.</p>
+        <p>Next step will be to delete the contents of the <strong>child_dir1</strong> directory using the <strong>rm</strong> command, and then execute <strong>rmdir</strong> again:<br /><span class="code">
+        $ ls -l parent_dir1/child_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// directory listing for verification<br />
+        $ rm parent_dir1/child_dir1/test_file*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// delete files whose names start with ‘test_file’<br />
+        $ ls -l parent_dir1/child_dir1<br />
+        $ rmdir parent_dir1/child_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// delete directory<br />
+        $ ls -l parent_dir1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// directory listing for verification</span></p>
+        <img style="width: 700px; height: 200px" src="/media/images/tutorials/linux/basic_commands_part_1/34-rmdir-2.png" />
+        <br /><br />
+        <p>Both delete (remove) operations succeeded. Below is a listing of the <strong>rm</strong> command options we will cover.</p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/linux/basic_commands_part_1/35-rm-help.png" />
+        <br /><br />
+        <p>We will use the <strong>rm</strong> command to delete (remove) a non-empty directory. First, we will use the <strong>-i (interactive)</strong> option to be prompted before deletion and second, we will use the <strong>-f (force)</strong> option to avoid being prompted. Both of the operations will require the <strong>-r</strong>, or <strong>-R (recursive)</strong>, option to delete the directory, and its contents (includes any child directories along with their contents).</p>
+        <p>To delete a directory and its contents, while being prompted, execute the following:<br />
+        When prompted enter <strong>y (yes)</strong> to confirm each operation.<br /><span class="code">
+        $ cd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ensure you are in home directory<br />
+        $ ls -l parent_dir2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// list directory contents<br />
+        $ rm -iR parent_dir2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// delete (remove) directory and its contents interactively <br />
+        $ ls -l parent_dir2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// verify directory successfully deleted</span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/linux/basic_commands_part_1/35-rm-1.png" />
+        <br /><br />
+        <p>We have successfully deleted the directory and its contents.</p>
+        <p>Our final operation will be deleting a directory, its contents, including child directories and their contents.</p>
+        <p>Ensure you are in your home directory (<strong>cd</strong>) and execute the following:<br /><span class="code">
+        $ ls -lR parent_dir4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// list directory contents<br />
+        $ rm -fR parent_dir4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// delete (remove) directory and its contents<br />
+        $ ls -lR parent_dir4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// verify directory successfully deleted</span></p>
+        <img style="width: 700px; height: 400px" src="/media/images/tutorials/linux/basic_commands_part_1/36-rm-full.png" />
+        <br /><br />
+        <p>We have successfully deleted the directory and all of its contents.</p>
+        <p>I hope you have enjoyed completing this tutorial and found it helpful.</p>
+        <p>We covered the basics of navigating the filesystem, as well as, working with files and directories. That was a good start. You might be interested in how to manage a Linux server, and its available services. Or, how to automate tasks with scripting. If you are interested in continuing your Linux learning journey, I have a number of other Linux tutorials that can be accessed <a style="text-decoration: underline;" href="https://www.liamsirkett.com/tutorials/2/">here</a>, while my main tutorials page can be accessed <a style="text-decoration: underline;" href="https://www.liamsirkett.com/tutorials/">here</a>.</p>
+        <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
+
+    </div>
+{% endblock content %}
