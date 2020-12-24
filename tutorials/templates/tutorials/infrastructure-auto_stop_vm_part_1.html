@@ -1,0 +1,196 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install</h1> -->
+        <h2>Auto-Stop Virtual Machine Part 1</h2>
+        <p class="lead text-muted">Infrastructure Tutorials</p>
+      </div>
+      <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
+        <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
+      </div>
+      
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+      <p>In this tutorial I will be creating a PowerShell script to automatically stop a running VirtualBox virtual machine. This is a continuation from my last tutorial <strong>Auto-Start Virtual Machine Part 1</strong>,<br /> accessible <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 11 'en' %}" target="_blank">here</a>. Refer to the prerequisites listed below to complete this tutorial.</p>
+      <h4>Prerequisites</h4>
+        <ul>
+          <li>VirtualBox VM</li>
+        </ul>
+      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 1 3 'en' %}" target="_blank">here</a>.</p>
+      <p>If you do not already have a virtual machine, my other tutorial, <strong>CentOS 7 Server Install</strong>, is <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 4 'en' %}" target="_blank">here</a>.</p>
+    </div>
+    
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 280px; height: 240px" src="/media/images/tutorials/infrastructure/auto_stop_vm/0-automation-ts-100685314-large.jpg" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+  
+    </div>
+    <div style="width:55%; float:left;height:calc(100% - 20px);"> 
+      <h5>Steps to complete tutorial:</h5>
+      <ul>       
+        <li><a href="#create_script">Create Script</a></li>
+        <li><a href="#review_script">Review Script</a></li>
+        <li><a href="#execute_script">Execute Script</a></li>
+      </ul>
+    </div>
+    <div style="width:45%; float: left; height:calc(100% - 20px);">
+      <img style="width: 300px; height: 100px" src="/media/images/tutorials/infrastructure/auto_stop_vm/0-powershell.jpg" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+      
+      <h5 id="create_script">Create Script</h5>
+        <p>I have created an empty script file named <strong>auto_stop_vm.ps1</strong>.</p>
+        <p>First, we will determine whether, or not, the virtual machine we wish to shutdown is running.<br />
+        <em>(NOTE: use the VM name you wish to auto-stop)</em>
+        </p>
+        <p><span class="code">VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"'</span></p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/infrastructure/auto_stop_vm/1-List-Runningvms-1.png" />
+        <br />
+        <br />
+        <p>We have proven that the VM is running but we need to extract the value of the property from the object passed by the<br /> <strong>Select-String</strong> cmdlet down the pipeline. To do this we will use the <strong>foreach</strong> shorthand <strong>%</strong> to access each of the objects passed down the pipeline.</p>
+        <p>The current object is identified by <strong>$_</strong> and each object property can be accessed via the <strong>dot ‘.’</strong> (ie. <strong>$_.Matches</strong> or <strong>$_.Value</strong>).</p>
+        <p><span class="code">
+        VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value }</span>
+        </p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/infrastructure/auto_stop_vm/1-List-Runningvms-2.png" />
+        <br />
+        <br />
+        <p>For each object returned by <strong>Select-String</strong>, we are finding the value of each match. Although this tutorial is not a deep-dive into PowerShell cmdlets, the default output of <strong>Select-String</strong> is a <strong>MatchInfo</strong> object, which includes detailed information (<strong>properties</strong>) about the matches. The <strong>MatchInfo</strong> object has a property called <strong>Matches</strong>, which contains a list of regular expression matches. For each of the matches in the list returned, we are using the <strong>Value</strong> property to get the actual value.</p>
+        <p>Now we will get the line count returned to use for a test in our script.</p>
+        <p><span class="code">
+        $vm = VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value } | Measure-Object -line</span></p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/infrastructure/auto_stop_vm/1-List-Runningvms-3.png" />
+        <br />
+        <br />
+        <p>To get only the value returned from the previous command, we will wrap it in brackets and use the <strong>Lines</strong> property of the resulting <strong>TextMeasureInfo</strong> object.</p>
+        <p><span class="code">
+        (VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value } | Measure-Object -line).Lines</span>
+        </p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/infrastructure/auto_stop_vm/1-List-Runningvms-4.png" />
+        <br />
+        <br />
+        <p>Now we are ready to assign this value to a variable for our first test.</p>
+        <p><span class="code">
+          $vm = (VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value } | Measure-Object -line).Lines</span>
+        </p>
+        <span>We will test whether, or not, the virtual machine is running. If it is, we will use <strong>VBoxManage</strong> to execute a graceful shutdown. Then, we will ensure the command completed successfully. If the VM is not running, we will simply exit the script.</span>
+        <br />
+        <pre><span class="code">
+if ($vm -eq 1) {
+    Write-Host "Trigger a proper shutdown mechanism from within centos7-VM"
+    VBoxManage controlvm "centos7-VM" acpipowerbutton
+    if ( "$?" -eq "True") {
+        Write-Host "VM centos7-VM was successfully shutdown."
+    } else {
+        Write-Host "Something went wrong during the shutdown of centos7-VM."
+    }
+    sleep 5
+
+} else {
+    Write-Host "VM centos7-VM is not running."
+    Write-Host "Goodbye."
+    sleep 5
+    exit 1
+}
+</span></pre>
+        <span>Our next test will be to determine if VirtualBox is running. If it is not running, we will simply display a message to that effect. If it is running, we will close VirtualBox. You will notice that I have included <strong>-ErrorAction SilentlyContinue</strong> in our test. This is what’s known as a “Common Parameter” of the <strong>Get-Process</strong> cmdlet. If VirtualBox is not running, instead of generating error messages to the PowerShell console, the command will continue execution and jump to the <strong>else</strong> clause of the <strong>if/else</strong> statement.</span>
+        <br />
+<pre><span class="code">
+if (!(Get-Process VirtualBox -ErrorAction SilentlyContinue)) {
+    Write-Host "VirtualBox NOT running."
+    Write-Host "Goodbye."
+} else {
+    Write-Host "Closing VirtualBox"
+    Stop-Process -Name VirtualBox
+    if ("$?" -eq "True") {
+        Write-Host "VirtualBox successfully closed."
+    } else {
+        Write-Host "Something went wrong stopping VirtualBox."
+    }
+}
+</span></pre>
+
+        <p>We are now ready to review the contents of the entire script.</p>
+        
+      <h5 id="review_script">Review Script</h5>
+        <pre><span class="code">
+Write-Host "Automate shutdown of VirtualBox VM."
+
+# locate running VM based on it's name
+# remove any empty lines from result of command
+# determine line count value of result (should be 1)
+$vm = (VBoxManage list runningvms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | <br /> % { $_.Value } | Measure-Object -line).Lines
+
+if ($vm -eq 1) {
+    Write-Host "Trigger a proper shutdown mechanism from within centos7-VM"
+    VBoxManage controlvm "centos7-VM" acpipowerbutton
+    if ( "$?" -eq "True") {
+        Write-Host "VM centos7-VM was successfully shutdown."
+    } else {
+        Write-Host "Something went wrong during the shutdown of centos7-VM."
+    }
+    sleep 5
+} else {
+    Write-Host "VM centos7-VM is not running."
+    Write-Host "Goodbye."
+    sleep 5
+    exit 1
+}
+
+# close VirtualBox
+if (!(Get-Process VirtualBox -ErrorAction SilentlyContinue)) {
+    Write-Host "VirtualBox NOT running."
+    Write-Host "Goodbye."
+} else {
+    Write-Host "Closing VirtualBox"
+    Stop-Process -Name VirtualBox
+    if ("$?" -eq "True") {
+        Write-Host "VirtualBox successfully closed."
+    } else {
+        Write-Host "Something went wrong closing VirtualBox."
+    }
+}
+
+Write-Host "Until the next time..."
+
+sleep 10
+</span></pre>
+        
+      <h5 id="execute_script">Execute Script</h5>
+        <p>To execute the script, open a PowerShell console, if need be, change directory to the location of your script and execute the following: <span class="code"> .\auto_stop_vm.ps1</span></p>
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/auto_stop_vm/2-Execute-Script.png" />
+        <br />
+        <br />
+
+    </div>
+    <div>
+      <p>The virtual machine was successfully shutdown and VirtualBox was closed.</p>
+      <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
+      <p>After completing both my basic automation tutorials to start (accessible <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 11 'en' %}" target="_blank">here</a>) and stop a VM, you might want to see my slightly more advanced automation tutorials. In the advanced versions of these two scripts, I include starting (<strong>start VM adv</strong>), or stopping (<strong>stop VM adv</strong>) remote passwordless SSH connections using the PuTTY terminal emulator.</p>
+      <p>If you would like to see my other tutorials, they can be accessed <a style="text-decoration: underline;font-weight: bold;" href="{% url 'alltopics' %}">here</a>.</p>
+
+      <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;font-weight: bold;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
+      
+    </div>
+  </div>
+
+{% endblock content %}

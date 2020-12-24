@@ -1,0 +1,209 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install</h1> -->
+        <h2>Auto-Start Virtual Machine Part 1</h2>
+        <p class="lead text-muted">Infrastructure Tutorials</p>
+      </div>
+      <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
+        <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
+      </div>
+      
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+      <p>In this tutorial I will be creating a PowerShell script to automatically start an existing VirtualBox virtual machine. Refer to the prerequisites listed below to complete this tutorial.</p>
+      <h4>Prerequisites</h4>
+        <ul>
+          <li>VirtualBox VM</li>
+        </ul>
+      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 1 3 'en' %}" target="_blank">here</a>.</p>
+      <p>If you do not already have a virtual machine, my other tutorial, <strong>CentOS 7 Server Install</strong>, is <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 4 'en' %}" target="_blank">here</a>.</p>
+    </div>
+    
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 280px; height: 240px" src="/media/images/tutorials/infrastructure/auto_start_vm/0-automation-ts-100685314-large.jpg" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+  
+    </div>
+    <div style="width:55%; float:left;height:calc(100% - 20px);"> 
+      <h5>Steps to complete tutorial:</h5>
+      <ul>       
+        <li><a href="#create_script">Create Script</a></li>
+        <li><a href="#review_script">Review Script</a></li>
+        <li><a href="#execute_script">Execute Script</a></li>
+      </ul>
+    </div>
+    <div style="width:45%; float: left; height:calc(100% - 20px);">
+      <img style="width: 300px; height: 100px" src="/media/images/tutorials/infrastructure/auto_start_vm/0-powershell.jpg" />
+      <br />
+      <br />
+    </div>
+    <div style="clear: both;">
+      
+      <h5 id="create_script">Create Script</h5>
+        <p>I have created an empty script file named <strong>auto_start_vm.ps1</strong>.</p>
+        <p>First, we will determine the path to the <strong>VirtualBox</strong> executable using the <strong>Get-Command</strong> cmdlet.</p>
+        <p><span class="code">Get-Command -Name VirtualBox</span></p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/auto_start_vm/3-Get-Command-VirtualBox-1.png" />
+        <br />
+        <br />
+        <p>You will notice that the field value that we need (<strong>Source</strong>) is truncated. We will use the following to improve the readability of the tabular results.</p>
+        <p><span class="code">
+          Get-Command -Name VirtualBox | Format-Table -Autosize</span>
+        </p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/auto_start_vm/3-Get-Command-VirtualBox-2.png" />
+        <br />
+        <br />
+        <p>Using the <strong>Autosize</strong> parameter, when running <strong>Format-Table</strong>, column widths are calculated based on size of actual data.</p>
+        <p>The following will return an object with one property, <strong>Source</strong>.</p>
+        <p><span class="code">
+          Get-Command VirtualBox | Select-Object Source</span>
+        </p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/auto_start_vm/3-Get-Command-VirtualBox-3.png" />
+        <br />
+        <br />
+        <p>Before we assign this value to a variable, we will need to extract the <strong>Source</strong> property value from the object being passed down the pipeline. The following will provide us with the <strong>Source</strong> property value and remove any empty lines from the command results:</p>
+        <p><span class="code">
+        Get-Command VirtualBox | Select-Object -ExpandProperty Source</span></p>
+        <img style="width: 700px; height: 100px" src="/media/images/tutorials/infrastructure/auto_start_vm/3-Get-Command-VirtualBox-4.png" />
+        <br />
+        <br />
+        <p>Now we can assign the command result to a variable for later use.</p>
+        <p><span class="code">
+        $vbox = Get-Command VirtualBox | Select-Object -ExpandProperty Source</span></p>
+        <p>Next, we will locate the virtual machine we wish to auto-start using the following:<br />
+        <em>(NOTE: use the VM name you wish to auto-start)</em></p>
+        <p><span class="code">
+        VBoxManage list vms | Select-String -Pattern "centos7-VM"</span></p>
+        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/auto_start_vm/4-VBoxManage-List-VMs-0-new.png" />
+        <br />
+        <br />
+        <p>You will notice that I have many VMs whose names begin with <strong>centos7-VM</strong>. PowerShell's <strong>Select-String</strong> cmdlet returned all of them, as demonstrated above.</p>
+        <p>I will use single quotes outside of the double quotes (<strong>'"centos7-VM"'</strong>) to ensure that the double-quotes are included in the search.</p>
+        <p><span class="code">
+        VBoxManage list vms | Select-String -Pattern '"centos7-VM"'</span></p>
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/auto_start_vm/4-VBoxManage-List-VMs-1.png" />
+        <br />
+        <br />
+        <p>Before we assign this value to a variable, we will need to remove any empty lines from the command results. To do this we will add the following to the command:</p>
+        <p><span class="code">
+        VBoxManage list vms | Select-String -Pattern '"centos7-VM"' |% { $_.Matches } | % { $_.Value }</span></p>
+        <img style="width: 700px; height: 120px" src="/media/images/tutorials/infrastructure/auto_start_vm/4-VBoxManage-List-VMs-2.png" />
+        <br />
+        <br />
+        <p>For each object returned by <strong>Select-String</strong>, we are finding the value of each match. Although this tutorial is not a deep-dive into PowerShell cmdlets, the default output of <strong>Select-String</strong> is a <strong>MatchInfo</strong> object, which includes detailed information (<strong>properties</strong>) about the matches. The <strong>MatchInfo</strong> object has a property called <strong>Matches</strong>, which contains a list of regular expression matches. For each of the matches in the list returned, we are using the <strong>Value</strong> property to get the actual value.</p>
+        <p>Now we can assign the command result to a variable for later use.</p>
+        <p><span class="code">
+        $vm = VBoxManage list vms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value }</span></p>
+        <p>We now have both the path to the VirtualBox executable, as well as, the VM name assigned to variables.</p>
+        <p>Although we do not need to first start VirtualBox before we can start a virtual machine, I like having the management interface at my disposal. You can include the following in your script, or not, the choice is yours.</p>
+        <p><span class="code">
+          # start VirtualBox for access to management interface<br />
+          Start-Process $vbox</span></p>
+        <span>To ensure that VirtualBox has successfully started, we will perform the following test:</span>
+<pre><span class="code">
+if (Get-Process VirtualBox -ErrorAction SilentlyContinue) {
+    Write-Host "VirtualBox has successfully started."  
+} else {
+    Write-Host "Something went wrong during VirtualBox startup."
+}</span></pre>
+        
+        <p>You will notice that I have included <strong>-ErrorAction SilentlyContinue</strong> in our test. This is what’s known as a “Common Parameter” of the <strong>Get-Process</strong> cmdlet. If VirtualBox did not start, instead of generating error messages to the PowerShell console, the command will continue execution and jump to the <strong>else</strong> clause of the <strong>if/else</strong> statement.</p>
+        <p>Now we are ready to start the virtual machine, whose name we assigned to the variable <strong>$vm</strong>.
+        <p><span class="code">
+          # NOTE: works without VirtualBox being started first<br />
+          VBoxManage startvm $vm</span>
+        </p>
+        <span>To verify that the previous command executed successfully, we perform another test.</span>
+<pre><span class="code">
+if ( "$?" -eq "True") {
+    Write-Host "$vm is booting up."
+} else {
+    Write-Host "Problem starting $vm"
+}</span></pre>
+        
+        <p>This time we are using the PowerShell automatic variable <strong>$?</strong>. This variable contains the status of the last command executed:<br />
+        <strong>True</strong> if it succeeded and <strong>False</strong> if it failed.</p>
+        <p>We are ready to review the contents of the entire script.</p>
+      <h5 id="review_script">Review Script</h5>
+        <pre><span class="code">
+Write-Host "Automate VirtualBox VM startup."
+
+# retrieve path to VirtualBox executable
+$vbox = Get-Command VirtualBox | Select Source -ExpandProperty Source
+
+# locate VM based on it's name
+# remove any empty lines from result of command
+$vm = VBoxManage list vms | Select-String -Pattern '"centos7-VM"' | % { $_.Matches } | % { $_.Value }
+
+# start VirtualBox for access to management interface
+Start-Process $vbox
+
+# ensure VirtualBox has started
+if (Get-Process VirtualBox -ErrorAction SilentlyContinue) {
+    Write-Host "VirtualBox has successfully started."
+} else {
+    Write-Host "Something went wrong during VirtualBox startup."
+}
+
+# NOTE: works without VirtualBox being started first
+VBoxManage startvm $vm
+
+# verify success of last command executed 
+if ( "$?" -eq "True") {
+    Write-Host "$vm is booting up."
+} else {
+    Write-Host "Problem starting $vm"
+}
+
+Write-Host "Have a productive session on $vm."
+
+sleep 10</span></pre>
+        
+      <h5 id="execute_script">Execute Script</h5>
+        <p>To execute the script, open a PowerShell console, if need be, change directory to the location of your script and execute the following: <span class="code"> .\auto_start_vm.ps1</span></p>
+        <img style="width: 700px; height: 250px" src="/media/images/tutorials/infrastructure/auto_start_vm/5-Execute-Script.png" />
+        <br />
+        <br />
+        <p>VirtualBox successfully started and so did the virtual machine.</p>
+        <table style="border: none;">
+          <tr>
+            <td style="width: 50%;padding: 20px;">
+              <img style="width: 350px; height: 300px" src="/media/images/tutorials/infrastructure/auto_start_vm/6-VBox-Mgmt-Interface-new.png" />
+            </td>
+            <td style="padding: 20px;">
+              <img style="width: 350px; height: 300px" src="/media/images/tutorials/infrastructure/auto_start_vm/7-VM-Running-new.png" />
+            </td>
+          </tr>
+        </table>
+        <br />
+
+    </div>
+    <div>
+      <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
+      <p>Now that you can auto-start your VM, you might want to see my other tutorial, <strong>Auto-Stop Virtual Machine Part 1</strong>,<br /> accessible <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 12 'en' %}" target="_blank">here</a>.</p>
+      <p>If you would like to see my other tutorials, they can be accessed <a style="text-decoration: underline;font-weight: bold;" href="{% url 'alltopics' %}">here</a>.</p>
+
+      <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;font-weight: bold;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
+      
+    </div>
+  </div>
+
+{% endblock content %}
