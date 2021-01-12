@@ -1,0 +1,48 @@
+/*1 NAVBAR in portfolio,jobs,tutorials/base.html */
+/*body {
+    padding-top: 140px;
+}*/
+#bootstrap-override {
+    padding-top: 70px;
+}
+table, th, td {
+  border: 1px solid black;
+  /*border-collapse: collapse;*/
+}
+.code {
+    background-color: #e2d3e3;
+    font-family: consolas;
+    font-weight: bold;
+}
+.console {
+    font-family: consolas;
+    font-weight: bold;   
+}
+/*2 NAVBARS in tutorials/base.html - WORKED WITH FIXED-TOP*/
+/*body {
+    padding-top: 140px;
+}
+#top-nav {
+    margin-bottom: 0px !important;
+}
+#bottom-nav {
+    margin-top: 55px !important;
+}
+*/
+/* DIDN'T WORK 
+/*#bootstrap-overrides h5 {
+    margin-top: 140px;
+    padding-top: 140px !important;
+}*/
+/*.navbar-nav .nav-item.active {*/
+/*a:active {
+    color: #ffffff;
+    background-color: yellow;
+    font-weight: bold;
+}*/
+/*#bottom-nav {
+    top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    margin-top: 0px;
+}*/
