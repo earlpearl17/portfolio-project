@@ -1,0 +1,142 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container" style="height: 50px;">
+      <h1 class="jumbotron-heading">Infrastructure</h1>
+      <p class="lead text-muted">Using virtualization to streamline IT infrastructure.</p>
+    </div>
+
+{% endblock page_header %}
+
+{% block content %}
+  <div class="album py-5 bg-light">
+    <div class="container">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active active-breadcrumb" href="#vbox" style="font-size: 18px;">VirtualBox</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#hdwr" style="font-size: 18px;">Hardware</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#secu" style="font-size: 18px;">Security</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#auto" style="font-size: 18px;">Automation</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="vbox" class="container tab-pane active"><br>
+            <!-- <h3>VirtualBox</h3> -->
+            <div class="row">
+              {% for tut in virtualbox %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="hdwr" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in hardware %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="secu" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in security %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="auto" class="container tab-pane"><br>
+            <!-- <h3>Miscellaneous</h3> -->
+            <div class="row">
+              {% for tut in automation %}
+              <!-- <div class="col-md-4"> -->
+              <div class="col-md-4 py-2">
+                <!-- <div class="card mb-4 shadow-sm"> -->
+                <div class="card h-100">
+                  
+                  <img class="card-img-top" style="width: 270px; height: 230px" src="{{ tut.image.url }}" />
+
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'topic_tutorial' tut.topic.id tut.id tut.lang %}">{{ tut.text }}</a></h5>
+                    <p class="card-text">{{ tut.summary }}</p>
+                    
+                  </div>
+
+                </div>
+              </div>
+              {% empty %}
+                <h5>No tutorials have been added yet.</h5>
+              {% endfor %}
+            </div>
+          </div>
+        </div> <!-- end tab-content -->
+      </div> <!-- end container -->
+
+      <script>
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+          });
+        });
+      </script>
+     
+  </div> <!-- end album -->
+
+{% endblock content %}

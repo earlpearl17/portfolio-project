@@ -1,0 +1,130 @@
+{% extends "tutorials/base.html" %}
+{% block page_header %}
+
+    <div class="container">
+      <div style="width:55%; float:left;height:calc(100% - 20px);">
+        <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install</h1> -->
+        <h2>Create AWS Free Tier Account</h2>
+        <p class="lead text-muted">Cloud Tutorials</p>
+      </div>
+      <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
+        <p>Download <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a> tutorial.</p>
+      </div>
+      
+    </div>
+
+{% endblock page_header %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="container">
+    
+    <div style="width:55%; float:left;height:calc(100% - 20px);">
+      <p>In this tutorial, you will be creating an AWS free tier account.</p>
+      <p>Refer to the prerequisites listed below. They are needed to complete this tutorial.</p>
+      <h4>Prerequisites</h4>
+        <ul>
+          <li>a valid credit card</li>
+          <li>phone number</li>
+          <li>email and mailing address</li>
+          <li>internet access</li>
+        </ul>
+    </div>
+    
+    <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
+      <img style="width: 300px; height: 200px" src="/media/images/tutorials/cloud/create_aws_account/aws_cloud5.png" />
+      <br />
+    </div>
+    <div style="clear: both;">
+    </div>
+    <div style="clear: both;">    
+      <p>To begin, go to the website <a style="text-decoration: underline;font-weight: bold;" href="https://aws.amazon.com/free/">https://aws.amazon.com/free/</a> and click the <strong>Create a Free Account</strong> button.</p>
+      <img style="width: 850px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_1.png" />
+      <p>Provide the requested information and click <strong>Verify email address</strong>.</p>
+      <img style="width: 850px; height: 450px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_2.png" />
+      <br />
+      <br />
+      <p>Amazon will send you a verification code by email.</p>  
+      <img style="width: 850px; height: 450px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_3.png" />
+      <br />
+      <br />
+      <p>Enter the verification code provided and click <strong>Verify.</strong></p>
+      <img style="width: 850px; height: 450px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_4.png" />
+      <br />
+      <br />
+      <p>Set the password for your Root user and click <strong>Continue</strong>. This user will be the main manager of your account (tenancy).</p>
+      <img style="width: 850px; height: 450px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_5.png" />
+      <br />
+      <br />
+      <p>Now you will need to provide your contact details. After you are finished, click <strong>Continue</strong>.<br />
+        <i>Please note that I did not include my own contact details.</i></p>
+      <img style="width: 850px; height: 350px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_6.png" />
+      <img style="width: 850px; height: 150px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_7.png" />
+      <br />
+      <br />
+      <p>Next, you must provide your selected method of payment. After you are done, click <strong>Continue</strong>.</p>
+      <img style="width: 850px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_8b.png" />
+      <br />
+      <br />
+      <p>AWS will send you a text message to the number you specify. Click <strong>Send SMS</strong> to proceed.</p>
+      <img style="width: 850px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_9.png" />
+      <br />
+      <br />
+      <p>Use the code from the text message to complete the screen below and click <strong>Continue</strong>.</p>
+      <img style="width: 850px; height: 400px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_10.png" />
+      <br />
+      <br />
+      <p>Select the support plan you want and click <strong>Complete sign up</strong>.</p>
+      <img style="width: 850px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_11.png" />
+      <br />
+      <br />  
+      <p>You have successfully registered for AWS account. Click <strong>Go to the AWS Management Console</strong>.</p>
+      <img style="width: 900px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_12.png" />
+      <br />
+      <br />  
+      <p>Now you can log into your account using the Root user's email address that you specified during registration. Click <strong>Next</strong>.</p>
+      <img style="width: 900px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_13.png" />
+      <br />
+      <br />
+      <p>Next is the security check. Enter the characters and click <strong>Submit</strong></p>
+      <img style="width: 900px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_14.png" />
+      <br />
+      <br />  
+      <p>Finally, enter the Root user's password and click <strong>Sign in</strong>.</p>
+      <img style="width: 900px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_15.png" />
+      <br />
+      <br />  
+      <p>If you're prompted to switch to the <strong>New AWS Console Home</strong>, click <strong>Switch to the new Console Home</strong>.</p>
+      <img style="width: 900px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_16.png" />
+      <br />
+      <br />  
+      <p>You will now be brought to AWS Console Home.</p>
+      <img style="width: 1000px; height: 650px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_17.png" />
+      <br />
+      <br />  
+      <p>Up in the right hand corner, you will see the <strong>region</strong> that you are in (in my case it's <strong>Ohio</strong>) and your AWS account name.</p>
+      <p>Clicking on your account name gives you access to important links related to your account, such as <strong>account</strong> and <strong>billing</strong></p>
+      <img style="width: 1000px; height: 650px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_18.png" />
+      <br />
+      <br />  
+      <p>Once you click <strong>Sign out</strong>, you should bookmark this page to be able to quickly login again.</p>
+      <img style="width: 1000px; height: 550px" src="/media/images/tutorials/cloud/create_aws_account/create_aws_account_19.png" />
+      <br />
+      <br />        
+    </div>
+    <div>
+      <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
+      <p>I have a few other tutorials where I demonstrate the creation of <strong>EC2 (Elastic Compute Cloud)</strong> instances.</p>
+      <p>If you're interested in a <strong>deb</strong> based distro installation like <strong>Ubuntu</strong>, you can access the tutorial <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 7 14 'en' %}" target="_blank">here</a>.</p>
+      <p>If you're interested in an <strong>rpm</strong> based distro installation like <strong>Redhat</strong>, you can access the tutorial <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 7 15 'en' %}" target="_blank">here</a>.</p>
+      <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;font-weight: bold;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
+      
+    </div>
+  </div>
+
+{% endblock content %}
