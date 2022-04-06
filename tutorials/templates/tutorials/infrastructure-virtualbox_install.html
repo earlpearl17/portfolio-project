@@ -27,7 +27,7 @@
       <br />
       <p>In this tutorial, I will be demonstrating a VirtualBox 6.1.2 install on a Windows 7 Professional, Service Pack 1, host machine. 
       </p>
-      <p>After you've completed this tutorial, you can access my other VirtualBox tutorials <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}">here</a>.</p>
+      <p>After you've completed this tutorial, you can access my other VirtualBox tutorials <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}" target="_blank">here</a>.</p>
       <p>Refer to the prerequisites listed below to access the download locations of the resources needed to complete this tutorial.
       </p>    
     </div>
@@ -42,8 +42,8 @@
     <div>
       <h4>Prerequisites</h4>
         <ul>
-          <li>VirtualBox 6.1.2 can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/VirtualBox-6.1.2-135663-Win.exe">here</a></li>
-          <li>VirtualBox 6.1.2 extension pack can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack">here</a></li>
+          <li>VirtualBox 6.1.2 can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/VirtualBox-6.1.2-135663-Win.exe" target="_blank">here</a></li>
+          <li>VirtualBox 6.1.2 extension pack can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack" target="_blank">here</a></li>
           <li>VirtualBox User Manual can be accessed <a style="text-decoration: underline;" href="https://www.virtualbox.org/manual/" target="_blank">here</a></li>
           <li>Active Internet Connection</li>
         </ul>
@@ -57,10 +57,10 @@
     </div>
     <div>
       <h5 id="download_vbox">Dowload VirtualBox 6.1.2</h5>
-        <p>First, you will have to download VirtualBox 6.1.2 using the following <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/VirtualBox-6.1.2-135663-Win.exe">link</a>. The download will begin automatically.</p>
+        <p>First, you will have to download VirtualBox 6.1.2 using the following <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/VirtualBox-6.1.2-135663-Win.exe" target="_blank">link</a>. The download will begin automatically.</p>
         
       <h5 id="download_ext_pack">Download VirtualBox 6.1.2 Extension Pack</h5>
-        <p>Next, use this <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack">link</a> to download the same version extension pack as VirtualBox 6.1.2. <br />
+        <p>Next, use this <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack" target="_blank">link</a> to download the same version extension pack as VirtualBox 6.1.2. <br />
         Again, the download will begin automatically.
         </p>
         
@@ -106,14 +106,13 @@
         <br />
         <br />
         <p>After installing the Oracle VirtualBox device software, installation will complete. By default, the checkbox is selected to start VirtualBox automatically by clicking <strong>Finish</strong>. To open VirtualBox, click <strong>Finish</strong><br />
-        <em>(If for any reason you do not want to start VirtualBox right away, uncheck the checkbox before clicking Finish.<br /> When you are ready, you can use one of the newly created shortcuts to easily start VirtualBox.)
+        <em>(If for any reason you do not want to start VirtualBox right away, uncheck the checkbox before clicking Finish.<br /> When you are ready, you can use the newly created Start Menu entry or the Desktop shortcut to start VirtualBox.)
         </em></p>
         <img style="width: 600px; height: 350px" src="/media/images/tutorials/infrastructure/virtualbox_install/10-VirtualBox-Install-Complete.png" />
         <br />
         <br />
         <p>Here we see the <strong>Oracle VM VirtualBox Manager</strong>. You will notice that you are being prompted to install the newest version of VirtualBox (6.1.12). You can disregard this notification, and close the dialog box.<br />
         The reason I have installed <strong>VirtualBox 6.1.2</strong> is because it is compatible with <strong>Vagrant 2.2.7</strong>.<br />
-        If you wish to follow any of my future <strong>Vagrant</strong> tutorials, I suggest you stick with <strong>VirtualBox 6.1.2</strong> so you will not encounter any Vagrant compatibility issues.<br />
         <p><strong>Vagrant</strong> allows users to create lightweight virtual machines using <strong>VirtualBox</strong>. Learn more about Vagrant <a style="text-decoration: underline;" href="https://www.vagrantup.com/intro" target="_blank">here</a>.
         </p>
         <img style="width: 850px; height: 500px" src="/media/images/tutorials/infrastructure/virtualbox_install/11-VirtualBox-Manager-Start-Screen.png" />
@@ -124,7 +123,7 @@
         <br />
         <br />
       <h5 id="install_ext_pack">Install VirtualBox Extension Pack</h5>
-        <p>Now we will install the same version extension pack (6.1.2) which can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack">here</a>.</p>
+        <p>Now we will install the same version extension pack (6.1.2) which can be downloaded <a style="text-decoration: underline;" href="https://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2-135662.vbox-extpack" target="_blank">here</a>.</p>
         <p>The extension pack can provide access to external USB storage devices, as well as, allow guest access to the host machine’s webcam. It also provides other functionality which is documented <a style="text-decoration: underline;" href="https://www.virtualbox.org/manual/ch01.html#intro-installing" target="_blank">here</a>.</p>
         <p>From the VirtualBox Manager interface, click <strong>File -> Preferences</strong>
         </p>
@@ -160,10 +159,10 @@
       
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p> 
       <p>The next step will be to create a virtual machine of your own. I have other tutorials demonstrating just that.</p>
-      <p>You can browse my VirtualBox tutorials <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}">here</a>.</p>
+      <p>You can browse my VirtualBox tutorials <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}" target="_blank">here</a>.</p>
       <!-- <p>I have a number of other <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}">Infrastructure tutorials</a>
       </p> -->
-      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
 
     </div>

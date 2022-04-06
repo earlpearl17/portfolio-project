@@ -25,7 +25,7 @@
       <p>In this tutorial, I will demonstrate how to install the MATE Desktop on a CentOS 7 minimal install virtual machine. The <strong>MATE Desktop</strong> uses minimal system resources. This will ensure the virtual machine will only need 1024MB (1.0GB) of RAM and your host system will only need to delegate a minimum amount of resources when the VM is running.</p>
       
       <p>After the <strong>MATE Desktop</strong> install demo, I will show you how to install VirtualBox’s <strong>Guest Additions</strong> so that you can make use of a <strong>shared clipboard</strong> and <strong>drag’n’drop</strong> between host and guest. These are the two features I use regularly but for detailed information on guest additions, refer to this <a style="text-decoration: underline;" href="https://www.virtualbox.org/manual/ch04.html" target="_blank">link</a>.</p>
-      <p>Please note that I will be using a virtual machine that was created in my other tutorial, <strong>CentOS 7 Server Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p> 
+      <p>Please note that I will be using a virtual machine that was created in my other tutorial, <strong>CentOS 7 Server Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 5 'en' %}" target="_blank">here</a>.</p> 
       
     </div>
     
@@ -42,9 +42,9 @@
             <li>non-root user with <strong>sudo</strong> privileges</li>
             <li>Active Internet Connection</li>
         </ul>
-        <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>.</p>
+        <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p>
         <p>If you do not already have a virtual machine, with a minimal install of CentOS 7, my other tutorial,<br /><strong>CentOS 7 Server Install</strong>, can be accessed 
-        <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p>
+        <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 5 'en' %}" target="_blank">here</a>.</p>
     </div>
     <div style="width:40%; float:left;height:calc(100% - 20px);"> 
       <h5>Steps to complete tutorial:</h5>
@@ -80,7 +80,7 @@
         <p> After successfully completing a major change, I find it
         helpful to create (take) a snapshot to act as a fallback mechanism. If something goes wrong during a major change, we can revert back to a working snapshot (previous stable state).
         </p>
-        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a style="text-decoration: underline;" href="#update_centos">Update CentOS 7</a>).</p>
+        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a style="text-decoration: underline;" href="#create_user">Create non-root user with sudo privileges</a>).</p>
         <p>If you already have a CentOS 7 minimal install VM. I suggest taking a snapshot before continuing with the tutorial,to ensure that you have a starting point to revert back to.</p>
         <p>Please note that you can name the snapshot whatever you like, just remember which snapshot is associated with which state of the virtual machine.</p>
         <p>In the VirtualBox Manager interface, we are currently in 
@@ -130,28 +130,28 @@
         <p>Once CentOS 7 has started, on the login screen, enter the root user’s credentials.<br />
         Now that we are logged in as the root user, we will create a non-root user with <strong>sudo</strong> privileges.</p>
         <p>On the command line, execute the following commands (one after the other & enter password, when prompted):</p>
-        <p style="font-family: consolas;">
+        <p><span class="code" style="font-family: consolas;">
             useradd vern<br />
             passwd vern<br />
-            usermod -aG wheel vern</p>
+            usermod -aG wheel vern</span></p>
         <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/4-Mate-Create-User-full-part-1.png" />
         <br />
         <br />   
         <p>Now we will verify that our newly created non-root user has <strong>sudo</strong> privileges.<br />
         On the command line, execute the following commands (one after the other & enter password, when prompted):</p>
-        <p style="font-family: consolas;">
+        <p><span class="code" style="font-family: consolas;">
             su – vern<br />
             whoami<br />
             id<br />
-            sudo ls -al</p>
+            sudo ls -al</span></p>
         <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/4-Mate-Create-User-full-part-2.png" />    
         <br />
         <br />
         <p>Now that we have a non-root user with <strong>sudo</strong> privileges (‘<strong>wheel</strong>’ group member), we are ready to update <strong>CentOS 7</strong>.</p>
       <h5 id="update_centos">Update CentOS 7</h5>
         <p>Now to update CentOS 7. From the command line, execute the following:</p>
-        <p style="font-family: consolas;">
-        sudo yum update
+        <p><span class="code" style="font-family: consolas;">
+        sudo yum update</span>
         </p>
         <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/6-Mate-Yum-Update-1-NEWER.png" />
         <br />
@@ -167,7 +167,7 @@
         <p>Your CentOS 7 system is now up to date. Let’s reboot to ensure the newly installed kernel will be used<br /> as the core interface between the computer's hardware and its processes.
         </p>
         <p>Remember to use your non-root user’s password to acknowledge the following command:<br />
-        <span style="font-family: consolas;"> sudo shutdown -r now</span></p>
+        <span class="code" style="font-family: consolas;"> sudo shutdown -r now</span></p>
         <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/7-Mate-Yum-Update-Completed-Reboot.png" />
         <br />
         <br />
@@ -178,7 +178,7 @@
         <p><em>Please note that, for the rest of the tutorial, I will be using a different non-root user account (<strong>liam</strong>),<br /> that also has <strong>sudo</strong> privileges.</em></p>
         <p>Now that our CentOS 7 install is up-to-date, let’s shutdown the VM and create another snapshot.</p>
         <p>Remember to use your non-root user’s password to acknowledge the following command:<br />
-        <span style="font-family: consolas;">sudo shutdown -h now</span></p>
+        <span class="code" style="font-family: consolas;">sudo shutdown -h now</span></p>
         <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/mate_desktop/10-Mate-Post-Yum-Update-Reboot-Shutdown-Pre-Snapshot.png" />
         <br />
         <br />
@@ -211,7 +211,7 @@
         <p>First, we must install the <strong>EPEL</strong> (Extra Packages for Enterprise Linux) package repository. This repository contains the packages required by the MATE Desktop.</p>
         <p>Note in the next command I have included the <strong>-y</strong> command option. This will ensure that we are not prompted to accept the execution of the command.</p>
         <p>From the command line, execute the following command:<br />
-        <span style="font-family: consolas;">
+        <span class="code" style="font-family: consolas;">
         sudo yum install -y epel-release</span>
         </p>
         <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/14-Mate-Install-EPEL.png" />
@@ -223,7 +223,7 @@
         <br />
         <p>Let’s confirm that the <strong>EPEL</strong> package repository is available to us to complete the installation of the MATE Desktop.</p>
         <p>From the command line, execute the following:<br />
-            <span style="font-family: consolas;">yum repolist</span>
+            <span class="code" style="font-family: consolas;">yum repolist</span>
         </p>
         <p>You should now see the EPEL package repository listed.
         </p>
@@ -233,7 +233,7 @@
       <h5 id="install_x_win">Install X Window System packages</h5>
         <p>Now we will need to install the <strong>X Window System</strong> which will act as our base for the MATE Desktop.</p>
         <p>From the command line, execute the following:<br />
-        <span style="font-family: consolas;"> sudo yum groupinstall "X Window System"</span>
+        <span class="code" style="font-family: consolas;"> sudo yum groupinstall "X Window System"</span>
         </p>
         <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/mate_desktop/19-Mate-Yum-Groupinstall-X-Window-System.png" />
         <br />
@@ -250,7 +250,7 @@
         <p>Below, you will notice that the <strong>X Window System</strong> packages were successfully installed.</p>
         <p> Now we can install the <strong>MATE Desktop</strong> packages.</p>
         <p>From the command line, execute the following:<br />
-            <span style="font-family: consolas;">
+            <span class="code" style="font-family: consolas;">
                 sudo groupinstall "MATE Desktop"</span>
         </p>
         <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/mate_desktop/20-Mate-Yum-Groupinstall-MATE-Desktop.png" />
@@ -271,7 +271,7 @@
         <strong>multi-user.target</strong> (text console mode) to the 
         <strong>graphical.target</strong> (graphical mode) to ensure that, when we boot our system, <br />we use the newly installed <strong>MATE Desktop</strong>.</p>
         <p>From the command line, execute the following:<br />
-            <span style="font-family: consolas;">
+            <span class="code" style="font-family: consolas;">
             sudo systemctl set-default graphical.target<br />
             sudo shutdown -r now<br />
         </p>
@@ -345,7 +345,7 @@
         <br />
         <p>We will need to display our active kernel to determine which kernel-headers we need. To do this, from the<br /> command line, execute the following commands (one after the other):
         <br />
-        <span style="font-family: consolas;">
+        <span class="code" style="font-family: consolas;">
             uname -r<br />
             ls -l /etc/src/kernels<br /></span>
         </p>
@@ -353,7 +353,7 @@
         <br />
         <br />
         <p>We see that no matching kernel-headers exist so we will need to install the <strong>kernel-devel</strong> package which provides <strong>kernel-headers</strong>. We will also need to install a few packages (<strong>gcc, make, perl</strong>) that the VirtualBox <strong>Guest Additions require to rebuild kernel modules</strong>.<br /> Again, from the command line, execute the following:<br />
-        <span style="font-family: consolas;">
+        <span class="code" style="font-family: consolas;">
             sudo yum install -y gcc make perl kernel-devel</span>
             <br />
         </p>
@@ -425,7 +425,7 @@
         <br />
         <p>My <strong>Shared Clipboard</strong> test will be to copy text from the <strong>host</strong> and pasting it into the 
         <strong>guest</strong>. This involves copying the text
-        <span style="font-family: consolas; font-weight: bold;"> ls -l</span> from a text editor on my <strong>host</strong> machine and pasting it into a MATE Terminal in my <strong>guest VM</strong>.</p>
+        <span class="code" style="font-family: consolas; font-weight: bold;"> ls -l</span> from a text editor on my <strong>host</strong> machine and pasting it into a MATE Terminal in my <strong>guest VM</strong>.</p>
         <p><strong>Step 1</strong>: Copy text from host machine</p>
         <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/mate_desktop/33-Mate-Restart-VM-4-Copy-Paste-0-NEW.png" />
         <br />
@@ -492,9 +492,12 @@
     <div>
         <p>We have successfully installed the <strong>MATE Desktop</strong>, as well as, VirtualBox’s <strong>Guest Additions</strong> on a <strong>CentOS 7 VM</strong>.</p>
         <!-- <p>Along the way we created a number of snapshots to ensure we have fallback mechanisms in place. </p> -->
-        <p>Along the way we created a number of snapshots to act as fallback mechanisms. At any time, if a virtual machine becomes unresponsive, we can always revert back to a working snapshot. We can also clone a snapshot, as long as, the snapshot was taken when the virtual machine was powered off.</p>
+        <p>Along the way we created a number of snapshots to act as fallback mechanisms. 
+          At any time, if a virtual machine becomes unresponsive, we can always revert back 
+          to a working snapshot. We can also clone a snapshot, as long as, the snapshot was 
+          taken when the virtual machine was powered off.</p>
         <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
-        <p>You can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+        <p>You can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
         <p>Or, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       </div>
 

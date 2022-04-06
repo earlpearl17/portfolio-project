@@ -25,8 +25,11 @@
   <div class="container">
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
-      <p>In this tutorial, I will be demonstrating a CentOS 7 (release 8) install using VirtualBox 6.1.2 on a Windows 7 Pro SP1 host machine. Please note that I will be using a CentOS 7 (release 8) minimal ISO image to perform a server install of CentOS 7. This means no GUI will be available post install.</p>
-      <p>I have another tutorial demonstrating the installation of the MATE desktop environment, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 6 'en' %}" target="_blank">here</a>.</p>
+      <p>In this tutorial, I will be demonstrating a CentOS 7 install using VirtualBox 6.1.2 on a Windows 7 Pro SP1 host machine. 
+        Please note that I will be using a CentOS 7 minimal ISO image to perform a server install of CentOS 7. 
+        This means no GUI will be available post install.</p>
+      <p>I have another tutorial demonstrating the installation of the MATE desktop environment, 
+        accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 7 'en' %}" target="_blank">here</a>.</p>
       <p>Refer to the prerequisites listed below to access the download locations of the resources needed to complete this tutorial.
       </p>
     </div>
@@ -41,10 +44,11 @@
         
         <ul>
           <li>VirtualBox 6.1.2 & VirtualBox 6.1.2 Extension Pack</li>
-          <li>CentOS 7 (release 8) minimal ISO image can be downloaded <a style="text-decoration: underline;" href="http://centos.mirror.iweb.ca/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso">here</a></li>
+          <li>CentOS 7 minimal ISO image can be downloaded 
+            <a style="text-decoration: underline;" href="http://ftp.iij.ad.jp/pub/linux/centos-vault/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso" target="_blank">here</a></li>
           <li>Active Internet Connection</li>
         </ul>
-      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>.</p>
+      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>.</p>
     </div>
     <div style="width:55%; float:left;height:calc(100% - 20px);"> 
       <h5>Steps to complete tutorial:</h5>
@@ -71,31 +75,20 @@
     <div style="clear: both;">
       <h5 id="install_vbox">Install VirtualBox 6.1.2</h5>
         <p>If you already have VirtualBox 6.1.2 installed, go to the next step. Otherwise, please see one of my other tutorials, <br />
-        <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
+        <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>, 
+        where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
         
       <h5 id="download_centos7">Download CentOS 7</h5>
-        <p>Go to the CentOS site at <a style="text-decoration: underline;" href="https://wiki.centos.org/Download">https://wiki.centos.org/Download</a>, and click the 
-        <strong>mirrors</strong> link for CentOS 7 (release 8) to display a list of mirrors closest to your region.</p>
-        <img style="width: 700px; height: 450px" src="/media/images/tutorials/infrastructure/downloads/00-Centos-Download.png" />
-        <br />
-        <br />
-        <p>Select one of the available mirrors closest to you. I usually select the first one in the list.</p>
-        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/downloads/01-Centos-Download-7-mirrors.png" />
-        <br />
-        <br />
-        <p>Once you are on the selected mirror site, select the <strong>
-        CentOS 7 minimal ISO image</strong> to download.<br />
-        <em>Note, if you select the torrent download, you will need to have BitTorrent, or another, peer-to-peer file sharing application to download the file.</em></p>
-        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/downloads/02-Centos-Download-7-mirror-images.png" />
-        <br />
-        <br />
-        <p>Once you click the link, the <strong>CentOS 7 minimal ISO image</strong> will be downloaded to your local Downloads directory. I have moved my downloads to a location where they can be easily accessible. Note, I have downloaded three versions: DVD, Minimal and NetInstall. Their sizes differ because they contain different contents. Below, I’ve listed the main differences:
+        <p>Click the following <a style="text-decoration: underline;" href="http://ftp.iij.ad.jp/pub/linux/centos-vault/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso"
+          target="_blank">link</a> to download <strong>CentOS 7 minimal ISO image</strong>.
+          It will be downloaded to your local Downloads directory.</p>
+        
+        <p>I have moved my downloads to a location where they can be easily accessible. Note, I have downloaded three versions: DVD, Minimal and NetInstall. Their sizes differ because they contain different contents. Below, I’ve listed the main differences:
           <ul>
             <li><strong>DVD</strong> – full install including GUI desktop environment</li>
             <li><strong>Minimal</strong> – usually for server installations that require manual configurations</li>
             <li><strong>NetInstall</strong> – boot DVD for installing from a network server</li>
-          </ul>
-        <p>Note, to avoid wasting local disk space, I did not download the <strong>Everything</strong> ISO image. As it’s name states, it contains the complete set of packages for CentOS 7.</p>
+          </ul>        
         <img style="width: 700px; height: 250px" src="/media/images/tutorials/infrastructure/downloads/02-Centos-Download-7-downloaded-images.png" />
         <br />
         <br />
@@ -412,7 +405,7 @@
         <br />
         <p>We have logged in successfully. Now, we will shutdown the virtual machine.<br /> 
         To do this, the non-root user (in my case, <strong>liam</strong>) must have <strong>sudo</strong> (“<strong>superuser do</strong>”) privileges. Since we set this non-root user<br /> to be an administrator, this non-root user has <strong>sudo</strong> privileges and can execute the following command:<br />
-        <span style="font-family: consolas;font-weight: bold;">sudo shutdown -h now</span></p>
+        <span class="code" style="font-family: consolas;font-weight: bold;">sudo shutdown -h now</span></p>
         <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/minimal/29-Post-reboot-minimal-shutdown.png" />
         <br />
         <br />
@@ -459,8 +452,8 @@
      
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
       <p>After completing this tutorial, if you decide that you would like, or need, a desktop environment, you should consider<br />  the <strong>MATE Desktop</strong>. It uses minimal system resources.</p>
-      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 6 'en' %}">here</a>.</p>
-      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 7 'en' %}" target="_blank">here</a>.</p>
+      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       
       

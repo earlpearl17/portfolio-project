@@ -25,7 +25,10 @@
   <div class="container">
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
-      <p>In this tutorial, I will be demonstrating the installation of VirtualBox’s Guest Additions so that you can make use of shared folders, as well as, the <a style="text-decoration: underline; font-weight: bold;" href="https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/vboxmanage-guestcontrol.html" target="_blank">VBoxManage guestcontrol</a> command to manage the guest VM from the host machine. In a future tutorial, I will demonstrate how to use the guestcontrol command in a PowerShell script to automatically start a VM, as well as, start PuTTY to open an SSH connection to the VM.</p>
+      <p>In this tutorial, I will be demonstrating the installation of VirtualBox’s Guest Additions
+         so that you can make use of shared folders, as well as, the <a style="text-decoration: underline; font-weight: bold;" href="https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/vboxmanage-guestcontrol.html" target="_blank">VBoxManage guestcontrol</a>
+          command to manage the guest VM from the host machine. In a future tutorial, I will demonstrate how to use the guestcontrol command in a PowerShell script to automatically start a VM, as well as, 
+          start PuTTY to open an SSH connection to the VM.</p>
       <p>I will be performing the Guest Additions installation on a virtual machine with a CentOS 7 minimal install (no GUI).</p>
       
     </div>
@@ -54,9 +57,9 @@
       <br />
     </div>
     <div style="clear: both;">
-      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 1 3 'en' %}" target="_blank">here</a>.</p>
-        <p>If you do not already have a virtual machine, my other tutorial, <strong>CentOS 7 Server Install</strong>, is <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 1 4 'en' %}" target="_blank">here</a>.</p>
-        <p>If you already have access to a CentOS 7 minimal install VM, but do not have a non-root user with <strong>sudo</strong> privileges, my other tutorial can be accessed <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 2 9 'en' %}" target="_blank">here</a>.</p>
+      <p>For instructions on how to install VirtualBox and extension pack, see my <strong>VirtualBox Install</strong> tutorial <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 2 4 'en' %}" target="_blank">here</a>.</p>
+        <p>If you do not already have a virtual machine, my other tutorial, <strong>CentOS 7 Server Install</strong>, is <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 2 5 'en' %}" target="_blank">here</a>.</p>
+        <p>If you already have access to a CentOS 7 minimal install VM, but do not have a non-root user with <strong>sudo</strong> privileges, my other tutorial can be accessed <a style="text-decoration: underline; font-weight: bold;" href="{% url 'topic_tutorial' 3 15 'en' %}" target="_blank">here</a>.</p>
     </div>
 
     <div style="width:55%; float:left;height:calc(100% - 20px);"> 
@@ -90,7 +93,7 @@
         <p>The reason I want to take a snapshot, before we begin, is that we will be making a number of major changes to the virtual machine. After successfully completing a major change, I find it
         helpful to create (take) a snapshot to act as a fallback mechanism. If something goes wrong during a major change, we can revert back to a working snapshot (previous stable state).
         </p>
-        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a style="text-decoration: underline; font-weight: bold;" href="#update_centos">Update CentOS 7</a>).</p>
+        <p>If you’ve completed my CentOS 7 Server Install tutorial, then, you’ve already taken this snapshot and can skip to the next step (<a style="text-decoration: underline; font-weight: bold;" href="#create_user">Create non-root user with sudo privileges</a>).</p>
         <p>If you already have a CentOS 7 minimal install VM. I suggest taking a snapshot before continuing with the tutorial,to ensure that you have a starting point to revert back to.</p>
         <p>Please note that you can name the snapshot whatever you like, just remember which snapshot is associated with which state of the virtual machine.</p>
         <p>In the VirtualBox Manager interface, we are currently in 
@@ -123,8 +126,9 @@
         <br />
         <br />
       <h5 id="create_user">Create non-root user with sudo privileges</h5>  
-        <p>If you already have a non-root user with <strong>sudo</strong> privileges, please skip to the next step (<a style="text-decoration: underline;font-weight: bold;" href="#update_centos">Update CentOS 7</a>)</p>
-        <p>If not, please complete my other tutorial, <strong>Create Non-Root User</strong>, accessible <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 2 9 'en' %}" target="_blank">here</a>. Then, return here to complete this tutorial.</p>
+        <p>If you already have a non-root user with <strong>sudo</strong> privileges, please skip to the next step <strong>Update CentOS 7</strong></p>
+        <p>If not, please complete my other tutorial, <strong>Create Non-Root User</strong>, accessible <a style="text-decoration: underline;font-weight: bold;" href="{% url 'topic_tutorial' 3 15 'en' %}" target="_blank">here</a>. 
+          Then, return here to complete this tutorial.</p>
         
       <h5 id="update_centos">Update CentOS 7</h5>
         <p>From the VirtualBox Manager interface, ensure your VM is selected and click <strong>Start</strong></p>
@@ -132,7 +136,7 @@
         <br />
         <br />
         <p>During start up, you will see which kernel is being used. Make a note of this as it will change post system update.</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/3-GAdds-VM-Starting.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/3-GAdds-VM-Starting.png" />
         <br />
         <br />
         <p>We will be using a non-root user with <strong>sudo</strong> privileges (<strong>wheel</strong> group member) to update our system.</p>
@@ -140,37 +144,37 @@
         <p>To update CentOS 7, from the command line, execute the following:<br /><span class="code">
         $ sudo yum update</span>
         </p>
-        <img style="width: 600px; height: 220px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-1-USE.png" />
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-1-USE.png" />
         <br />
         <br />
         <p>When prompted, enter <strong>y</strong> to accept the packages to be downloaded, installed and upgraded.</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-In-Progress.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-In-Progress.png" />
         <br />
         <br />  
         <p>When prompted to use the local CentOS 7 Signing key to validate the downloaded packages, enter <strong>y</strong>.</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-In-Progress2.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/6-GAdds-Yum-Update-In-Progress2.png" />
         <br />
         <br /> 
         <p>Your CentOS 7 system is now up to date.</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/7-GAdds-Yum-Update-Completed-NEW.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/7-GAdds-Yum-Update-Completed-NEW.png" />
         <br />
         <br /> 
         <p>Let’s reboot to ensure the newly installed kernel will be used as the core interface between the computer's hardware and its processes.</p>
         <p>Remember to use your non-root user’s password to acknowledge the following command:<br /><span class="code">
           $ sudo shutdown -r now&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// -r option used to reboot the system </span>
         </p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/8-GAdds-Post-Yum-Update-Reboot-USE.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/8-GAdds-Post-Yum-Update-Reboot-USE.png" />
         <br />
         <br /> 
         <p>You should notice that the newly installed kernel is now being used.</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/9-GAdds-Post-Yum-Update-Reboot-In-Progress-b.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/9-GAdds-Post-Yum-Update-Reboot-In-Progress-b.png" />
         <br />
         <br /> 
         <p>Now that our CentOS 7 install is up-to-date, let’s shutdown the VM and create another snapshot before installing VirtualBox’s Guest Additions.</p>
         <p>Remember to use your non-root user’s password to acknowledge the following command:<br /><span class="code">
           $ sudo shutdown -h now&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// -h option used to halt the system</span>
         </p>
-        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/10-GAdds-Post-Yum-Update-Reboot-Shutdown-Pre-Snapshot.png" />
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/10-GAdds-Post-Yum-Update-Reboot-Shutdown-Pre-Snapshot.png" />
         <br />
         <br /> 
       <h5 id="take_snap_2">Take Pre Guest Additions Install Snapshot</h5>
@@ -206,21 +210,21 @@
           $ uname -r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// display active kernel release information<br />
           $ ls -l /etc/src/kernels&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// location of kernel-header files</span></p>
 
-        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-1.png" />
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-1.png" />
         <br />
         <br />
         <p>We see that no matching kernel-headers exist so we will need to install the <strong>kernel-devel</strong> package which provides<br /> <strong>kernel-headers</strong>. To do this, execute the following:<br /><br /><span class="code">
           $ sudo yum install kernel-devel</span>
         </p>
-        <img style="width: 600px; height: 300px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-2.png" />
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-2.png" />
         <br />
         <br />
         <p>If prompted, enter your non-root user’s password to confirm command execution.</p>
         <p>When prompted to download, and install, the package, and its dependencies, enter <strong>y</strong> (yes)</p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-3.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-3.png" />
         <br />
         <br />
-        <img style="width: 600px; height: 150px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-4-Complete-NEW.png" />
+        <img style="width: 650px; height: 150px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-4-Complete-NEW.png" />
         <br />
         <br />
         <p>The kernel-devel package was successfully installed.</p>
@@ -229,7 +233,7 @@
           $ uname -r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// display active kernel release information<br />
           $ ls -l /etc/src/kernels&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// location of kernel-header files</span>
         </p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-4-Complete-part.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/14-GAdds-Z-Kernel-Headers-4-Complete-part.png" />
         <br />
         <br />
         <p>We now see the matching kernel-headers. But, before we can install VirtualBox’s <strong>Guest Additions</strong>, we also need to install a few required packages that are used during the installation of the guest additions. These packages are nicely grouped in <strong>Development Tools</strong> which provides a basic development environment that will allow you to do many things on the system, including build kernel modules, which is required for a successful installation of VirtualBox’s Guest Additions.</p>
@@ -238,13 +242,13 @@
         <br /><span class="code">
         $ yum groups info "Development Tools" | less
         </span></p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-0.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-0.png" />
         <br />
         <br />
-        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-1.png" />
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-1.png" />
         <br />
         <br />
-        <img style="width: 600px; height: 400px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-2.png" />
+        <img style="width: 650px; height: 400px" src="/media/images/tutorials/infrastructure/guest_additions/15-GAdds-Dev-Tools-2.png" />
         <br />
         <br />
         <p>You will notice that many packages are included. Enter <strong>q</strong> to quit and return to the command line.</p>
@@ -252,15 +256,15 @@
         <span class="code">
         $ sudo yum groups install "Development Tools"
         </span></p>
-        <img style="width: 600px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-1b.png" />
+        <img style="width: 650px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-1b.png" />
         <br />
         <br />
         <p>If prompted, enter your non-root user’s (in my case, <strong>liam</strong>) password to confirm command execution.</p>
         <p>Then, when prompted to download, and install, the packages, enter <strong>y</strong> (yes).</p>
-        <img style="width: 600px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-2.png" />
+        <img style="width: 650px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-2.png" />
         <br />
         <br />
-        <img style="width: 600px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-3-Complete-part.png" />
+        <img style="width: 650px; height: 170px" src="/media/images/tutorials/infrastructure/guest_additions/16-GAdds-Dev-Tools-Install-3-Complete-part.png" />
         <br />
         <br />
 
@@ -359,7 +363,7 @@
         $ ls -l /media&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// storage location for shared folders<br />
         $ mount | grep "sf_1-LINUX*"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// verify that shared folder is now mounted to guest VM<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// note, ‘sf_’ prepended to the shared folder name</span></p>
-        <img style="width: 600px; height: 150px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-0-NEW.png" />
+        <img style="width: 650px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-0-NEW.png" />
         <br />
         <br /> 
         <p>Please note in the image above that the <strong>root</strong> user is the owner of the shared folder, while membership in the <strong>vboxsf</strong> group is required to access the shared folder. We will prove that by attempting to change directories to the shared folder as a non-root user (in my case <strong>liam</strong>) that is not a member of the <strong>vboxsf</strong> group.</p>
@@ -368,7 +372,7 @@
         $ cd /media/sf_1-LINUX-CONFIG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ‘vboxsf’ group membership required to access shared folder<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// (Please note that your shared folder name will be<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  different than mine)</span></p>
-        <img style="width: 600px; height: 115px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-8-2.png" />
+        <img style="width: 650px; height: 145px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-8-2.png" />
         <br />
         <br /> 
         <p>We will change our non-root user’s group membership. Then, instead of having to logout to force the update of the non-root user’s group membership, we will use the <strong>su</strong> (switch user) command with the environment variable <strong>$USER</strong> (refers to current active user) to switch to the <strong>SAME</strong> user (again, in my case, liam), by executing the following:<br /><span class="code">
@@ -378,7 +382,7 @@
         $ id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// display account info, including group membership<br />
         $ cd /media/sf_1-LINUX-CONFIG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// confirm that access has been granted<br />
         </span></p>
-        <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-8-3.png" />
+        <img style="width: 650px; height: 300px" src="/media/images/tutorials/infrastructure/guest_additions/90-GAdds-Shared-Folders-8-3.png" />
         <br />
         <br />
         <p>The non-root user was added to the <strong>vboxsf</strong> group and is now able to access the shared folder. This non-root user will also be able to access any other shared folders that are created for this virtual machine.</p>
@@ -398,7 +402,7 @@
         <span class="code">
         $ sudo shutdown -h now
         </span></p>
-        <img style="width: 600px; height: 200px" src="/media/images/tutorials/infrastructure/guest_additions/19-GAdds-Pre-Snapshot-1.png" />
+        <img style="width: 650px; height: 250px" src="/media/images/tutorials/infrastructure/guest_additions/19-GAdds-Pre-Snapshot-1.png" />
         <br />
         <br />
 
@@ -429,7 +433,7 @@
       <p>We have successfully installed VirtualBox’s <strong>Guest Additions</strong> on a <strong>CentOS 7 minimal install VM</strong>.</p>
       <p>Along the way we created a couple of snapshots to act as fallback mechanisms. At any time, if a virtual machine becomes unresponsive, we can always revert back to a working snapshot. We can also clone a snapshot, as long as, the snapshot was taken when the virtual machine was powered off.</p>
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
-      <p>If you would like to see my other tutorials, they can be accessed <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>If you would like to see my other tutorials, they can be accessed <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
 
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
       

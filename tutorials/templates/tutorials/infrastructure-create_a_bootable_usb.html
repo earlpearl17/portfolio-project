@@ -24,9 +24,11 @@
   <div class="container">
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
-      <p>For this tutorial, I am using a Windows 7 Professional Service Pack 1 host machine. I will be using the <a style="text-decoration: underline;" href="https://www.balena.io/etcher/" target="_blank">Etcher</a> utility to create a bootable USB for CentOS 7. The bootable USB can be used to install the CentOS 7 operating system on a physical PC or in a VirtualBox VM (virtual machine).</p>
+      <p>For this tutorial, I am using a Windows 7 Professional Service Pack 1 host machine. I will be using the <a style="text-decoration: underline;" href="https://www.balena.io/etcher/" target="_blank">Etcher</a> 
+        utility to create a bootable USB for CentOS 7. 
+        The bootable USB can be used to install the CentOS 7 operating system on a physical PC or in a VirtualBox VM (virtual machine).</p>
       
-      <p>After you've completed this tutorial, you can access one of my other tutorials where I demonstrate the installation of CentOS 7 using a bootable USB in a VirtualBox VM. It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 5 'en' %}">here</a>.</p>
+      <p>After you've completed this tutorial, you can access one of my other tutorials where I demonstrate the installation of CentOS 7 using a bootable USB in a VirtualBox VM. It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 8 'en' %}" target="_blank">here</a>.</p>
     </div>
     
     <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
@@ -70,26 +72,16 @@
         <br />
         <br />
       <h5 id="download_centos7">Download CentOS 7</h5>
-        <p>Go to the CentOS site at <a style="text-decoration: underline;" href="https://wiki.centos.org/Download" target="_blank">https://wiki.centos.org/Download</a>, and click the <strong>mirrors</strong> link for CentOS 7 (release 8) to display a list of mirrors closest to your region.</p>
-        <img style="width: 700px; height: 450px" src="/media/images/tutorials/infrastructure/downloads/00-Centos-Download.png" />
-        <br />
-        <br />
-        <p>Select one of the available mirrors closest to you. I usually select the first one in the list.</p>
-        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/downloads/01-Centos-Download-7-mirrors.png" />
-        <br />
-        <br />
-        <p>Once you are on the selected mirror site, select the <strong>CentOS 7 minimal ISO</strong> to download.<br />
-        <em>Note, if you select the torrent download, you will need to have BitTorrent, or another, peer-to-peer file sharing application<br /> to download the file. In both instances (direct download OR peer-to-peer), an ISO image is downloaded.</em></p>
-        <img style="width: 700px; height: 300px" src="/media/images/tutorials/infrastructure/downloads/02-Centos-Download-7-mirror-images.png" />
-        <br />
-        <br />
-        <p>Once you click the link, the <strong>CentOS 7 minimal ISO image</strong> will be downloaded to your local Downloads directory. I have moved my downloads to a location where they can be easily accessible. Note, I have downloaded three versions: DVD, Minimal and NetInstall. Their sizes differ because they contain different contents. Below, I’ve listed the main differences:
-          <ul>
-            <li><strong>DVD</strong> – full install including GUI desktop environment</li>
-            <li><strong>Minimal</strong> – usually for server installations that require manual configurations</li>
-            <li><strong>NetInstall</strong> – boot DVD for installing from a network server</li>
-          </ul>
-        <p>Note, to avoid wasting local disk space, I did not download the <strong>Everything</strong> ISO image. As it’s name states, it contains the complete set of packages for CentOS 7.</p>
+      <p>Click the following <a style="text-decoration: underline;" href="http://ftp.iij.ad.jp/pub/linux/centos-vault/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso"
+        target="_blank">link</a> to download <strong>CentOS 7 minimal ISO image</strong>.
+        It will be downloaded to your local Downloads directory.</p>
+      
+      <p>I have moved my downloads to a location where they can be easily accessible. Note, I have downloaded three versions: DVD, Minimal and NetInstall. Their sizes differ because they contain different contents. Below, I’ve listed the main differences:
+        <ul>
+          <li><strong>DVD</strong> – full install including GUI desktop environment</li>
+          <li><strong>Minimal</strong> – usually for server installations that require manual configurations</li>
+          <li><strong>NetInstall</strong> – boot DVD for installing from a network server</li>
+        </ul>  
         <img style="width: 700px; height: 250px" src="/media/images/tutorials/infrastructure/downloads/02-Centos-Download-7-downloaded-images.png" />
         <br />
         <br />
@@ -133,11 +125,11 @@
     <div>
       <p>Please note that the procedure to create a bootable USB, using Etcher, is very straight forward.</p>
       <p>Hopefully, you’ve enjoyed completing this tutorial and would like to use your newly created CentOS 7 bootable USB to install the operating system.</p>
-      <p>In one of my other tutorials, I demonstrate the creation of a VirtualBox VM (virtual machine) and the installation of CentOS 7 using a bootable USB. It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 5 'en' %}">here</a>.</p> 
+      <p>In one of my other tutorials, I demonstrate the creation of a VirtualBox VM (virtual machine) and the installation of CentOS 7 using a bootable USB. It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 8 'en' %}" target="_blank">here</a>.</p> 
             
-      <p>I have a number of other <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}">Infrastructure tutorials</a>
+      <p>I have a number of other <a style="text-decoration: underline;" href="{% url 'tutorials' topic_id=topic.id %}" target="_blank">Infrastructure tutorials</a>
       </p>
-      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
     </div>  
 

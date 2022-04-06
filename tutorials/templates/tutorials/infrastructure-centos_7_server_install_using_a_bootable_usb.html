@@ -20,16 +20,16 @@
   <div class="container">
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
-        <p>In this tutorial, I will be demonstrating the creation of VirtualBox 6.1.2 virtual machine used to perform a server install using a bootable USB containing a CentOS 7 (release 8) minimal ISO image. Please note that my host machine is Windows 7 Pro SP1.</p>
+        <p>In this tutorial, I will be demonstrating the creation of VirtualBox 6.1.2 virtual machine used to perform a server install using a bootable USB containing a CentOS 7 minimal ISO image. Please note that my host machine is Windows 7 Pro SP1.</p>
         <!-- <p>Refer to the prerequisites listed below to complete this tutorial.</p> -->
         <h4>Prerequisites</h4>
           <ul>
             <li>VirtualBox 6.1.2 & VirtualBox 6.1.2 Extension Pack</li>
-            <li>Bootable USB with CentOS 7 (release 8) minimal ISO image</li>
+            <li>Bootable USB with CentOS 7 minimal ISO image</li>
             <li>Active Internet Connection</li>
           </ul>  
         <p>For instructions on how to install VirtualBox 6.1.2 or create a CentOS 7 bootable USB, please refer to my other tutorials 
-          <strong>VirtualBox Install</strong>, <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>, and <strong>Create a Bootable USB</strong>, <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 1 'en' %}" target="_blank">here</a>.
+          <strong>VirtualBox Install</strong>, <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>, and <strong>Create a Bootable USB</strong>, <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 9 'en' %}" target="_blank">here</a>.
         </p>  
     </div>
     <div style="width:45%; float: left;padding-left: 40px;height:calc(100% - 20px);">
@@ -64,10 +64,10 @@
     <div style="clear: both;">
       <h5 id="install_vbox">Install VirtualBox 6.1.2</h5>
         <p>If you already have VirtualBox 6.1.2 installed, go to the next step. Otherwise, please see one of my other tutorials, <br />
-        <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 3 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
+        <strong>VirtualBox Install</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 4 'en' %}" target="_blank">here</a>, where I demonstrate the installation of VirtualBox 6.1.2, as well as, the same version extension pack.</p>
         
       <h5 id="create_usb">Create a Bootable USB</h5>
-        <p>If you don’t already have a CentOS 7 bootable USB, complete my other tutorial where I demonstrate the creation of a <strong>CentOS 7 bootable USB</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 1 'en' %}" target="_blank">here</a>.<br /> 
+        <p>If you don’t already have a CentOS 7 bootable USB, complete my other tutorial where I demonstrate the creation of a <strong>CentOS 7 bootable USB</strong>, accessible <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 9 'en' %}" target="_blank">here</a>.<br /> 
         Then, return here to complete this tutorial, using your newly created <strong>CentOS 7 bootable USB</strong>.</p>
         
       <h5 id="create_vmdk">Create virtual machine disk (VMDK) using a bootable USB</h5>
@@ -97,15 +97,15 @@
         <p>We will now need to navigate to VirtualBox's installation directory.<br /> 
         Please note, if you installed VirtualBox to a custom directory, change the command below to reflect your VirtualBox installation location.<br />
         Type the following command into the Command Prompt window and press <strong>Enter</strong>:<br />
-        <span style="font-family: consolas;">cd %programfiles%/Oracle/VirtualBox</span>
+        <span class="code" style="font-family: consolas;">cd %programfiles%/Oracle/VirtualBox</span>
         </p>
         <img style="width: 600px; height: 250px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/3-Navigate-to-VBox-Install-Dir.png" />
         <br />
         <br />
         <p>Next, type the following command into the Command Prompt window, replacing <strong>#</strong> with the number<br /> of the disk you found in the Windows Disk Management utility.</p>
-        <p><span style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">#</strong></span></p>
+        <p><span class="code" style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">#</strong></span></p>
         <p>In my case, since my USB is disk <strong>1</strong> in the Windows Disk Management utility, I will type:</p>
-        <p><span style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">1</strong></span></p>
+        <p><span class="code" style="font-family: consolas;">VBoxManage internalcommands createrawvmdk -filename C:\centos7usb.vmdk -rawdisk \\.\PhysicalDrive<strong style="color: red;">1</strong></span></p>
         
         <p>Ensure you have the correct disk <strong>#</strong> for your bootable USB and that the entire command is entered on one line, then,<br /> to execute, press <strong>Enter</strong></p> 
         <p>This command creates a virtual machine disk (<strong>VMDK</strong>) file that points to the physical drive you select. When you load the VMDK file as a drive in VirtualBox, VirtualBox will actually access the physical device (your <strong>bootable USB</strong>).</p>
@@ -464,7 +464,7 @@
         <p>Finally, after executing the command, the virtual machine will shutdown and we can return to VirtualBox Manager.</p>
         <img style="width: 700px; height: 400px" src="/media/images/tutorials/infrastructure/minimal_bootable_usb/30-Post-minimal-shutdown-NEW.png" />
         <br /><br />
-        <p>We have successfully installed a minimal version of <strong>CentOS 7 (release 8)</strong> in a <strong>VirtualBox 6.1.2</strong> virtual machine,<br /> using a bootable USB.</p>
+        <p>We have successfully installed a minimal version of <strong>CentOS 7</strong> in a <strong>VirtualBox 6.1.2</strong> virtual machine,<br /> using a bootable USB.</p>
         
       <h5 id="take_snapshot_1">Take Snapshot</h5>
         <p>To be on the safe side. After I have successfully completed a task, such as installing or updating a virtual machine, I like taking a snapshot to preserve the VM’s state. That way I ensure, in the future, if the VM stops responding, or behaving as it should, I can always revert back to that snapshot. For further information on 
@@ -491,7 +491,7 @@
           </tr>
         </table>
         <br />
-        <p>We have successfully taken a snapshot and ensure that we can always revert back to a working virtual machine with a minimal version of <strong>CentOS 7 (release 8)</strong> installed.</p>
+        <p>We have successfully taken a snapshot and ensure that we can always revert back to a working virtual machine with a minimal version of <strong>CentOS 7</strong> installed.</p>
         <img style="width: 650px; height: 350px" src="/media/images/tutorials/infrastructure/minimal/32-Take-Snapshot-1-Taken.png" />
         <br /><br />
     </div>
@@ -499,9 +499,10 @@
             
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
       <p>After completing this tutorial, if you decide that you would like, or need, a desktop environment, you should consider<br />  the <strong>MATE Desktop</strong>. It uses minimal system resources.</p>
-      <p>I have another tutorial that demonstrates the installation of the <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 6 'en' %}">here</a>.</p>
+      <p>I have another tutorial that demonstrates the installation of the 
+        <strong>MATE Desktop</strong> on a <strong>CentOS 7 minimal install VM</strong>.<br /> It can be accessed <a style="text-decoration: underline;" href="{% url 'topic_tutorial' topic.id 7 'en' %}" target="_blank">here</a>.</p>
       
-      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}">here</a>.</p>
+      <p>Or, you can access all of my tutorials <a style="text-decoration: underline;" href="{% url 'alltopics' %}" target="_blank">here</a>.</p>
       <p>Finally, if need be, you can download this tutorial <a style="text-decoration: underline;" href="{{ tutorial.file.url }}" download>{{ tutorial.text }}</a>.</p>
     </div>  
 

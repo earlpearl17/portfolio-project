@@ -16,7 +16,7 @@
         <div class="col-md-4 py-2">
        
           <div class="card h-100">
-            <img class="card-img-top" style="width: 250px; height: 250px;" src="{{ topic.image.url }}" />
+            <a href="{% url 'tutorials' topic_id=topic.id %}"><img class="card-img-top" style="width: 270px; height: 230px;" src="{{ topic.image.url }}" /></a>
             <div class="card-body">
               <h5 class="card-title">
                 <a href="{% url 'tutorials' topic_id=topic.id %}">{{ topic.text }}</a></h5>
