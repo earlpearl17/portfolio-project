@@ -1,0 +1,86 @@
+{% load bootstrap4 %}
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+    shrink-to-fit=no">
+  <title>Liam Sirkett</title>
+
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  <link rel="stylesheet" href="{% static 'css/tutorials.css' %}">
+</head>
+
+<body id="bootstrap-override" style="padding-top: 90px;">
+  <nav id="bottom-nav" class="navbar navbar-expand-md navbar-dark bg-dark mb-4 border fixed-top">
+    <a class="navbar-brand" href="{% url 'home' %}" >Liam Sirkett</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarCollapse2" aria-controls="navbarCollapse2"
+        aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarCollapse2">
+         
+        <div class="navbar-nav ml-auto">
+          {% for topic in topics %}
+            <a class="nav-item nav-link" href="{% url 'tutorials' topic_id=topic.id %}">{{ topic.text }}</a>
+          {% endfor %}
+          <!-- <a class="nav-item nav-link" style="color: white;background-color: blue;" href="{% url 'home' %}">Home</a>   -->
+
+        </div>
+          
+      </div>
+  </nav>
+  <script>
+    $(document).ready(function() {
+      var pathname = window.location.pathname;
+      n = pathname.indexOf("/");
+      //alert(n);
+      n1 = pathname.indexOf("/", n+1);
+      //alert(n1);
+      n2 = pathname.indexOf("/", n1+1);
+      pathname = pathname.substring(0,n2+1);
+      //alert(pathname);
+      $('.navbar-nav > a[href="'+pathname+'"]').addClass('active');
+    })
+  </script>
+  <script>
+    var shiftWindow = function() { scrollBy(0, -70) };
+    if (location.hash) shiftWindow();
+    window.addEventListener("hashchange", shiftWindow);
+  </script>
+	<main role="main" class="container">
+    <div class="pb-2 mb-2 border-bottom">
+      
+      {% block page_header %}{% endblock page_header %}
+      
+    </div>
+    <div>
+      {% block content %}{% endblock content %}
+    </div>
+  </main>
+</body>
+<footer class="text-muted">
+  <div class="container text-center">
+    <p class="float-right">
+          <a href="#">Back to top</a>
+    </p>
+    <p>© Liam Sirkett {% now "Y" %}</p>
+    
+  </div>
+</footer>
+<script>
+    // $(document).ready(function(){
+    //   $('#tuts').addClass('active');
+    //   //$('.navbar-nav a').click(function(){
+    //   //$('#bottom-nav a').click(function(){
+    //   $('#bottom-nav a').click(function(e){
+    //   // $('.navbar-nav a').click(function(e){
+    //       e.preventDefault();
+    //       $('.navbar-nav a').removeClass('active');
+    //       $(this).addClass('active');
+    //   });
+    // });
+</script>
+</html>
