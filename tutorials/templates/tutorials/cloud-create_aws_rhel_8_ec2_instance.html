@@ -4,7 +4,7 @@
     <div class="container">
       <div style="width:55%; float:left;height:calc(100% - 20px);">
         <!-- <h1 class="jumbotron-heading">CentOS 7 Server Install</h1> -->
-        <h2>Create AWS EC2 Instance RHEL 8</h2>
+        <h2>Create AWS RHEL 8 EC2 Instance</h2>
         <p class="lead text-muted">Cloud Tutorials</p>
       </div>
       <div style="width:45%; float: left;padding-left: 40px; padding-top: 20px;height:calc(100% - 20px);">
@@ -25,7 +25,7 @@
   <div class="container">
     
     <div style="width:55%; float:left;height:calc(100% - 20px);">
-      <p>In this tutorial, we will be creating an <a style="text-decoration: underline;font-weight: bold;" href="https://aws.amazon.com/pm/ec2/?did=ft_card&trk=ft_card" target="_blank">AWS Elastic Compute (EC2)</a> instance with Ubuntu 20 as the operating system.</p>
+      <p>In this tutorial, we will be creating an <a style="text-decoration: underline;font-weight: bold;" href="https://aws.amazon.com/pm/ec2/?did=ft_card&trk=ft_card" target="_blank">AWS Elastic Compute (EC2)</a> instance with RHEL 8 as the operating system.</p>
       <h4>Prerequisites</h4>
         <ul>
           <li>an AWS Free Tier account</li>
@@ -49,6 +49,7 @@
         <li><a href="#update_vpc">Update Virtual Private Cloud (VPC)</a></li>
         <li><a href="#create_ec2">Create RHEL 8 EC2 Instance</a></li>
         <li><a href="#connect_ec2">Connect to RHEL 8 instance</a></li>
+        <li><a href="#register_ec2">Register with Red Hat Customer Portal</a></li>
       </ul>
     </div>
     <div style="width:45%; float: left; height:calc(100% - 20px);">
@@ -257,8 +258,53 @@
           </p>
           <img style="width: 950px; height: 350px" src="/media/images/tutorials/cloud/create_rh8_vm/aws_create_rh8_instance_30-EC2_SSH_PowerShell_new.png" />
         <br />
+        <br /> 
+        
+      <h5 id="register_ec2">Register with Red Hat Customer Portal</h5>    
+        <p><a href="https://www.redhat.com/en/about/subscription-model-faq"><strong>Red Hat subscription</strong></a>
+           is a software support model followed by Red Hat for its 
+          customers. It allows customers to download software packages, patches, updates, 
+          and upgrades for Redhat Enterprise Linux. Along with software support, customers 
+          will also get technical support for the product.</p>
+        <p>After you install Redhat Enterprise Linux 8, you need to register and enable a 
+          Red Hat subscription to be able to install any packages on the system. To register 
+          for a Red Hat subscription, first, go to the <a href="https://access.redhat.com/"><strong>Red Hat Customer Portal</strong></a> to create an 
+          account. Account credentials are required to enable a Red Hat subscription for your
+           AWS RHEL 8 EC2 instance. </p>
+        <p>Once you have your account credentials, we will use the <strong>subscription-manager</strong> 
+          command to register the RHEL 8 system. When prompted enter the username and 
+          password you used while signing up with Red Hat.<br />
+          <span class="code">
+            $ sudo subscription-manager register
+          </span>
+        </p>
+        <img style="width: 950px; height: 200px" src="/media/images/tutorials/cloud/create_rh8_vm/aws_create_rh8_instance_31-RHEL_register_2.png" />
+        <br />
         <br />   
-
+        <p>Now, we can attach the subscription to our RHEL 8 system.<br /> 
+          <span class="code">
+          $ sudo subscription-manager attach --auto
+          </span>
+        </p>
+        <img style="width: 950px; height: 200px" src="/media/images/tutorials/cloud/create_rh8_vm/aws_create_rh8_instance_31-RHEL_register_3.png" />
+        <br />
+        <br />
+        <p>We will now list subscription and product information for this system.<br /> 
+          <span class="code">  
+          $ sudo subscription-manager list 
+          </span>
+        </p>
+        <img style="width: 950px; height: 250px" src="/media/images/tutorials/cloud/create_rh8_vm/aws_create_rh8_instance_31-RHEL_register_4.png" />
+        <br />
+        <br />
+        <p>Finally, we will list the available package repositories to confirm that we can install packages on the system.<br /> 
+          <span class="code">    
+          $ sudo yum repolist 
+          </span>
+        </p>
+        <img style="width: 950px; height: 200px" src="/media/images/tutorials/cloud/create_rh8_vm/aws_create_rh8_instance_31-RHEL_register_5.png" />
+        <br />
+        <br />
     </div>
     <div>
       <p>Hopefully, you’ve enjoyed completing this tutorial and found it helpful.</p>
